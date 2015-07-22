@@ -23,6 +23,7 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
+	echo 'welcome to Hello world';
 	//语言包引入
 	$pu_langpackage=new publiclp;
 		
