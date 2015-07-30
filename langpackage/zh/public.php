@@ -40,6 +40,12 @@ class publiclp{
 	var $pu_total_com="共有评论";
 	var $pu_local_show="当前显示1至";
 	var $pu_privacy="隐私安全";
+
+	var $pu_paper_lib="纸条库";
+	var $pu_send_paper="我 贴";
+	var $pu_user_setting="设 置";
+
+	var $pu_app_title="校园纸条";
 }
 
 class restore{
