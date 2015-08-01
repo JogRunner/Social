@@ -23,7 +23,7 @@ a{color: #00f; text-decoration:none; font-size:1.2em;}
 	<div class="menu-item">
 		<a href="modules.php?app=list_all_paper">
 			<div class="menu-ico">
-				<img src="./skin/social/imgs/menu//main_btn_notebox_press.png"/>
+				<img src="./skin/social/imgs/menu/{echo:(!isset($cur_menu) || $cur_menu=='1')?'main_btn_notebox_press.png':'main_btn_notebox_unpress.png';/}"/>
 			</div>
 			<span>{echo:lp{pu_paper_lib};/}</span>
 		</a>
@@ -31,7 +31,7 @@ a{color: #00f; text-decoration:none; font-size:1.2em;}
 	<div class="menu-item">
 		<a href="modules.php?app=send_help_paper">
 			<div class="menu-ico">
-				<img src="./skin/social/imgs/menu/main_btn_message_unpress.png"/>
+				<img src="./skin/social/imgs/menu/main_btn_message_{echo: (isset($cur_menu) && $cur_menu=='2')?'':'un';/}press.png"/>
 			</div>
 			<span>{echo:lp{pu_send_paper};/}</span>
 		</a>
@@ -39,7 +39,7 @@ a{color: #00f; text-decoration:none; font-size:1.2em;}
 	<div class="menu-item">
 		<a href="modules.php?app=user_settings">
 			<div class="menu-ico">
-				<img src="./skin/social/imgs/menu/main_btn_me_unpress.png"/>
+				<img src="./skin/social/imgs/menu/main_btn_me_{echo: (isset($cur_menu) && $cur_menu=='3')?'':'un';/}press.png"/>
 			</div>
 			<span>{echo:lp{pu_user_setting};/}</span>
 		</a>
