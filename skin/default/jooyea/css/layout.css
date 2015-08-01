@@ -242,3 +242,13 @@ body#home .nav .left{margin-left:124px}
 .pals_list dl{float:left;}
 .pals_list .avatar{ margin:3px 0 0 -80px;float:left;_margin-left:-40px;}
 
+
+/* my paper css */
+.paper {
+	height:80px;
+    width:100px;
+    background:#f00;
+    text-align:center;
+    margin: 0 auto;
+}
+

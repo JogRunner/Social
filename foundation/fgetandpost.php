@@ -1,5 +1,5 @@
 <?php
-//对表单的统一处理
+//露脭卤铆碌楼碌脛脥鲁脪禄麓娄脌铆
 function get_args($name)
 {
 	if(isset($_POST[$name]))return $_POST[$name];
@@ -7,13 +7,13 @@ function get_args($name)
 	return null;
 }
 
-//get参数处理
+//get虏脦脢媒麓娄脌铆
 function get_argg($name){
 	if(isset($_GET[$name]))return $_GET[$name];
 	return null;
 }
 
-//post参数处理
+//post虏脦脢媒麓娄脌铆
 function get_argp($name){
 	if(isset($_POST[$name]))return $_POST[$name];
 	return null;

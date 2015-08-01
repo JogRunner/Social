@@ -12,16 +12,50 @@
  */
 ?><?php
 require("foundation/module_lang.php");
-?><script type="text/javascript">
+?><!--<script type="text/javascript">
 	function set_cookie_lp(lp_str){
 		document.cookie = "lp_name=" + escape(lp_str);
 		window.location.reload();
 	}
 </script>
 <div class="foot">
-	<a href="about/about.html"><?php echo $pu_langpackage->pu_about_us;?></a>
-	<a href="about/privacy.html"><?php echo $pu_langpackage->pu_privacy;?></a>
+	<a href="about/about.html"><?php echo $pu_langpackage->pu_paper_lib;?></a>
+	<a href="about/privacy.html"><?php echo $pu_langpackage->pu_send_paper;?></a>
 	<a href="http://tech.jooyea.com/bbs/"><?php echo $pu_langpackage->pu_bbs;?></a>
-	<a href="mailto:<?php echo $adminEmail;?>"><?php echo $pu_langpackage->pu_email;?></a>Powered by <strong>iWeb<b>SNS</b>1.0</strong> &copy; 2009-2010 Jooyea.net</div>
 <div style="display: none;" class="emBg" id="face_list_menu"></div>
-<div id="append_parent"></div>
+<div id="append_parent"></div>-->
+
+<style>
+.foot{position:fixed; left:0; right:0; bottom:0; width:100%;}
+.menu-item{width:33.3%; float:left; text-align:center; }
+a{color: #00f; text-decoration:none; font-size:1.2em;}
+.menu-ico img{width:3em; height:3em;}
+.menu-item span{position:relative; bottom:2px;}
+</style>
+<div class="foot">
+	<hr style="width:100%;height:0.5px;background-color:gray;"/>
+	<div class="menu-item">
+		<a href="modules.php?app=list_all_paper">
+			<div class="menu-ico">
+				<img src="./skin/social/imgs/menu/<?php echo (!isset($cur_menu) || $cur_menu=='1')?'main_btn_notebox_press.png':'main_btn_notebox_unpress.png';?>"/>
+			</div>
+			<span><?php echo $pu_langpackage->pu_paper_lib;?></span>
+		</a>
+	</div>
+	<div class="menu-item">
+		<a href="modules.php?app=send_help_paper">
+			<div class="menu-ico">
+				<img src="./skin/social/imgs/menu/main_btn_message_<?php echo  (isset($cur_menu) && $cur_menu=='2')?'':'un';?>press.png"/>
+			</div>
+			<span><?php echo $pu_langpackage->pu_send_paper;?></span>
+		</a>
+	</div>
+	<div class="menu-item">
+		<a href="modules.php?app=user_settings">
+			<div class="menu-ico">
+				<img src="./skin/social/imgs/menu/main_btn_me_<?php echo  (isset($cur_menu) && $cur_menu=='3')?'':'un';?>press.png"/>
+			</div>
+			<span><?php echo $pu_langpackage->pu_user_setting;?></span>
+		</a>
+	</div>
+</div>
