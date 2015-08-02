@@ -16,4 +16,18 @@
 
 		return $result_rs;
 	}
+
+	function paper_get_user_send($userid){
+		global $tablePreStr;
+		$t_papers=$tablePreStr."papers";
+		$t_users = $tablePreStr."users";
+
+		$result_rs = array();
+		$dbo = new dbex;
+		dbplugin('r');
+
+		$sql = "select * from $t_papers where $t_papers.paper_id = $userid";
+
+		$result_rs = $dbo->getALL($sql);
+	}
 ?>
