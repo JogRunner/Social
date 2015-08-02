@@ -10,8 +10,7 @@
  *
  * 如有您有问题请到官方论坛（http://tech.jooyea.com/bbs/）提问，谢谢您的支持。
  */
-?>
-<?php
+?><?php
 	header("content-type:text/html;charset=utf-8");
 	if(!file_exists('docs/install.lock')){
 		header("location:install/index.php");
@@ -24,9 +23,9 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
+	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
 	$all_papers=api_proxy('paper_get_all_papers');
-
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -39,7 +38,7 @@
 <meta name="robots" content="all" />
 <style type="text/css">
 body{
-	padding:0.8em 3em;
+	padding:0 3em;
 }
 .paper{
 	width:100%;
@@ -133,36 +132,33 @@ body{
 </style>
 </head>
 <body>
-	<?php 		
-		foreach ($all_papers as $paper) {?>
-			  <div class="paper">
-				<div class="paper_head">
-					<img src="pictures/<?php echo $paper[5] ?>" class="head"/>
-					<div class="head_info">
-						<h4 class="paper_name"><?php echo $paper[4]?></h4>
-						<h5 class="paper_distance">距离:5000m</h5>
-					</div>
+	<?php 
+	foreach ($all_papers as $paper) {?>
+		 <div class="paper">
+			<div class="paper_head">
+				<img src="pictures/<?php echo $paper[5] ?>" class="head"/>
+				<div class="head_info">
+					<h4 class="paper_name"><?php echo $paper[4]?></h4>
+					<h5 class="paper_distance">距离:5000m</h5>
 				</div>
-				<div class="clear"></div>
-				<div class="paper_content">
-					<?php if("" != $paper[3]){?>
-					<div class="img_content">
-						<img class="paper_img" src="pictures/<?php echo $paper[3];?>" />
-					</div>
-					<?php }?>
-					<div class="text_content"><?php echo $paper[2];?></div>
-				</div>
-				<div class="clear"></div>
-				<div class="paper_buttons">
-					<div class="buttons_menu">
-						<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo "123	" ?> </span></div>
-						<div class="div_button2"><a href="modules.php?app=paper_show_detail&paper_id=<?php echo $paper[0];?>"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
-					</div>
-				</div>
-				<div class="clear"></div>
 			</div>
-		<?php }?>
-
+			<div class="clear"></div>
+			<div class="paper_content">
+				<div class="img_content">
+					<img class="paper_img" src="pictures/<?php echo $paper[3];?>" />
+				</div>
+				<div class="text_content"><?php echo $paper[2];?></div>
+			</div>
+			<div class="clear"></div>
+			<div class="paper_buttons">
+				<div class="buttons_menu">
+					<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo "123	" ?> </span></div>
+					<div class="div_button2"><a href="#"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	<?php }?>
 	<div id="paper_bottom"><a href="#">加载更多...</a></div>
 	<?php require("uiparts/footor.php");?>
 </body>

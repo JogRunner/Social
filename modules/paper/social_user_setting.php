@@ -1,4 +1,56 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?php
+/*
+ * 注意：此文件由tpl_engine编译型模板引擎编译生成。
+ * 如果您的模板要进行修改，请修改 templates/default/modules/paper/social_user_setting.html
+ * 如果您的模型要进行修改，请修改 models/modules/paper/social_user_setting.php
+ *
+ * 修改完成之后需要您进入后台重新编译，才会重新生成。
+ * 如果您开启了debug模式运行，那么您可以省去上面这一步，但是debug模式每次都会判断程序是否更新，debug模式只适合开发调试。
+ * 如果您正式运行此程序时，请切换到service模式运行！
+ *
+ * 如有您有问题请到官方论坛（http://tech.jooyea.com/bbs/）提问，谢谢您的支持。
+ */
+?><?php
+
+	$cur_menu = '3';
+	$cur_sel = "1";
+
+	require("foundation/asession.php");
+	require("configuration.php");
+	require("includes.php");
+	require("foundation/module_users.php");
+	require("foundation/fcontent_format.php");
+	require("foundation/fplugin.php");
+	require("api/base_support.php");
+
+	//引入语言包
+	$pu_langpackage=new publiclp;
+	
+	//用户发出的纸条
+	$user_papers=api_proxy('paper_get_user_send',"1");
+
+	function get_status($status_code)
+	{
+		if($status_code)
+		{
+			switch ($status_code) {
+				case '0': return '已完成';
+					# code...
+					break;
+				case '1': return '等待接受';
+					break;
+				case '2': return '已接受，等待确认';
+					break;
+				case '3': return '已确认帮助者';
+					break; 
+				default:  return '未知状态';
+					# code...
+					break;
+			}
+		}
+		return '未知状态';
+	}
+?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -133,26 +185,26 @@
 	<!--信息显示页面 -->
 	<div class="info-page">
 
-		{sta:foreach($user_papers as $key => $value)[loop]}
+		<?php foreach($user_papers as $key => $value){?>
 		<div class="info-item">
 			
-			{sta:if(isset($cur_sel) && ($cur_sel == '1'))[exc]}
+			<?php if(isset($cur_sel) && ($cur_sel == '1')){?>
 			<div class="info-status">
 				<div class="info-status-wrap">
 					<div class="status-detail">
-						<span> {echo: get_status($value['paper_status']);/}</span>
+						<span> <?php echo  get_status($value['paper_status']);?></span>
 					</div>
 					<div class="status-time">
-						<span> {echo: $value['create_time'];/} </span>
+						<span> <?php echo  $value['create_time'];?> </span>
 					</div>
 					<div class="clearboth"></div>
 				</div>
 			</div>
 
 			<div class="clearboth"></div>
-			{end:if/}
+			<?php }?>
 
-			{sta:if(isset($cur_sel) && ($cur_sel == '2'))[exc]}
+			<?php if(isset($cur_sel) && ($cur_sel == '2')){?>
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
@@ -171,16 +223,16 @@
 				</div>
 			</div>
 			<div class="clearboth"></div>
-			{sta:if/}
+			<?php }?>
 
 			<a href="#">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
-							<img src="pictures/{echo:$value['picture'];/}"/>
+							<img src="pictures/<?php echo $value['picture'];?>"/>
 						</div>
 						<div class="info-text">
-							<p>{echo:$value['content'];/}</p>
+							<p><?php echo $value['content'];?></p>
 						</div>
 					</div>
 				</div>
@@ -190,11 +242,11 @@
 					<div class="info-interchange-wrap">
 						<div class="left-interchange-record">
 							<img src="skin/social/imgs/all/note_pt_feiji.png">
-							<span> {echo:$value['view_count']?$value['view_count']:0;/}</span>
+							<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
 						</div>
 						<div class="right-interchange-record">
 							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-							<span> {echo:$value['comment_count']?$value['comment_count']:0;/} </span>
+							<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
 						</div>
 						<div class="clearboth"></div>
 					</div>
@@ -202,7 +254,7 @@
 			</a>
 			<div class="clearboth"></div>
 
-			{sta:if(isset($cur_sel) && ($cur_sel == '2'))[exc]}
+			<?php if(isset($cur_sel) && ($cur_sel == '2')){?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
@@ -219,9 +271,9 @@
 				</div>
 			</div>
 			<div class="clearboth"></div>
-			{end:if/}
+			<?php }?>
 
-			{sta:if(isset($cur_sel) && ($cur_sel == '13'))[exc]}
+			<?php if(isset($cur_sel) && ($cur_sel == '13')){?>
 			<div class="info-comment">
 				<div class="info-comment-wrap">
 
@@ -265,16 +317,16 @@
 					</div>
 				</div>
 			</div>
-			{end:if/}
+			<?php }?>
 
 		</div>
-		{end:foreach/}
+		<?php }?>
 	</div>
 
 	<!--消息面板-->
 	<div class="msg-panel">
 	</div>
 
-{inc:require("uiparts/footor.php");/}
+<?php require("uiparts/footor.php");?>
 </body>
 </html>
