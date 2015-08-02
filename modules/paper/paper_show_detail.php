@@ -12,7 +12,7 @@
  */
 ?><?php
     //引入语言包
-    $f_langpackage=new friendlp;
+    $pu_langpackage=new publiclp;
     
     //引入公共模块
     require("foundation/module_users.php");
