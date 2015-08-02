@@ -145,16 +145,18 @@ body{
 				</div>
 				<div class="clear"></div>
 				<div class="paper_content">
+					<?php if("" != $paper[3]){?>
 					<div class="img_content">
 						<img class="paper_img" src="pictures/<?php echo $paper[3];?>" />
 					</div>
+					<?php }?>
 					<div class="text_content"><?php echo $paper[2];?></div>
 				</div>
 				<div class="clear"></div>
 				<div class="paper_buttons">
 					<div class="buttons_menu">
 						<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo "123	" ?> </span></div>
-						<div class="div_button2"><a href="#"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
+						<div class="div_button2"><a href="modules.php?app=paper_show_detail&paper_id=<?php echo $paper[0];?>"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
 					</div>
 				</div>
 				<div class="clear"></div>

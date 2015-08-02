@@ -85,7 +85,9 @@ $appArray=array(
 		   "poll_list" => 'modules/poll/poll_list.php',
 		   "poll_show_config" => 'modules/poll/poll_show_config.php',
 
+
 		   "list_all_paper" => 'index.php',
+		   "paper_show_detail" => 'modules/paper/paper_show_detail.php',
 		   "send_help_paper" => 'modules/papers/send_help_paper.php',
 		   "user_setting" => 'modules/papers/social_user_setting.php',
        );
