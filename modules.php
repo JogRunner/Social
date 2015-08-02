@@ -84,6 +84,8 @@ $appArray=array(
 		   "poll_send" => 'modules/poll/poll_send.php',
 		   "poll_list" => 'modules/poll/poll_list.php',
 		   "poll_show_config" => 'modules/poll/poll_show_config.php',
+
+		   "paper_show_detail" => 'modules/paper/paper_show_detail.php',
        );
 
 $appId=getAppId();
