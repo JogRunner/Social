@@ -144,11 +144,9 @@ body{
 			</div>
 			<div class="clear"></div>
 			<div class="paper_content">
-				<?php if("" != $paper[3]){?>
-					<div class="img_content">
-						<img class="paper_img" src="pictures/<?php echo $paper[3];?>" />
-					</div>
-				<?php } ?>
+				<div class="img_content">
+					<img class="paper_img" src="pictures/<?php echo $paper[3];?>" />
+				</div>
 				<div class="text_content"><?php echo $paper[2];?></div>
 			</div>
 			<div class="clear"></div>
