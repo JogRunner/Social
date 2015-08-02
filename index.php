@@ -52,7 +52,7 @@ body{
 	margin-right:2em;
 	padding:1em 1em;
 }
-.paper_name{
+.user_name{
 	margin:1em auto;
 	color: #666;
 }
@@ -138,7 +138,7 @@ body{
 			<div class="paper_head">
 				<img src="pictures/<?php echo $paper[5] ?>" class="head"/>
 				<div class="head_info">
-					<h4 class="paper_name"><?php echo $paper[4]?></h4>
+					<h4 class="user_name"><?php echo $paper[4]?></h4>
 					<h5 class="paper_distance">距离:5000m</h5>
 				</div>
 			</div>
@@ -153,7 +153,7 @@ body{
 			<div class="paper_buttons">
 				<div class="buttons_menu">
 					<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo "123	" ?> </span></div>
-					<div class="div_button2"><a href="#"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
+					<div class="div_button2"><a href="modules.php?app=paper_show_detail&paper_id=<?php echo $paper[0];?>"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper[7]?> </span></div>
 				</div>
 			</div>
 			<div class="clear"></div>
