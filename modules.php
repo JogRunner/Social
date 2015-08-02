@@ -88,8 +88,8 @@ $appArray=array(
 
 		   "list_all_paper" => 'index.php',
 		   "paper_show_detail" => 'modules/paper/paper_show_detail.php',
-		   "send_help_paper" => 'modules/papers/send_help_paper.php',
-		   "user_setting" => 'modules/papers/social_user_setting.php',
+		   "send_help_paper" => 'modules/paper/send_help_paper.php',
+		   "user_setting" => 'modules/paper/social_user_setting.php',
        );
 
 $appId=getAppId();
