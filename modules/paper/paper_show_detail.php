@@ -35,9 +35,10 @@
 <meta name="Keywords" content="<?php echo $metaKeys;?>" />
 <meta name="author" content="<?php echo $metaAuthor;?>" />
 <meta name="robots" content="all" />
+<meta name="viewport" content="width=device-width" />
 <style type="text/css">
 body{
-    padding:0 3em;
+    font-size: 0.6em;
 }
 .paper{
     width:100%;
@@ -87,7 +88,6 @@ body{
     background: #F5E8CF;
     border-top: 1px dashed black;
     border-bottom: 1px dashed black;
-    font-size: 0.6em;
 }
 .clear{
     clear:both;
@@ -100,8 +100,10 @@ body{
 
 
 #paper_bottom{
-    height:6em;
+    height:2em;
+    line-height: 2em;
     text-align:center;
+    margin-bottom:8em;
 }
 
 .info-comment{}
@@ -164,6 +166,6 @@ body{
     </div>
 
     <div id="paper_bottom"><a href="#">加载更多...</a></div>
-    <?php require("uiparts/footor.php");?>
+    <?php require("modules/paper/footer_comment.php");?>
 </body>
 </html>
