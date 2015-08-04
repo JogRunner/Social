@@ -8,9 +8,10 @@
 <meta name="Keywords" content="<?php echo $metaKeys;?>" />
 <meta name="author" content="<?php echo $metaAuthor;?>" />
 <meta name="robots" content="all" />
+<meta name="viewport" content="width=device-width" />
 <style type="text/css">
 body{
-    padding:0 3em;
+    font-size: 0.6em;
 }
 .paper{
     width:100%;
@@ -60,7 +61,6 @@ body{
     background: #F5E8CF;
     border-top: 1px dashed black;
     border-bottom: 1px dashed black;
-    font-size: 0.6em;
 }
 .clear{
     clear:both;
@@ -73,35 +73,74 @@ body{
 
 
 #paper_bottom{
-    height:6em;
+    height:2em;
+    line-height: 2em;
     text-align:center;
+    margin-bottom:8em;
 }
+
+.info-comment{}
+.comment-item{border-bottom: 0.1em solid gray;background-color: #F5E8CF; margin-bottom: 0.5em;}
+.comment-item .comment-content{padding: 0.5em 1em;  }
+.comment-item .comment-user-info{border-top: 0.1em dotted #ddd; color:gray; }
+.comment-item .comment-user-info .left-user>span{color:gray;}
+.comment-item .comment-user-info .left-user{margin-left: 0.5em; float : left;}
+.comment-item .comment-user-info .right-user{margin-right: 0.5em; float: right;}
+.comment-item-span{height: 0.5em; width: 100%; background-color: #F5E8CF;}
 </style>
+
+
+
 </head>
 <body>
     <div class="paper">
     <div class="paper_head">
-        <img src="pictures/<?php echo $paper_detail_rs[2] ?>" class="head"/>
+        <img src="pictures/<?php echo $paper_detail_rs['user_ico'] ?>" class="head"/>
         <div class="head_info">
-            <h4 class="user_name"><?php echo $paper_detail_rs[1]; ?></h4>
+            <h4 class="user_name"><?php echo $paper_detail_rs['user_name']; ?></h4>
             <h5 class="paper_distance">距离:5000m</h5>
         </div>
     </div>
     <div class="clear"></div>
     <div class="paper_content">
         <div class="img_content">
-            <img class="paper_img" src="pictures/<?php echo $paper_detail_rs[6];?>" />
+            <img class="paper_img" src="pictures/<?php echo $paper_detail_rs['picture'];?>" />
         </div>
-        <div class="text_content"><?php echo $paper_detail_rs[5]?></div>
+        <div class="text_content"><?php echo $paper_detail_rs['content']?></div>
     </div>
     <div class="clear"></div>
-    <div class="paper_comments">
-        评论显示
+    
+    <div class="info-comment">
+        <div class="info-comment-wrap">
+
+        <?php foreach($paper_comments_rs as $comment) { ?>
+            <div class="comment-item">
+                <div class="comment-content">
+                    <p> <?php echo $comment['comment_content'] ?> </p>
+                </div>
+                <div class="comment-user-info">
+                    <div class="left-user">
+                        <img src="">
+                        <span> <?php echo $comment['user_name'] ?> </span>
+                    </div>
+                    <div class="right-user">
+                        <!-- <span> SYSU</span> -->
+                        <!-- <span> Distance</span> -->
+                        <span><?php echo $comment['comment_time']?></span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="comment-item-span"></div>
+            </div>
+        <?php } ?>
+        </div>
+
     </div>
+
     <div class="clear"></div>
     </div>
 
     <div id="paper_bottom"><a href="#">加载更多...</a></div>
-    <?php require("uiparts/footor.php");?>
+    <?php require("uiparts/footor_comment.php");?>
 </body>
 </html>

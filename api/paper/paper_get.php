@@ -7,11 +7,11 @@
 		$result_rs=array();
 		$dbo=new dbex;
 	  	dbplugin('r');
-
+	  	/*select isns_papers.paper_id, isns_papers.user_id, isns_papers.content, isns_papers.picture, isns_users.user_name, isns_users.user_ico, isns_users.login_ip, count(isns_comments.paper_id) as count 
+		from isns_papers left join isns_comments on isns_comments.paper_id = isns_papers.paper_id left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_papers.paper_id;*/
 		//$sql="select * from $t_papers";
-	 	$sql = "select $t_papers.paper_id, $t_papers.user_id, $t_papers.content, $t_papers.picture, $t_users.user_name, $t_users.user_ico, $t_users.login_ip, 
-	 			count($t_comments.paper_id) as count from $t_comments, $t_papers, $t_users
-	 			where $t_comments.paper_id = $t_papers.paper_id and $t_users.user_id = $t_papers.user_id group by $t_comments.paper_id";
+	 	$sql = "select $t_papers.paper_id, $t_papers.user_id, $t_papers.content, $t_papers.picture, $t_users.user_name, $t_users.user_ico, $t_users.login_ip, count($t_comments.paper_id) as count 
+		from $t_papers left join $t_comments on $t_comments.paper_id = $t_papers.paper_id left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id;";
 		$result_rs=$dbo->getALL($sql);
 
 		return $result_rs;
@@ -61,7 +61,8 @@
 		$paper_comments_rs 	= array();
 		$dbo=new dbex;
 	  	dbplugin('r');
-		/*select isns_users.user_id, isns_users.user_name, isns_users.user_ico, isns_users.login_ip, isns_comments.paper_id, isns_comments.comment_content, isns_comments.comment_time, isns_comments.comment_status
+
+	  	/*select isns_users.user_id, isns_users.user_name, isns_users.user_ico, isns_users.login_ip, isns_comments.paper_id, isns_comments.comment_content, isns_comments.comment_time, isns_comments.comment_status
 			from isns_comments, isns_users where isns_users.user_id = isns_comments.commenter_id and isns_comments.paper_id = '111111';*/
 
 		$paper_comments_sql = "select $t_users.user_id, $t_users.user_name, $t_users.user_ico, $t_users.login_ip, $t_comments.paper_id, $t_comments.comment_content, 
