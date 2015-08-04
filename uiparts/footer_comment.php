@@ -35,10 +35,6 @@ require("foundation/module_lang.php");
     border: 0;
     text-indent: 1em;
 }
-
-
-</style>
-
 </style>
 
 <script type="text/javascript">
@@ -119,7 +115,12 @@ var autoTextarea = function (elem, extra, maxHeight) {
 <div class="foot">
     
     <div class="comment_div">     
-       <div class="comment_form_div"><form method="post" action="#"><textarea id="comment_textarea" placeholder="回复内容"></textarea><input type="submit" value="发表" id="comment_submit" class="postBtn" /></form></div> 
+       <div class="comment_form_div">
+        <form method="post" action="do.php?act=comment_submit&paper_id=$paper_id" onsubmit="return true;">
+            <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
+            <input type="submit" value="发表" id="comment_submit" class="postBtn" />
+        </form>
+    </div> 
     </div>
 
 

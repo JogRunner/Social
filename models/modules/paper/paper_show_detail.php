@@ -9,8 +9,9 @@
     require("api/base_support.php");
     
     //变量取得
-    $url_pid= intval(get_argg('paper_id'));
+    $paper_id= intval(get_argg('paper_id'));
     //从数据库中取出纸条信息
-    $paper_detail_rs    = api_proxy("paper_get_content", $url_pid);
-    $paper_comments_rs  = api_proxy("paper_get_comments", $url_pid);
+    $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
+    $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
+    
 ?>

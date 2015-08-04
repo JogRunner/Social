@@ -94,6 +94,9 @@ $actArray=array(
     "message_del" => array('action/message/message_del.action.php'),
     "add_app" => array('action/userapp/add_app.action.php'),
     "del_app" => array('action/userapp/del_app.action.php'),
+
+    //自定义
+    "comment_submit" => array("action/paper/comment_add.action.php"),
 );
 $actId=getActId();
 $free_act_array=array("login","reg","logout","pr_access_login","photo_upl_flash","user_forget","user_pw_change");
