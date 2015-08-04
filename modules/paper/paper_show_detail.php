@@ -114,24 +114,26 @@ body{
 .comment-item .comment-user-info .left-user{margin-left: 0.5em; float : left;}
 .comment-item .comment-user-info .right-user{margin-right: 0.5em; float: right;}
 .comment-item-span{height: 0.5em; width: 100%; background-color: #F5E8CF;}
-
 </style>
+
+
+
 </head>
 <body>
     <div class="paper">
     <div class="paper_head">
-        <img src="pictures/<?php echo $paper_detail_rs[2] ?>" class="head"/>
+        <img src="pictures/<?php echo $paper_detail_rs['user_ico'] ?>" class="head"/>
         <div class="head_info">
-            <h4 class="user_name"><?php echo $paper_detail_rs[1]; ?></h4>
+            <h4 class="user_name"><?php echo $paper_detail_rs['user_name']; ?></h4>
             <h5 class="paper_distance">距离:5000m</h5>
         </div>
     </div>
     <div class="clear"></div>
     <div class="paper_content">
         <div class="img_content">
-            <img class="paper_img" src="pictures/<?php echo $paper_detail_rs[6];?>" />
+            <img class="paper_img" src="pictures/<?php echo $paper_detail_rs['picture'];?>" />
         </div>
-        <div class="text_content"><?php echo $paper_detail_rs[5]?></div>
+        <div class="text_content"><?php echo $paper_detail_rs['content']?></div>
     </div>
     <div class="clear"></div>
     
@@ -166,6 +168,6 @@ body{
     </div>
 
     <div id="paper_bottom"><a href="#">加载更多...</a></div>
-    <?php require("modules/paper/footer_comment.php");?>
+    <?php require("uiparts/footer_comment.php");?>
 </body>
 </html>
