@@ -100,10 +100,11 @@ $actArray=array(
 );
 $actId=getActId();
 $free_act_array=array("login","reg","logout","pr_access_login","photo_upl_flash","user_forget","user_pw_change");
+
 //除必须登录才能访问文件
 if(!in_array($actId,$free_act_array)){
 	limit_time($limit_action_time);
-	require("foundation/auser_mustlogin.php");
+	//require("foundation/auser_mustlogin.php");
 }
 
 //action动作成功控制函数

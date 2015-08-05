@@ -21,10 +21,10 @@
     require("api/base_support.php");
     
     //变量取得
-    $url_pid= intval(get_argg('paper_id'));
+    $paper_id= intval(get_argg('paper_id'));
     //从数据库中取出纸条信息
-    $paper_detail_rs    = api_proxy("paper_get_content", $url_pid);
-    $paper_comments_rs  = api_proxy("paper_get_comments", $url_pid);
+    $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
+    $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
