@@ -9,6 +9,7 @@
 			  = "show_user_comments" //显示用户所有评论的纸条
 			  = "show_user_send_paper_item" //显示用户所写纸条项
 			  = "show_user_comment_item" //显示用户所评论项
+			  = "send_user_paper" //用户发送纸条界面
 	$cur_user //当前用户
 	$data['comments'],
 	$data[$cur_user],
@@ -98,7 +99,7 @@
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> {echo: array_key_exists('distance_to_me')?$data['distance_to_me']:0;/}km</span>
+							<span> {echo: array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;/}km</span>
 						</div>
 					</div>
 					<div class="clearboth"></div>
