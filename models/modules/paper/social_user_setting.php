@@ -1,7 +1,8 @@
 <?php
 
 	$cur_menu = '3';
-	$cur_sel = "1";
+	$main_key = get_argg('key');
+	if(!$main_key) $main_key = "show_user_send_papers";
 
 	require("foundation/asession.php");
 	require("configuration.php");
@@ -15,7 +16,7 @@
 	$pu_langpackage=new publiclp;
 	
 	//用户发出的纸条
-	$user_papers=api_proxy('paper_get_user_send',"1");
+	$data=api_proxy('paper_get_user_send',"1");
 
 	function get_status($status_code)
 	{
@@ -37,5 +38,21 @@
 			}
 		}
 		return '未知状态';
+	}
+
+	function get_reply_str($status_code)
+	{
+		if($status_code)
+		{
+			switch ($status_code) {
+				case '0': return '接受';
+					# code...
+					break;
+				
+				default: return '未接受';
+					# code...
+					break;
+			}
+		}
 	}
 ?>
