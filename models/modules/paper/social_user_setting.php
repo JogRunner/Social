@@ -1,7 +1,7 @@
 <?php
 
 	$cur_menu = '3';
-	$main_key = get_argg('key');
+	$main_key = get_argg('main_key');
 	if(!$main_key) $main_key = "show_user_send_papers";
 
 	require("foundation/asession.php");
@@ -15,8 +15,15 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 	
-	//用户发出的纸条
-	$data=api_proxy('paper_get_user_send',"1");
+	if($main_key == "show_user_send_papers")
+	{
+		//用户发出的纸条
+		$data=api_proxy('paper_get_user_send',"1");
+	}
+	else if($main_key == "show_user_comments")
+	{
+		$data=api_proxy('paper_related_get_user_comments',"1");
+	}
 
 	function get_status($status_code)
 	{

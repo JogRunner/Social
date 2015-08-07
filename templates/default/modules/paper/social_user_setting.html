@@ -30,6 +30,7 @@
 		.setting-menu{width:100%;font-size:1.2em;float:left;letter-spacing: 0.1em;font-weight: bold;}
 		.setting-menu-item{width: 33.3%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
 		.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid yellow;}
+		.unselected{position: relative;bottom: -0.3em; border-bottom: 2px solid white;}
 
 		.info-page{background-color: #ccc;padding:0.5em 2em;}
 		.info-item{border-radius: 0.4em;margin: 1em 0;}
@@ -61,24 +62,24 @@
 	<!-- 设置菜单显示 -->
 	<div class="setting-menu">
 		<div class="setting-menu-item">
-			<a href="modules.php?app=user-write">
+			<a href="modules.php?app=user_settings&main_key=show_user_send_papers">
 				<span> 我写的 </span>
 			</a>
-			<div class="selected">
+			<div class="{echo:($main_key == 'show_user_send_papers')?'':'un';/}selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
-			<a href="modules.php?app=user-help">
+			<a href="modules.php?app=user_settings&main_key=show_user_comments">
 				<span> 我参与的 </span>
 			</a>
-			<div class="selected">
+			<div class="{echo:($main_key == 'show_user_comments')?'':'un';/}selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user-money">
 				<span> 我的红包 </span>
 			</a>
-			<div class="selected">
+			<div class="{echo:($main_key == 'user_money')?'':'un';/}selected">
 			</div>
 		</div>
 	</div>
