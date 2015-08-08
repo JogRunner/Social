@@ -21,7 +21,7 @@
 	$user_id = "1";
 	$paper_id = get_argp("paper_id");
 
-	
+	//echo "123456789";
 
 	//数据表定义区
 	$t_comments=$tablePreStr."comments";

@@ -104,7 +104,7 @@ var autoTextarea = function (elem, extra, maxHeight) {
         <form method="post" action="do.php?act=comment_submit" onsubmit="return true;">
             <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
             <input type="submit" value="发表" id="comment_submit" class="postBtn" />
-            <input name="paper_id" value="<?php echo $paper_id; ?>"/>
+            <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>
         </form>
     </div> 
     </div>

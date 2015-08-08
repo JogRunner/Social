@@ -13,14 +13,19 @@
 ?> 
  <!--
 	使用规则：
-	纸条数据 $papers;
-	用户数据 $users;
-	评论数据 $comments;
+	$data //数据
 
 	$main_key = "show_all_papers" //显示所有纸条
-			  = "show_all_comment" //显示所有评论
+			  = "show_all_comments" //显示所有评论
 			  = "show_user_send_papers" //显示用户所写的纸条
-			  = "show_user_comment" //显示用户所有评论的纸条
+			  = "show_user_comments" //显示用户所有评论的纸条
+			  = "show_user_send_paper_item" //显示用户所写纸条项
+			  = "show_user_comment_item" //显示用户所评论项
+			  = "send_user_paper" //用户发送纸条界面
+	$cur_user //当前用户
+	$data['comments'],
+	$data[$cur_user],
+	$data['comments'][key]['commenter']
  -->
  <style>
 
@@ -71,62 +76,14 @@
 		.comment-item-span{height: 0.5em; width: 100%; background-color: #bfe;}
 
 	</style>
-	<!-- 用户信息显示区域-->
-	<div class="user-info">
-		<div class="user-info-wrap">
-			<div class="user-head-img">
-				<img src="skin/social/imgs/all/signup_avatar.png" />
-			</div>
-			<div class="user-text-info">
-				<div class="user-name-area">
-					<!--<span> 昵称:&nbsp;&nbsp; </span>-->
-					<span id = "user-name">龚谦</span>
-				</div>
-				<!--
-				<div class="user-school-area">
-					<span>所在学校: </span>
-					<span id="user-school">中山大学</span>
-				</div>
-				-->
-			</div>
-			<div class="user-info-setting">
-			</div>
-		</div>
-	</div>
-	
-	<!-- 设置菜单显示 -->
-	<div class="setting-menu">
-		<div class="setting-menu-item">
-			<a href="modules.php?app=user-write">
-				<span> 我写的 </span>
-			</a>
-			<div class="selected">
-			</div>
-		</div>
-		<div class="setting-menu-item">
-			<a href="modules.php?app=user-help">
-				<span> 我参与的 </span>
-			</a>
-			<div class="selected">
-			</div>
-		</div>
-		<div class="setting-menu-item">
-			<a href="modules.php?app=user-money">
-				<span> 我的红包 </span>
-			</a>
-			<div class="selected">
-			</div>
-		</div>
-	</div>
-	<div class="clearboth"></div>
 
 	<!--信息显示页面 -->
 	<div class="info-page">
 
-		<?php foreach($user_papers as $key => $value){?>
+		<?php foreach($data as $key => $value){?>
 		<div class="info-item">
 			
-			<?php if(isset($cur_sel) && ($cur_sel == '1')){?>
+			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item"))){?>
 			<div class="info-status">
 				<div class="info-status-wrap">
 					<div class="status-detail">
@@ -142,19 +99,19 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<?php if(isset($cur_sel) && ($cur_sel == '2')){?>
+			<?php if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item"))){?>
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="skin/social/imgs/all/signup_avatar.png"/>
+						<img src="skin/social/imgs/all/<?php echo (array_key_exists('user_ico',$data) && !empty($data['user_ico']))?$data['user_ico']:'signup_avatar.png';?>"/>
 					</div>
 					<div class="author-detail">
-						<div class="author-name">
-							<span>龚谦</span>
+						<div class="author-detail-name">
+							<span><?php echo empty($data['user_nickname'])?'匿名':$data['user_nickname'];?></span>
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> 12.3km </span>
+							<span> <?php echo  array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;?>km</span>
 						</div>
 					</div>
 					<div class="clearboth"></div>
@@ -163,7 +120,7 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<a href="#">
+			<a href="<?php echo in_array($main_key,array('show_all_comment','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_item&paper_id='.$value['paper_id'];?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
@@ -192,18 +149,18 @@
 			</a>
 			<div class="clearboth"></div>
 
-			<?php if(isset($cur_sel) && ($cur_sel == '2')){?>
+			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user) && array_key_exists($cur_user,$data)){?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
 						<span class="author-me-label"> 我的回复：</span>
 						<span class="author-me-status">
-							接受
+							<?php echo get_reply_str($data[$cur_user]['comment_status']);?>
 						</span>
 						<div class="clearboth"></div>
 					</div>
 					<div class="my-comment-content">
-						<p>我的内容我的内容我的内容我的内容我的内容我的内容我的内容我的内容我的内容,jfkd我的内容我的内容</p>
+						<p><?php echo $data[$cur_user]['comment_content'];?></p>
 					</div>
 
 				</div>
@@ -211,48 +168,32 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<?php if(isset($cur_sel) && ($cur_sel == '13')){?>
+			<?php if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item"))){?>
 			<div class="info-comment">
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
+					<?php foreach($data['comments'] as $comment_key => $comment_val){?>
 					<div class="comment-item">
 						<div class="comment-content">
-							<p> kwg kwwg 佛挡杀佛 需要需要需要地佛挡杀佛  需要复方丹参 佛挡杀佛在佛挡杀佛 </p>
+							<p> <?php echo $comment_val['comment_content'];?></p>
 						</div>
 						<div class="comment-user-info">
 							<div class="left-user">
 								<img src="">
-								<span> Name </span>
+								<span> <?php echo $comment_val['commenter']?$comment_val['commenter']:'Name';?> </span>
 							</div>
 							<div class="right-user">
 								<!-- <span> SYSU</span> -->
 								<!-- <span> Distance</span> -->
-								<span> time</span>
+								<span> <?php echo $comment_val['comment_time'];?></span>
 							</div>
 						</div>
 						<div class="clearboth"></div>
 						<div class="comment-item-span"></div>
 					</div>
+					<?php }?>
 
-<!-- 评论的一项 -->
-					<div class="comment-item">
-						<div class="comment-content">
-							<p> kwg kwwg 佛挡杀佛 需要需要需要地佛挡杀佛  需要复方丹参 佛挡杀佛在佛挡杀佛 </p>
-						</div>
-						<div class="comment-user-info">
-							<div class="left-user">
-								<img src="">
-								<span> Name </span>
-							</div>
-							<div class="right-user">
-								<!-- <span> SYSU</span> -->
-								<!-- <span> Distance</span> -->
-								<span> time</span>
-							</div>
-						</div>
-						<div class="clearboth"></div>
-					</div>
 				</div>
 			</div>
 			<?php }?>
