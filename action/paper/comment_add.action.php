@@ -18,7 +18,7 @@
 	//$user_id=get_sess_userid();
 	//$user_name=get_sess_username();
 
-	$user_id = "1";
+	$user_id = 1;
 	$paper_id = get_argp("paper_id");
 
 	//echo "123456789";

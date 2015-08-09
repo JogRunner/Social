@@ -791,11 +791,13 @@ CREATE TABLE `isns_users` (
   `bless_count` int(11) DEFAULT NULL COMMENT '祝福数',
   `position_x` float DEFAULT NULL COMMENT '经度',
   `position_y` float DEFAULT NULL COMMENT '纬度',
+  `user_point` int(11) NOT NULL DEFAULT '0' COMMENT '用户剩余积分',
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_email` (`user_email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
-INSERT INTO `isns_users` VALUES (1,NULL,NULL,'FangJian7','123456',0,NULL,NULL,NULL,NULL,NULL,'head2.png',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.123',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(2,NULL,NULL,'公公的天下2','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.124',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL),(3,NULL,NULL,'龚谦GQ123','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 15:15:02',NULL,NULL,NULL,'10.12.13.125',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL);
+
+INSERT INTO `isns_users` VALUES (1,NULL,NULL,'FangJian7','123456',0,NULL,NULL,NULL,NULL,NULL,'head2.png',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.123',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0),(2,NULL,NULL,'公公的天下2','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.124',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0),(3,NULL,NULL,'龚谦GQ123','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 15:15:02',NULL,NULL,NULL,'10.12.13.125',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0);
 
 DROP TABLE IF EXISTS `isns_remind`;
 
@@ -829,7 +831,7 @@ CREATE TABLE `isns_invite_code` (
 
 DROP TABLE IF EXISTS `isns_papers`;
 
-insert into isns_comments CREATE TABLE `isns_papers` (
+CREATE TABLE `isns_papers` (
   `paper_id` int(11) NOT NULL COMMENT '纸条guid',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `content` text COLLATE utf8_bin NOT NULL COMMENT '纸条内容',
@@ -883,3 +885,20 @@ INSERT INTO `isns_pals_def_sort` (`id`, `order_num`, `name`) VALUES
 (1, 1, '亲朋'),
 (2, 2, '好友'),
 (3, 3, '同学');
+
+
+CREATE TABLE `isns_money` (
+  `money_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '红包id',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `consume_point` int(11) DEFAULT NULL COMMENT '消耗积分数',
+  `exchange_datetime` datetime DEFAULT NULL COMMENT '兑换时间',
+  `exchange_money` int(11) DEFAULT NULL COMMENT '兑换红包大小，多少钱',
+  PRIMARY KEY (`money_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (1,1,10,'2015-08-08 10:10:29',56);
+INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (2,1,10,'2015-08-09 12:26:46',78);
+INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (3,2,20,'2014-08-08 10:10:29',33);
+
+
+

@@ -14,15 +14,21 @@
 
 	//引入语言包
 	$pu_langpackage=new publiclp;
+
+	$user_id = 1
 	
 	if($main_key == "show_user_send_papers")
 	{
 		//用户发出的纸条
-		$data=api_proxy('paper_get_user_send',"1");
+		$data=api_proxy('paper_get_user_send', $user_id);
 	}
 	else if($main_key == "show_user_comments")
 	{
-		$data=api_proxy('paper_related_get_user_comments',"1");
+		$data=api_proxy('paper_related_get_user_comments', $user_id);
+	}elseif($main_key == "user_money")
+	{
+		$data=api_proxy('money_get_user_money', $user_id)
+		$user_point=api_proxy('money_get_user_point', $user_id)
 	}
 
 	function get_status($status_code)

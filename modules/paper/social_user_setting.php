@@ -26,15 +26,21 @@
 
 	//引入语言包
 	$pu_langpackage=new publiclp;
+
+	$user_id = 1;
 	
 	if($main_key == "show_user_send_papers")
 	{
 		//用户发出的纸条
-		$data=api_proxy('paper_get_user_send',"1");
+		$data=api_proxy('paper_get_user_send', $user_id);
 	}
 	else if($main_key == "show_user_comments")
 	{
-		$data=api_proxy('paper_related_get_user_comments',"1");
+		$data=api_proxy('paper_related_get_user_comments', $user_id);
+	}elseif($main_key == "user_money")
+	{
+		$data=api_proxy('money_get_user_money', $user_id);
+		$user_point=api_proxy('money_get_user_point', $user_id);
 	}
 
 	function get_status($status_code)
@@ -78,6 +84,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width" />
 
 <style>
 		.clearboth{
@@ -88,6 +95,7 @@
 
 </head>
 <body>
+	
 	<style>
 	    /*全局样式 */
 		body,html,*{margin:0;padding:0;}
@@ -152,7 +160,7 @@
 			</div>
 		</div>
 		<div class="setting-menu-item">
-			<a href="modules.php?app=user-money">
+			<a href="modules.php?app=user_settings&main_key=user_money">
 				<span> 我的红包 </span>
 			</a>
 			<div class="<?php echo ($main_key == 'user_money')?'':'un';?>selected">
@@ -160,11 +168,15 @@
 		</div>
 	</div>
 	<div class="clearboth"></div>
-	<?php require('modules/paper/common_paper_show.php');?>
+
+	<?php if(in_array($main_key, array('show_user_send_papers', 'show_user_comments'))){ ?>
+		<?php require('modules/paper/common_paper_show.php');?>
+	<?php } elseif($main_key == 'user_money'){ ?>
+		<?php require('modules/money/user_money.php');?>
+	<?php } ?>
 	<!--消息面板-->
 	<div class="msg-panel">
 	</div>
 
-<?php require("uiparts/footor.php");?>
 </body>
 </html>
