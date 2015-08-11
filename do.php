@@ -97,6 +97,8 @@ $actArray=array(
 
     //自定义
     "comment_submit" => array("action/paper/comment_add.action.php"),
+    //兑换红包
+    "exchange_money" => array("action/money/exchange_money.action.php"),
 );
 $actId=getActId();
 $free_act_array=array("login","reg","logout","pr_access_login","photo_upl_flash","user_forget","user_pw_change");

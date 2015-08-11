@@ -887,6 +887,7 @@ INSERT INTO `isns_pals_def_sort` (`id`, `order_num`, `name`) VALUES
 (3, 3, '同学');
 
 
+DROP TABLE IF EXISTS `isns_money`;
 CREATE TABLE `isns_money` (
   `money_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '红包id',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
