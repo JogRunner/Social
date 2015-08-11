@@ -91,10 +91,14 @@ body{
 #button_menu1{
 	float: left;
 	margin-right: 0.5em;
+	height: 2.5em;
+	width: 2.5em;
 }
 #button_menu2{
 	float: left;
 	margin-right: 0.5em;
+	height: 2.5em;
+	width: 2.5em;
 }
 
 #paper_bottom{
@@ -119,7 +123,7 @@ body{
 			<div class="clear"></div>
 			<div class="paper_content">
 				<div class="img_content">
-					<img class="paper_img" src="pictures/<?php echo $paper['picture'];?>" />
+					<img class="paper_img" src="<?php echo $paper['picture'];?>" />
 				</div>
 				<div class="text_content"><?php echo $paper['content'];?></div>
 			</div>
