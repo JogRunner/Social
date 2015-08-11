@@ -2,15 +2,11 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 	//变量取得
-	$comment_content = get_argp("comment_content");
-
 	$user_id = get_session('user_id');
-	$paper_id = get_argp("paper_id");
 
-	//echo "123456789";
 
 	//数据表定义区
-	$t_comments=$tablePreStr."comments";
+	$t_comments=$tablePreStr."papers";
 
 	$current_time = date('y-m-d H:i:s',time());
 

@@ -1,8 +1,8 @@
 <?php
 /*
  * 注意：此文件由tpl_engine编译型模板引擎编译生成。
- * 如果您的模板要进行修改，请修改 templates/default/uiparts/footor.html
- * 如果您的模型要进行修改，请修改 models/uiparts/footor.php
+ * 如果您的模板要进行修改，请修改 templates/default/uiparts/footor_comment.html
+ * 如果您的模型要进行修改，请修改 models/uiparts/footor_comment.php
  *
  * 修改完成之后需要您进入后台重新编译，才会重新生成。
  * 如果您开启了debug模式运行，那么您可以省去上面这一步，但是debug模式每次都会判断程序是否更新，debug模式只适合开发调试。
@@ -12,9 +12,7 @@
  */
 ?><?php
 require("foundation/module_lang.php");
-?>
-
-<style>
+?><style>
 .foot{position:fixed; left:0; right:0; bottom:0; width:100%; background: #fff;}
 
 .comment_div {float: left;width: 100%;}     
@@ -35,6 +33,7 @@ require("foundation/module_lang.php");
     border: 0;
     text-indent: 1em;
 }
+
 </style>
 
 <script type="text/javascript">
@@ -110,13 +109,14 @@ var autoTextarea = function (elem, extra, maxHeight) {
         addEvent('focus', change);
         change();
 };
+
 </script>
 
 <div class="foot">
     
     <div class="comment_div">     
        <div class="comment_form_div">
-        <form method="post" action="do.php?act=comment_submit" onsubmit="return true;">
+        <form method="post" action="do.php?act=comment_submit" onsubmit="return validate_form();">
             <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
             <input type="submit" value="发表" id="comment_submit" class="postBtn" />
             <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>
@@ -128,5 +128,17 @@ var autoTextarea = function (elem, extra, maxHeight) {
     <script> 
         var text = document.getElementById("comment_textarea");
         autoTextarea(text);// 调用
+
+        //验证表单
+        function validate_form()
+        {
+            var comment_content = document.getElementById('comment_textarea').value;
+            if("" == comment_content.replace(/(^\s*)|(\s*$)/g, ""))
+            {
+                alert("评论内容不能为空！");
+                return false;
+            }
+            return true;
+        }
     </script>
 </div>

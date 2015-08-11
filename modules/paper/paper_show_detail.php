@@ -25,6 +25,7 @@
     //从数据库中取出纸条信息
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
+    
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -168,6 +169,6 @@ body{
     </div>
 
     <div id="paper_bottom"><a href="#">加载更多...</a></div>
-    <?php require("uiparts/footer_comment.php");?>
+    <?php require("uiparts/footor_comment.php");?>
 </body>
 </html>
