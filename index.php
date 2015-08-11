@@ -119,10 +119,14 @@ body{
 #button_menu1{
 	float: left;
 	margin-right: 0.5em;
+	height: 2.5em;
+	width: 2.5em;
 }
 #button_menu2{
 	float: left;
 	margin-right: 0.5em;
+	height: 2.5em;
+	width: 2.5em;
 }
 
 #paper_bottom{
