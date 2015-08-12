@@ -124,7 +124,7 @@
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
-							<img src="pictures/<?php echo $value['picture'];?>"/>
+							<img src="<?php echo $value['picture'];?>"/>
 						</div>
 						<div class="info-text">
 							<p><?php echo $value['content'];?></p>

@@ -144,7 +144,7 @@
 </head>
 
 <body>
-	<form method="post" action="do.php?act=help_paper_submit" onsubmit="return validate_form(this);">
+	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data" onsubmit="return validate_form(this);">
 		<div class="write-item">
 			<div class="left-nav">
 				<img src="pictures/ic_launcher.png"/>
@@ -176,7 +176,7 @@
 					<img src="pictures/signup_btn_zhaopian_press.png" />
 					<span> 添加图片: </span>
 				</div>
-				<input class="img-path-value" type="file" id="upload_picture" name="doc" onchange="limitImg('upload_picture', 10240);" />
+				<input class="img-path-value" type="file" id="upload_picture" name="attach[]" onchange="limitImg('upload_picture', 20480);" />
 				<div class="clearboth">
 			</div>
 			</div>

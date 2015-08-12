@@ -132,7 +132,7 @@ body{
     <div class="clear"></div>
     <div class="paper_content">
         <div class="img_content">
-            <img class="paper_img" src="pictures/<?php echo $paper_detail_rs['picture'];?>" />
+            <img class="paper_img" src="<?php echo $paper_detail_rs['picture'];?>" />
         </div>
         <div class="text_content"><?php echo $paper_detail_rs['content']?></div>
     </div>

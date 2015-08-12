@@ -4,7 +4,7 @@ class upload {
     var $time;           //自定义文件上传时间
     var $allow_types;    //允许上传附件类型
     var $field;          //上传控件名称
-    var $maxsize;        //最大允许文件大小，单位为KB
+    var $maxsize;        //最大允许文件大小，单位为B
     var $thumb_width;    //缩略图宽度
     var $thumb_height;   //缩略图高度
     var $watermark_file; //水印图片地址
@@ -15,7 +15,7 @@ class upload {
     //$types : 允许上传的文件类型 , $maxsize : 允许大小 ,  $field : 上传控件名称 , $time : 自定义上传时间
     function upload($types = 'jpg|jpeg|png|gif', $maxsize = 1024, $field = 'attach', $time = '') {
 	      $this->allow_types = explode('|',$types);
-	      $this->maxsize = $maxsize * 1024;
+	      $this->maxsize = $maxsize * 1024 * 20;
 	      $this->field = $field;
 	      $this->time = $time ? $time : time();
     }
@@ -111,7 +111,6 @@ class upload {
 	        $filename = date('Ymdhis',$this->time).mt_rand(10,99).'.'.$fileext; //生成文件名
 	        $filedir = $this->dir;  //附件实际存放目录
 	        $filesize = $_FILES[$field]['size'][$key]; //文件大小
-	
 	        //文件类型不允许
 	        if (!in_array($fileext,$this->allow_types)) {
 	            $files[$key]['name'] = $_FILES[$field]['name'][$key];
@@ -119,7 +118,7 @@ class upload {
 	            $files[$key]['initname'] = "";
 	            continue;
 	        }
-	
+	        
 	        //文件大小超出
 	        if ($filesize > $this->maxsize) {
 	            $files[$key]['name'] = $_FILES[$field]['name'][$key];
@@ -127,8 +126,13 @@ class upload {
 	            $files[$key]['initname'] = "";
 	            continue;
 	        }
+
 	        $image_info=getImageSize($_FILES[$field]['tmp_name'][$key]);
-	        
+
+            //move_uploaded_file($_FILES[$field]['name'][$key], $image_info);
+            //print_r(getimagesize($image_info));
+            //echo '+,' . $image_info . ',' . $_FILES[$field]['name'][$key];
+
 	        //文件大小不匹配
 	        if($image_info[1] > $image_info[0]*3){
 	        	$files[$key]['name'] = $_FILES[$field]['name'][$key];

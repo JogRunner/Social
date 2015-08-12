@@ -39,7 +39,7 @@
 <meta name="viewport" content="width=device-width" />
 <style type="text/css">
 body{
-	font-size: 0.6em;
+	font-size: 0.8em;
 }
 .paper{
 	width:100%;
@@ -151,7 +151,7 @@ body{
 			<div class="clear"></div>
 			<div class="paper_content">
 				<div class="img_content">
-					<img class="paper_img" src="pictures/<?php echo $paper['picture'];?>" />
+					<img class="paper_img" src="<?php echo $paper['picture'];?>" />
 				</div>
 				<div class="text_content"><?php echo $paper['content'];?></div>
 			</div>

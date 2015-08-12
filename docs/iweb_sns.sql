@@ -743,6 +743,7 @@ CREATE TABLE `isns_frontgroup` (
 
 /*Table structure for table `isns_users` */
 
+
 DROP TABLE IF EXISTS `isns_users`;
 
 CREATE TABLE `isns_users` (
@@ -796,8 +797,9 @@ CREATE TABLE `isns_users` (
   UNIQUE KEY `user_email` (`user_email`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
+INSERT INTO `isns_users` VALUES (1,NULL,NULL,'FangJian7','123456',0,NULL,NULL,NULL,NULL,NULL,'head2.png',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.123',0,'0',NULL,NULL,'base',NULL,NULL,NULL,6,NULL,NULL,NULL,15),(2,NULL,NULL,'公公的天下2','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.124',0,'0',NULL,NULL,'base',NULL,NULL,NULL,3,NULL,NULL,NULL,0),(3,NULL,NULL,'龚谦GQ123','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 15:15:02',NULL,NULL,NULL,'10.12.13.125',0,'0',NULL,NULL,'base',NULL,NULL,NULL,0,NULL,NULL,NULL,0);
 
-INSERT INTO `isns_users` VALUES (1,NULL,NULL,'FangJian7','123456',0,NULL,NULL,NULL,NULL,NULL,'head2.png',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.123',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0),(2,NULL,NULL,'公公的天下2','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 12:00:21',NULL,NULL,NULL,'10.12.13.124',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0),(3,NULL,NULL,'龚谦GQ123','123456',1,NULL,NULL,NULL,NULL,NULL,'head.jpg',1,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,10,0,NULL,NULL,0,0,'2015-08-02 15:15:02',NULL,NULL,NULL,'10.12.13.125',0,'0',NULL,NULL,'base',NULL,NULL,NULL,NULL,NULL,NULL,NULL, 0);
+
 
 DROP TABLE IF EXISTS `isns_remind`;
 
@@ -829,28 +831,37 @@ CREATE TABLE `isns_invite_code` (
   UNIQUE KEY `code_txt` (`code_txt`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+
 DROP TABLE IF EXISTS `isns_papers`;
 
 CREATE TABLE `isns_papers` (
-  `paper_id` int(11) NOT NULL COMMENT '纸条guid',
+  `paper_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '纸条guid',
   `user_id` int(11) NOT NULL COMMENT '用户id',
   `content` text COLLATE utf8_bin NOT NULL COMMENT '纸条内容',
-  `picture` varchar(45) COLLATE utf8_bin NOT NULL COMMENT '纸条附带图片',
-  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-  `paper_status` tinyint(4) DEFAULT NULL COMMENT '纸条状态',
-  `comment_count` int(11) DEFAULT NULL COMMENT '评论次数',
-  `view_count` int(11) DEFAULT NULL COMMENT '浏览次数',
+  `picture` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '纸条附带图片',
+  `create_time` datetime NOT NULL COMMENT '创建时间',
+  `paper_status` tinyint(4) DEFAULT '0' COMMENT '纸条状态',
+  `comment_count` int(11) DEFAULT '0' COMMENT '评论次数',
+  `view_count` int(11) DEFAULT '0' COMMENT '浏览次数',
   `receiver_id` int(11) DEFAULT NULL COMMENT '接受者ID',
   PRIMARY KEY (`paper_id`),
   UNIQUE KEY `paper_id_UNIQUE` (`paper_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='纸条表';
+) ENGINE=InnoDB AUTO_INCREMENT=222232 DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='纸条表';
 
-INSERT INTO `isns_papers` VALUES (111111,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL),(222222,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO `isns_papers` VALUES (111113,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL),(222224,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO `isns_papers` VALUES (111114,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL),(222225,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','beauty.jpg',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `isns_papers` VALUES 
+(111111,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/1/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(111113,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/1/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(111114,1,'据华西都市报报道，澳大利亚的Ella Peggie是一个天生独臂的1岁小女孩。有一天，她妈妈在网上看到一只三条腿的狗狗，妈妈觉得很有缘，便认养了它并取名snowy。Ella和snowy很快就亲密起来，他们在一起时总让人莫名感动，未来可能会有很多困难，但是庆幸她遇到了它。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/1/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(222222,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/2/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(222224,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/2/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(222225,2,'俄罗斯国防部8月1日上午在莫斯科州的阿拉比诺军事基地举行了隆重开幕式，为期15天的“2015国际军事比赛”正式拉开战幕。俄罗斯国防部部长绍伊古在开幕式上致辞并宣布比赛开始，中国驻俄罗斯大使李辉和中国军队代表团出席了开幕式。在阿拉比诺军事基地的训练场上，细雨延绵、军乐高奏，17个参赛国的国旗迎风飘扬。开幕式在雨中按计划进行，首先进行了文艺表演，一队扮演成古希腊时期勇士的演员率先登场，用古典舞形式传递“理解、友谊、团结和公平竞争”的奥林匹克精神。当地时间2015年7月28日，日本大津，秋筱宫文仁亲王和女儿佳子公主出席第39届日本高中文化节。佳子内公主（1994年12月29日—），日本皇族。秋筱宫文仁亲王和文仁亲王妃纪子的次女，明仁的孙女，有姐（秋筱宫真子内亲王）和弟（秋筱宫悠仁亲王）。使用的徽印是黄槿。佳子的特长是手工，2007年秋天的宫内厅职员作品展上，展出了她和姐姐、弟弟共同制作的人偶；此外，她还为弟弟悠仁制作小玩具。','uploadfiles/paper_pictures/2/beauty.jpg','2015-08-11 12:54:01',0,0,0,NULL),
+(222227,1,'阿瑟大时代·','uploadfiles/paper_pictures/1/2015081204312889.jpg','2015-08-12 16:31:29',0,0,0,NULL),
+(222228,1,'爱上的方法','uploadfiles/paper_pictures/1/2015081204400015.jpg','2015-08-12 16:40:01',0,0,0,NULL),
+(222231,1,'原来是图片上传大小被限制了呀','uploadfiles/paper_pictures/1/2015081207575811.jpg','2015-08-12 19:57:59',0,0,0,NULL);
 
 
 DROP TABLE IF EXISTS `isns_comments`;
+
 CREATE TABLE `isns_comments` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '评论记录id（随机值）',
   `paper_id` int(11) NOT NULL COMMENT '纸条id',
@@ -859,10 +870,11 @@ CREATE TABLE `isns_comments` (
   `comment_time` datetime NOT NULL COMMENT '评论时间',
   `comment_status` tinyint(4) NOT NULL COMMENT '回复状态',
   PRIMARY KEY (`comment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1111116 DEFAULT CHARSET=utf8 COMMENT='用户评论表';
+) ENGINE=InnoDB AUTO_INCREMENT=1111118 DEFAULT CHARSET=utf8 COMMENT='用户评论表';
+
+INSERT INTO `isns_comments` VALUES (1,111111,'很好很强大1',2,'2015-08-02 15:15:02',0),(2,222222,'很好很强大2',1,'2015-08-02 15:15:02',0),(3,111111,'很好很强大3',2,'2015-08-02 15:15:02',0),(4,333333,'很好很强大4',1,'2015-08-02 15:15:02',0),(1111116,111111,'评论内容不能为空！',1,'2015-08-11 21:25:17',0),(1111117,222222,'嘿嘿，输入框挡住了',1,'2015-08-11 21:29:21',0);
 
 
-INSERT INTO `isns_comments` VALUES (1, 111111,'很好很强大1',2,'2015-08-02 15:15:02',0),(2, 222222,'很好很强大2',1,'2015-08-02 15:15:02',0),(3, 111111,'很好很强大3',2,'2015-08-02 15:15:02',0),(4, 333333,'很好很强大4',1,'2015-08-02 15:15:02',0);
 
 INSERT INTO `isns_group_type` (`id`, `order_num`, `name`) VALUES
 (1, 1, '时尚生活'),
@@ -887,7 +899,9 @@ INSERT INTO `isns_pals_def_sort` (`id`, `order_num`, `name`) VALUES
 (3, 3, '同学');
 
 
+
 DROP TABLE IF EXISTS `isns_money`;
+
 CREATE TABLE `isns_money` (
   `money_id` int(11) NOT NULL AUTO_INCREMENT COMMENT '红包id',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
@@ -895,11 +909,9 @@ CREATE TABLE `isns_money` (
   `exchange_datetime` datetime DEFAULT NULL COMMENT '兑换时间',
   `exchange_money` int(11) DEFAULT NULL COMMENT '兑换红包大小，多少钱',
   PRIMARY KEY (`money_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
-INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (1,1,10,'2015-08-08 10:10:29',56);
-INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (2,1,10,'2015-08-09 12:26:46',78);
-INSERT INTO `iwebsns`.`isns_money`(`money_id`,`user_id`,`consume_point`,`exchange_datetime`,`exchange_money`) VALUES (3,2,20,'2014-08-08 10:10:29',33);
+INSERT INTO `isns_money` VALUES (1,1,10,'2015-08-08 10:10:29',56),(2,1,10,'2015-08-09 12:26:46',78),(3,2,20,'2014-08-08 10:10:29',33),(4,1,10,'2015-08-11 18:41:02',45);
 
 
 
