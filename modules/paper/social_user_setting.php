@@ -27,6 +27,7 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
+	//临时设置用户id, flag:temporary
 	$user_id = 1;
 	set_session('user_id', $user_id);
 	

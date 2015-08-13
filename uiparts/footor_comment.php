@@ -17,15 +17,24 @@ require("foundation/module_lang.php");
 
 .comment_div {float: left;width: 100%;}     
 .comment_form_div {width: 100%;background-color: #fff;color:#aaa;margin-top:1em;border-top: 1px solid #aaa;border-bottom: 1px solid #aaa;} 
-.comment_form_div .postBtn {width: 20%; height: 3em;color: #808080; cursor: pointer;border: 0;float:right;}     
-.comment_form_div .postBtn:hover {color: #333;background-color: #efefef;}
+.comment_form_div .comment_submit {width: 14%; color: #808080; cursor: pointer;border: 0;float: left;background: #efefef;}     
+.comment_form_div .comment_submit:hover {color: #333;background-color: #efefef;}
 
+.comment_form_div .pick_div{
+    float: right;
+    width: 14%;
+    color: #808080;
+    background: #ccc;
+    border: 0;
+}
+
+.comment_form_div .pick_div:hover {color: #333;background-color: #efefef;}
 
 #comment_textarea { 
     display:inline;
     float:left;
     overflow: hidden; 
-    width: 80%; 
+    width: 72%; 
     font-size: 0.8em;
     height: 1.5em;
     line-height: 1.5em;
@@ -70,6 +79,8 @@ var autoTextarea = function (elem, extra, maxHeight) {
  
         elem.style.resize = 'none';
         var elem_submit = document.getElementById("comment_submit");
+        var elem_pick = document.getElementById("pick_div");
+        var elem_a = document.getElementById("a_div");
 
         var change = function () {
                 var scrollTop, height,
@@ -84,8 +95,19 @@ var autoTextarea = function (elem, extra, maxHeight) {
                 };
                 scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
                 elem.style.height = minHeight + 'px';
-
                 elem_submit.style.height = minHeight + 'px';
+
+                if(null != elem_pick){
+                    elem_pick.style.height      = minHeight + 'px';
+                    elem_pick.style.lineHeight  = minHeight + 'px';
+                }
+                
+
+                if(null != elem_a){
+                    elem_a.style.height     = minHeight + 'px';
+                    elem_a.style.lineHeight = minHeight + 'px';
+                }
+                
                 if (elem.scrollHeight > minHeight) {
                         if (maxHeight && elem.scrollHeight > maxHeight) {
                                 height = maxHeight - padding;
@@ -101,6 +123,16 @@ var autoTextarea = function (elem, extra, maxHeight) {
                         elem.currHeight = parseInt(style.height);
                         
                         elem_submit.style.height = elem.offsetHeight + 'px';
+
+                        if(null != elem_pick){
+                            elem_pick.style.height      = elem.offsetHeight + 'px';
+                            elem_pick.style.lineHeight  = elem.offsetHeight + 'px';
+                        }
+
+                        if(null != elem_a){
+                            elem_a.style.height     = elem.offsetHeight + 'px';
+                            elem_a.style.lineHeight = elem.offsetHeight + 'px';
+                        }
                 };
         };
  
@@ -118,8 +150,14 @@ var autoTextarea = function (elem, extra, maxHeight) {
        <div class="comment_form_div">
         <form method="post" action="do.php?act=comment_submit" onsubmit="return validate_form();">
             <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
-            <input type="submit" value="发表" id="comment_submit" class="postBtn" />
+            <input type="submit" value="发表" id="comment_submit" class="comment_submit" />
+
+            <?php if(0 == $is_user_paper){?>
+            <a href="#" id="a_div"><input type="button" value="我抢" class="pick_div" id="pick_div"/></a>
+            <?php }?>
             <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>
+            <!-- 普通评论类型，与我抢私信类型向对应 -->
+            <input name="comment_type" value="0" type="hidden"/>
         </form>
     </div> 
     </div>
@@ -132,6 +170,14 @@ var autoTextarea = function (elem, extra, maxHeight) {
         //验证表单
         function validate_form()
         {
+            var user_id = <?php echo $is_user_logon; ?>;
+
+            if(false == user_id)
+            {
+                alert("未登录,请先登录才可以参与评论哦!");
+                return false;
+            }
+
             var comment_content = document.getElementById('comment_textarea').value;
             if("" == comment_content.replace(/(^\s*)|(\s*$)/g, ""))
             {
@@ -139,6 +185,13 @@ var autoTextarea = function (elem, extra, maxHeight) {
                 return false;
             }
             return true;
+        }
+
+        var is_user_paper = <?php echo $is_user_paper;?>;
+        if(true == is_user_paper)
+        {
+            var comment_submit = document.getElementById("comment_submit");
+            comment_submit.style.width = "28%";
         }
     </script>
 </div>

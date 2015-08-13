@@ -25,7 +25,20 @@
     //从数据库中取出纸条信息
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
-    
+
+    //用户id
+    $user_id = get_session('user_id');
+
+    //临时设置默认用户id为1, flag:temporary
+    $user_id = 1;
+    set_session('user_id', $user_id);
+
+    //用户是否登录
+    $is_user_logon = (null==$user_id) ? 0 : $user_id;
+    //是否为本人发的帖子
+    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -39,7 +52,7 @@
 <meta name="viewport" content="width=device-width" />
 <style type="text/css">
 body{
-    font-size: 0.6em;
+    font-size: 0.8em;
 }
 .paper{
     width:100%;

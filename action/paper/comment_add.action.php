@@ -3,6 +3,7 @@
 	$pu_langpackage=new publiclp;
 	//变量取得
 	$comment_content = get_argp("comment_content");
+	$comment_type = intval(get_argp("comment_type"));
 
 	$user_id = get_session('user_id');
 	$paper_id = get_argp("paper_id");
@@ -18,10 +19,10 @@
 	//读写分离定义函数
 	dbtarget('w', $dbServs);
 
-	//insert into isns_comments (paper_id, comment_content, commenter_id, comment_time, comment_status) 
-	//value (1111111, "abc", 1, '2015-08-05 22:39:12', 0);
-	$sql = "insert into $t_comments (paper_id, comment_content, commenter_id, comment_time, comment_status) 
-	value ($paper_id, '$comment_content', $user_id, '$current_time', 0);";
+	//insert into isns_comments (paper_id, comment_content, commenter_id, comment_time, comment_status, comment_type) 
+	//value (1111111, "abc", 1, '2015-08-05 22:39:12', 0, 1);
+	$sql = "insert into $t_comments (paper_id, comment_content, commenter_id, comment_time, comment_status, comment_type) 
+	value ($paper_id, '$comment_content', $user_id, '$current_time', 0, $comment_type)";
 
 	if($dbo->exeUpdate($sql)){
 		action_return(1,'','modules.php?app=paper_show_detail&paper_id='.$paper_id);

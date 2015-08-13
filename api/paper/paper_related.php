@@ -1,4 +1,5 @@
 <?php
+	//获得用户参与的纸条信息
 	function paper_related_get_user_comments($user_id)
 	{
 		global $tablePreStr;
