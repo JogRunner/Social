@@ -17,6 +17,9 @@
  -->
  <style>
 
+		.info-page{background-color: #ccc;padding:0.5em 2em;}
+		.info-item{border-radius: 0.4em;margin: 1em 0;}
+
 		/*信息状态样式*/
 		.info-status{padding: 0.5em;font-weight: 800;border-bottom: 0.1em solid gray;background-color: green;}
 		.status-detail{float:left;margin-left: 2em;font-size: 1.2em;}
@@ -91,15 +94,15 @@
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="skin/social/imgs/all/{echo:(array_key_exists('user_ico',$data) && !empty($data['user_ico']))?$data['user_ico']:'signup_avatar.png';/}"/>
+						<img src="skin/social/imgs/all/{echo:(array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';/}"/>
 					</div>
 					<div class="author-detail">
 						<div class="author-detail-name">
-							<span>{echo:empty($data['user_nickname'])?'匿名':$data['user_nickname'];/}</span>
+							<span>{echo:empty($value['user_nickname'])?'匿名':$value['user_nickname'];/}</span>
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> {echo: array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;/}km</span>
+							<span> {echo: array_key_exists('distance_to_me',$value)?$value['distance_to_me']:0;/}km</span>
 						</div>
 					</div>
 					<div class="clearboth"></div>
@@ -137,23 +140,27 @@
 			</a>
 			<div class="clearboth"></div>
 
-			{sta:if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user) && array_key_exists($cur_user,$data))[exc]}
+			{sta:if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user))[exc]}
+			{sta:foreach($value['comments'] as $comment_key => $comment_val)[loop]}
+			{sta:if($comment_val['commenter'] == $cur_user)[exc]}
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
 						<span class="author-me-label"> 我的回复：</span>
 						<span class="author-me-status">
-							{echo:get_reply_str($data[$cur_user]['comment_status']);/}
+							{echo:get_reply_str($comment_val['comment_status']);/}
 						</span>
 						<div class="clearboth"></div>
 					</div>
 					<div class="my-comment-content">
-						<p>{echo:$data[$cur_user]['comment_content'];/}</p>
+						<p>{echo:$comment_val['comment_content'];/}</p>
 					</div>
 
 				</div>
 			</div>
 			<div class="clearboth"></div>
+			{end:if/}
+			{end:foreach/}
 			{end:if/}
 
 			{sta:if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item")))[exc]}
@@ -161,7 +168,7 @@
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
-					{sta:foreach($data['comments'] as $comment_key => $comment_val)[loop]}
+					{sta:foreach($value['comments'] as $comment_key => $comment_val)[loop]}
 					<div class="comment-item">
 						<div class="comment-content">
 							<p> {echo:$comment_val['comment_content'];/}</p>

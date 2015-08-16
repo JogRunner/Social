@@ -90,6 +90,7 @@ $appArray=array(
 		   "paper_show_detail" => 'modules/paper/paper_show_detail.php',
 		   "send_help_paper" => 'modules/paper/send_help_paper.php',
 		   "user_settings" => 'modules/paper/social_user_setting.php',
+		   "paper_item" => 'modules/paper/show_paper_item.php',
        );
 
 $appId=getAppId();
