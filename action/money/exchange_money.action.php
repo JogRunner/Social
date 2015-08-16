@@ -5,14 +5,10 @@
 	$user_id = get_session('user_id');
 	$user_point = get_session('user_point');
 
-	echo $user_point;
-
 	//兑换红包消耗10点积分
 	$consume_point = 10;
 	//使用积分兑换红包
 	$user_point -= $consume_point;
-
-	echo $user_point;
 
 	global $tablePreStr;
 	$t_users = $tablePreStr."users";
@@ -26,7 +22,6 @@
 	$update_user_point_sql = "update $t_users set user_point=$user_point where user_id=$user_id";
 	if($dbo->exeUpdate($update_user_point_sql))
 	{
-		
 		//更新session值
 		set_session('user_point', $user_point);
 		//用户兑换记录
