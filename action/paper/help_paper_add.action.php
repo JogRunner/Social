@@ -69,10 +69,10 @@
 		if($dbo->exeUpdate($sql)){
 			//执行成功返回到我发的纸条界面
 			action_return(1,'','modules.php?app=user_settings');
-		}else
-		{
-			action_return(0, 'error', '-3');
-		}
+	}else
+	{
+		action_return(0, 'error', '-3');
+	}
 	}
 
 ?>

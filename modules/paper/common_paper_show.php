@@ -51,9 +51,10 @@
 		/*纸条交互样式*/
 		.info-interchange{padding:0.5em 1em;background-color: #cdf;line-height: 1.5em;height: 1.5em;border-bottom: 0.1em dotted #fa3;}
 		.info-interchange img{width:1.2em;height: 1.2em; position: relative; top:0.15em;}
-		.left-interchange-record{float:left;}
-		.right-interchange-record{float: right;}
-		.left-interchange-record span{margin-left: 0.2em;}
+		.left-interchange-record{float:left;padding: 0 0.5em;}
+		.right-interchange-record{float:right;padding: 0 0.5em;}
+
+		.right-pick-paper-record{float:right;padding: 0 0.5em;}
 
 		/*我参与的纸条评论样式*/
 		.current-user-comment{background-color: #cdf; padding: 0.5em 1em;}
@@ -120,7 +121,7 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<a href="<?php echo in_array($main_key,array('show_all_comment','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_item&paper_id='.$value['paper_id'];?>">
+			<a href="<?php echo in_array($main_key,array('show_all_comment','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
@@ -139,10 +140,17 @@
 							<img src="skin/social/imgs/all/note_pt_feiji.png">
 							<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
 						</div>
+
+						<div class="right-pick-paper-record">
+							<img src="skin/social/imgs/all/pick_paper_button.png"/>
+							<span> <?php echo $value['pick_count']?$value['pick_count']:0;?> </span>
+						</div>
+
 						<div class="right-interchange-record">
 							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-							<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
+							<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
 						</div>
+						
 						<div class="clearboth"></div>
 					</div>
 				</div>
