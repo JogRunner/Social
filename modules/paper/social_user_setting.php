@@ -27,7 +27,6 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	//临时设置用户id, flag:temporary
 	$user_id = 1;
 	set_session('user_id', $user_id);
 	
@@ -55,6 +54,9 @@
 		}
 	}
 
+	//标题栏文字信息
+	$title_label = '我的纸条库';
+	
 	function get_status($status_code)
 	{
 		if($status_code)
@@ -104,33 +106,68 @@
 		}
 		.nondisplay{display: none;}
 </style>
+<style>
+    /*全局样式 */
+	body,html,*{margin:0;padding:0;}
+	a{text-decoration: none;color: black;}
 
+	/*用户显示区域*/
+	.user-info{background: url('skin/social/imgs/all/user_setting_background.png');
+		filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size: 100% 100%;padding-top:1em;padding-bottom: 1em;}
+	 .user-info-wrap{}
+	 .user-head-img{text-align: center;width:100%;}
+	 .user-head-img img{width:15%;height: 15%;}
+
+	 .user-text-info{text-align: center; font-size: 1.4em; color:white;font-weight: 900;letter-spacing: 0.2em;margin-top: 0.5em;margin-bottom: 1em;}
+
+	 /*菜单样式区域 */
+	.setting-menu{width:100%;font-size:1.2em;float:left;letter-spacing: 0.1em;font-weight: bold;}
+	.setting-menu-item{width: 33.3%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
+	.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid yellow;}
+	.unselected{position: relative;bottom: -0.3em; border-bottom: 2px solid white;}
+
+	.title{
+		width: 100%;
+		display: block;
+		padding:1.3em 0em;
+		text-align: center;
+		background: #FC9;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+
+	.title_back{
+		background: #FF6600;
+		position: fixed;
+		top:0.9em;
+		left: 1em;
+		padding: 0.3em 0.3em;
+
+		/*padding:10px; width:300px; height:50px;*/
+	    border: 0.2em solid #dedede;
+	    -moz-border-radius: 1em;      /* Gecko browsers */
+	    -webkit-border-radius: 1em;   /* Webkit browsers */
+	    border-radius:1em;            /* W3C syntax */
+	}
+
+	.title_pick{
+		margin: 0 auto;
+		display: inline-block;
+	}
+
+	.gap{
+		height: 4em;
+	}
+</style>
 </head>
 <body>
-	<style>
-	    /*全局样式 */
-		body,html,*{margin:0;padding:0;}
-		a{text-decoration: none;color: black;}
-
-		/*用户显示区域*/
-		.user-info{background: url('skin/social/imgs/all/user_setting_background.png');
-			filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size: 100% 100%;padding-top:1em;padding-bottom: 1em;}
-		 .user-info-wrap{}
-		 .user-head-img{text-align: center;width:100%;}
-		 .user-head-img img{width:15%;height: 15%;}
-
-		 .user-text-info{text-align: center; font-size: 1.4em; color:white;font-weight: 900;letter-spacing: 0.2em;margin-top: 0.5em;margin-bottom: 1em;}
-
-		 /*菜单样式区域 */
-		.setting-menu{width:100%;font-size:1.2em;float:left;letter-spacing: 0.1em;font-weight: bold;}
-		.setting-menu-item{width: 33.3%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
-		.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid yellow;}
-		.unselected{position: relative;bottom: -0.3em; border-bottom: 2px solid white;}
-
-		.info-page{background-color: #ccc;padding:0.5em 2em;}
-		.info-item{border-radius: 0.4em;margin: 1em 0;}
-
-	</style>
+	
+	<span class="title">
+		<a href="javascript:history.go(-1);" class="title_back">返回</a>
+		<div class="title_pick"><?php echo $title_label; ?></div>
+	</span>
+	<div class="gap"></div>
 	<!-- 用户信息显示区域-->
 	<div class="user-info">
 		<div class="user-info-wrap">

@@ -13,7 +13,7 @@
 ?><?php
 require("foundation/module_lang.php");
 ?><style>
-.foot{position:fixed; left:0; right:0; bottom:0; width:100%; background: #fff;}
+.foot{position:fixed; left:0; bottom:0; width:100%; background: #fff;}
 
 .comment_div {float: left;width: 100%;}     
 .comment_form_div {width: 100%;background-color: #fff;color:#aaa;margin-top:1em;border-top: 1px solid #aaa;border-bottom: 1px solid #aaa;} 
@@ -101,13 +101,13 @@ var autoTextarea = function (elem, extra, maxHeight) {
                     elem_pick.style.height      = minHeight + 'px';
                     elem_pick.style.lineHeight  = minHeight + 'px';
                 }
-                
+             
 
                 if(null != elem_a){
                     elem_a.style.height     = minHeight + 'px';
                     elem_a.style.lineHeight = minHeight + 'px';
                 }
-                
+
                 if (elem.scrollHeight > minHeight) {
                         if (maxHeight && elem.scrollHeight > maxHeight) {
                                 height = maxHeight - padding;

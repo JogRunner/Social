@@ -16,6 +16,8 @@
 
 	$user_id = get_session("user_id");
 	//如果user_id为null判断为用户未登录，这时候需要跳转到登录界面
+	//标题栏文字
+	$title_label = '写纸条';
 	
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -114,7 +116,7 @@
 		-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
 		text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 		border-bottom: 1px solid rgba(0,0,0,0.25);
-		position: relative;
+		
 		cursor: pointer;
 	}
 	.pink.button, .magenta.button:visited	{ background-color: #e22092; }
@@ -158,11 +160,49 @@
 	.last-datetime>.datetime-value{float:right: }
 	.last-datetime>.datetime-value>input{float:right;margin-right:2em;}
 
+	.title{
+		width: 100%;
+		display: block;
+		padding:1.3em 0em;
+		text-align: center;
+		background: #FC9;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+
+	.title_back{
+		background: #FF6600;
+		position: fixed;
+		top:0.9em;
+		left: 1em;
+		padding: 0.3em 0.3em;
+
+		/*padding:10px; width:300px; height:50px;*/
+	    border: 0.2em solid #dedede;
+	    -moz-border-radius: 1em;      /* Gecko browsers */
+	    -webkit-border-radius: 1em;   /* Webkit browsers */
+	    border-radius:1em;            /* W3C syntax */
+	}
+
+	.title_pick{
+		margin: 0 auto;
+		display: inline-block;
+	}
+
+	.gap{
+		height: 4em;
+	}
 </style>
 
 </head>
 
 <body>
+	<span class="title">
+		<a href="javascript:history.go(-1);" class="title_back">返回</a>
+		<div class="title_pick"><?php echo $title_label; ?></div>
+	</span>
+	<div class="gap"></div>
 	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data" onsubmit="return validate_form(this);">
 		<div class="write-item">
 			<div class="left-nav">

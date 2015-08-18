@@ -42,6 +42,9 @@
 		}
 	}
 
+	//标题栏文字信息
+	$title_label = '我的纸条库';
+
 	function get_status($status_code)
 	{
 		if($status_code)
