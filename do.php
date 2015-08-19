@@ -101,6 +101,8 @@ $actArray=array(
     "exchange_money" => array("action/money/exchange_money.action.php"),
     //发送求助纸条
     "help_paper_submit" => array("action/paper/help_paper_add.action.php"),
+    //请求抢纸条理由
+    "pick_paper_submit" =>  array("action/paper/pick_paper_add.action.php"),
 );
 $actId=getActId();
 $free_act_array=array("login","reg","logout","pr_access_login","photo_upl_flash","user_forget","user_pw_change");

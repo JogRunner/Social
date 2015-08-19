@@ -7,9 +7,7 @@
 	//判断用户是否登录
 	if(null == $user_id)
 	{
-		//暂时直接指定，后序需要跳转页面登录
-		$user_id = 1;
-		set_session('user_id', $user_id);
+		echo "<script>alert('null == \$user_id');</script>";
 	}
 
 	/*表单提交的数据*/

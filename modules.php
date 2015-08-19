@@ -91,6 +91,7 @@ $appArray=array(
 		   "send_help_paper" => 'modules/paper/send_help_paper.php',
 		   "user_settings" => 'modules/paper/social_user_setting.php',
 		   "paper_item" => 'modules/paper/show_paper_item.php',
+		   "paper_pick" => 'modules/paper/pick_paper_reason.php',
        );
 
 $appId=getAppId();

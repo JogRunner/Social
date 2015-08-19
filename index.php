@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /*
  * 注意：此文件由tpl_engine编译型模板引擎编译生成。
  * 如果您的模板要进行修改，请修改 templates/default/index.html

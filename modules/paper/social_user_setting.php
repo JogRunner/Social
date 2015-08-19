@@ -56,7 +56,7 @@
 
 	//标题栏文字信息
 	$title_label = '我的纸条库';
-	
+
 	function get_status($status_code)
 	{
 		if($status_code)
@@ -106,6 +106,7 @@
 		}
 		.nondisplay{display: none;}
 </style>
+
 <style>
     /*全局样式 */
 	body,html,*{margin:0;padding:0;}
@@ -125,7 +126,7 @@
 	.setting-menu-item{width: 33.3%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
 	.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid yellow;}
 	.unselected{position: relative;bottom: -0.3em; border-bottom: 2px solid white;}
-
+	
 	.title{
 		width: 100%;
 		display: block;
@@ -160,14 +161,13 @@
 		height: 4em;
 	}
 </style>
+
 </head>
 <body>
-	
 	<span class="title">
 		<a href="javascript:history.go(-1);" class="title_back">返回</a>
 		<div class="title_pick"><?php echo $title_label; ?></div>
 	</span>
-	<div class="gap"></div>
 	<!-- 用户信息显示区域-->
 	<div class="user-info">
 		<div class="user-info-wrap">

@@ -41,7 +41,7 @@
 
     //是否为本人发的帖子
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
-
+    
     //标签
     $title_label = '我的纸条';
 
@@ -182,6 +182,7 @@ a{
 .comment-item .comment-user-info .right-user{margin-right: 0.5em; float: right;}
 .comment-item-span{height: 0.5em; width: 100%; background-color: #F5E8CF;}
 </style>
+
 </head>
 <body>
     <span class="title">
