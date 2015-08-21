@@ -111,7 +111,7 @@
 			<div class="clearboth"></div>
 			{sta:if/}
 
-			<a href="{echo:in_array($main_key,array('show_all_comment','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_item&paper_id='.$value['paper_id'];/}">
+			<a href="{echo:in_array($main_key,array('show_all_comments','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_item&paper_id='.$value['paper_id'];/}">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
@@ -163,13 +163,27 @@
 			{end:foreach/}
 			{end:if/}
 
-			{sta:if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item")))[exc]}
+			{sta:if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item, "show_user_send_paper_item")))[exc]}
 			<div class="info-comment">
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
 					{sta:foreach($value['comments'] as $comment_key => $comment_val)[loop]}
 					<div class="comment-item">
+<!-- 评论处理 -->
+						{sta:if( ($main_key == "show_user_send_paper_item") && 
+						 ($comment_val['commenter'] != $cur_user) && 
+						 ($comment_val['comment_type'] == 1) &&
+						 ($value['paper_status']) != 0)[exc]}
+						<div class="comment-handle">
+							<div class="comment-handle-btns">
+								<a href="#"><span id="accept">接受</span></a>
+								<a href="#"><span id="add-friend">加为好友</span></a>
+								<a href="#"><span id="thankds">谢谢</span></a>
+							</div>
+						</div>
+					    {end:if/}
+
 						<div class="comment-content">
 							<p> {echo:$comment_val['comment_content'];/}</p>
 						</div>

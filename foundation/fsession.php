@@ -137,4 +137,12 @@ function get_sess_rights()
 {
 	return get_session('rights');
 }
+function set_sess_weixin_openid($v)
+{
+	set_session('weixin_openid',$v);
+}
+function get_sess_weixin_openid()
+{
+	return get_session('weixin_openid');
+}
 ?>

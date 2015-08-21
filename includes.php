@@ -68,4 +68,6 @@ require_once($webRoot."foundation/fgetandpost.php");
 
 //权限验证
 require_once($webRoot."foundation/fcheck_rights.php");
+
+require_once($webRoot."foundation/wechat.class.php");
 ?>
