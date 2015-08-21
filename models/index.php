@@ -14,4 +14,7 @@
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
 	$all_papers=api_proxy('paper_get_all_papers');
+	//标签
+	$title_label = '广场';
+
 ?>

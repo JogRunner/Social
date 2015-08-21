@@ -7,9 +7,7 @@
 	//判断用户是否登录
 	if(null == $user_id)
 	{
-		//暂时直接指定，后序需要跳转页面登录
-		$user_id = 1;
-		set_session('user_id', $user_id);
+		echo "<script>alert('null == \$user_id');</script>";
 	}
 
 	/*表单提交的数据*/
@@ -69,10 +67,10 @@
 		if($dbo->exeUpdate($sql)){
 			//执行成功返回到我发的纸条界面
 			action_return(1,'','modules.php?app=user_settings');
-		}else
-		{
-			action_return(0, 'error', '-3');
-		}
+	}else
+	{
+		action_return(0, 'error', '-3');
+	}
 	}
 
 ?>

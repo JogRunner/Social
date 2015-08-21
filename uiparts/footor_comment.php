@@ -20,12 +20,15 @@ require("foundation/module_lang.php");
 .comment_form_div .comment_submit {width: 14%; color: #808080; cursor: pointer;border: 0;float: left;background: #efefef;}     
 .comment_form_div .comment_submit:hover {color: #333;background-color: #efefef;}
 
-.comment_form_div .pick_div{
+.comment_form_div .a_div{
+    display: inline-block;
     float: right;
     width: 14%;
     color: #808080;
     background: #ccc;
     border: 0;
+    text-align: center;
+
 }
 
 .comment_form_div .pick_div:hover {color: #333;background-color: #efefef;}
@@ -97,12 +100,6 @@ var autoTextarea = function (elem, extra, maxHeight) {
                 elem.style.height = minHeight + 'px';
                 elem_submit.style.height = minHeight + 'px';
 
-                if(null != elem_pick){
-                    elem_pick.style.height      = minHeight + 'px';
-                    elem_pick.style.lineHeight  = minHeight + 'px';
-                }
-                
-
                 if(null != elem_a){
                     elem_a.style.height     = minHeight + 'px';
                     elem_a.style.lineHeight = minHeight + 'px';
@@ -123,11 +120,6 @@ var autoTextarea = function (elem, extra, maxHeight) {
                         elem.currHeight = parseInt(style.height);
                         
                         elem_submit.style.height = elem.offsetHeight + 'px';
-
-                        if(null != elem_pick){
-                            elem_pick.style.height      = elem.offsetHeight + 'px';
-                            elem_pick.style.lineHeight  = elem.offsetHeight + 'px';
-                        }
 
                         if(null != elem_a){
                             elem_a.style.height     = elem.offsetHeight + 'px';
@@ -153,7 +145,7 @@ var autoTextarea = function (elem, extra, maxHeight) {
             <input type="submit" value="发表" id="comment_submit" class="comment_submit" />
 
             <?php if(0 == $is_user_paper){?>
-            <a href="#" id="a_div"><input type="button" value="我抢" class="pick_div" id="pick_div"/></a>
+            <a href="modules.php?app=paper_pick&paper_id=<?php echo $paper_id;?>&title_type=1" id="a_div" class="a_div">我抢</a>
             <?php }?>
             <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>
             <!-- 普通评论类型，与我抢私信类型向对应 -->

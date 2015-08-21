@@ -17,10 +17,20 @@
     //用户id
     $user_id = get_session('user_id');
 
-    //临时设置默认用户id为1
-    $user_id = 1;
+    //用户未登录，暂时设定为固定id
+    if(null == $user_id)
+    {
+        $user_id = 1;
+        set_session('user_id', $user_id);
+    }
+
+    //判断用户是否已经登录
+    $is_user_logon = (null == $user_id) ? 0 : $user_id;
 
     //是否为本人发的帖子
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+    
+    //标签
+    $title_label = '我的纸条';
 
 ?>

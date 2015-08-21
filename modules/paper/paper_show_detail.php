@@ -29,15 +29,21 @@
     //用户id
     $user_id = get_session('user_id');
 
-    //临时设置默认用户id为1, flag:temporary
-    $user_id = 1;
-    set_session('user_id', $user_id);
+    //用户未登录，暂时设定为固定id
+    if(null == $user_id)
+    {
+        $user_id = 1;
+        set_session('user_id', $user_id);
+    }
 
-    //用户是否登录
-    $is_user_logon = (null==$user_id) ? 0 : $user_id;
+    //判断用户是否已经登录
+    $is_user_logon = (null == $user_id) ? 0 : $user_id;
+
     //是否为本人发的帖子
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
-
+    
+    //标签
+    $title_label = '我的纸条';
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -103,6 +109,18 @@ body{
     border-top: 1px dashed black;
     border-bottom: 1px dashed black;
 }
+
+.info-interchange{padding:0.5em 1em;background-color: #cdf;line-height: 1.5em;height: 1.5em;border-bottom: 0.1em dashed black;}
+.info-interchange img{width:1.2em;height: 1.2em; position: relative; top:0.15em;}
+.left-interchange-record{float:left;padding: 0 0.5em;}
+.right-interchange-record{float:right;padding: 0 0.5em;}
+
+.right-pick-paper-record{float:right;padding: 0 0.5em;}
+
+a{
+    text-decoration: none;
+}
+
 .clear{
     clear:both;
 }
@@ -120,6 +138,41 @@ body{
     margin-bottom:8em;
 }
 
+.title{
+    width: 100%;
+    display: block;
+    padding:1.3em 0em;
+    text-align: center;
+    background: #FC9;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.title_back{
+    background: #FF6600;
+    position: fixed;
+    top:0.9em;
+    left: 1em;
+    padding: 0.3em 0.3em;
+
+    /*padding:10px; width:300px; height:50px;*/
+    border: 0.2em solid #dedede;
+    -moz-border-radius: 1em;      /* Gecko browsers */
+    -webkit-border-radius: 1em;   /* Webkit browsers */
+    border-radius:1em;            /* W3C syntax */
+}
+
+.title_pick{
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.gap{
+    height: 4em;
+}
+
+
 .info-comment{}
 .comment-item{border-bottom: 0.1em solid gray;background-color: #F5E8CF; margin-bottom: 0.5em;}
 .comment-item .comment-content{padding: 0.5em 1em;  }
@@ -130,10 +183,14 @@ body{
 .comment-item-span{height: 0.5em; width: 100%; background-color: #F5E8CF;}
 </style>
 
-
-
 </head>
 <body>
+    <span class="title">
+        <a href="javascript:history.go(-1);" class="title_back">返回</a>
+        <div class="title_pick"><?php echo $title_label; ?></div>
+    </span>
+    <div class="gap"></div>
+
     <div class="paper">
     <div class="paper_head">
         <img src="pictures/<?php echo $paper_detail_rs['user_ico'] ?>" class="head"/>
@@ -148,6 +205,30 @@ body{
             <img class="paper_img" src="<?php echo $paper_detail_rs['picture'];?>" />
         </div>
         <div class="text_content"><?php echo $paper_detail_rs['content']?></div>
+
+        <div class="info-interchange">
+            <div class="info-interchange-wrap">
+                <div class="left-interchange-record">
+                    <img src="skin/social/imgs/all/note_pt_feiji.png">
+                    <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
+                </div>
+
+                <div class="right-pick-paper-record">
+                    <?php if(1 == $is_user_paper){?><a href="#"><?php } ?>
+                    <img src="skin/social/imgs/all/pick_paper_button.png"/>
+                    <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
+                    <?php if(1 == $is_user_paper){?></a><?php } ?>
+                </div>
+
+                <div class="right-interchange-record">
+                    <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
+                    <span> <?php echo $paper_detail_rs['public_count']?$paper_detail_rs['public_count']:0;?> </span>
+                </div>
+                
+                <div class="clearboth"></div>
+            </div>
+        </div>
+
     </div>
     <div class="clear"></div>
     
