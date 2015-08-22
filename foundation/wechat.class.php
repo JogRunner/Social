@@ -109,7 +109,7 @@ class wechat
         }
     }
 
-    private function createMenu()
+    public function createMenu()
     {
         $data = '{
                      "button":[
@@ -130,11 +130,11 @@ class wechat
                       }
                     ]
                 }';
-
+        echo $data;
         $access_token = $this->fileGetWeixinToken();
         $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token['access_token'];
-
-        $this->curl_request($url, $data);
+        echo $url;
+        echo $this->curl_request($url, $data);
     }
 
     function curl_request($url , $postFields = NULL){
