@@ -88,6 +88,7 @@
 
 		$res = $dbo->getRow($querySql);
 
+		file_put_contents($log, "\nSave User ".$user_openid." Session Sql Query: ".$querySql." Query Res: ".(empty($res)?"NULL":"Not NULL"), FILE_APPEND);
 		if(!empty($res))
 		{
 			set_sess_userid($res['user_id']);
@@ -95,6 +96,8 @@
 			set_sess_username($res['user_nickname']);
 			set_sess_userico($res['user_ico']);
 			set_sess_online('0');
+
+			file_put_contents($log, "\n Save User Name: ". $res['user_nickname'], FILE_APPEND);
 		}
 	}
 
