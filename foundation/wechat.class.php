@@ -109,6 +109,34 @@ class wechat
         }
     }
 
+    private function createMenu()
+    {
+        $data = '{
+                     "button":[
+                     {  
+                          "type":"view",
+                          "name":"纸条库",
+                          "url":"http://52.74.218.115/Social/index.php"
+                      },
+                     {  
+                          "type":"view",
+                          "name":"我帖",
+                          "url":"http://52.74.218.115/Social/modules.php?app=send_help_paper"
+                      },
+                     {  
+                          "type":"view",
+                          "name":"设置",
+                          "url":"http://52.74.218.115/Social/modules.php?app=user_settings"
+                      }
+                    ]
+                }';
+
+        $access_token = $this->fileGetWeixinToken();
+        $url = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=".$access_token['access_token'];
+
+        $this->curl_request($url, $data);
+    }
+
     function curl_request($url , $postFields = NULL){
        $ch = curl_init();
         curl_setopt( $ch , CURLOPT_TIMEOUT , 3 );
@@ -141,7 +169,12 @@ class wechat
             } else {
                 curl_setopt( $ch , CURLOPT_POSTFIELDS , $postFields );
             }
+        }else if(!empty($postFields))
+        {
+            curl_setopt( $ch , CURLOPT_POST , TRUE );
+            curl_setopt( $ch , CURLOPT_POSTFIELDS , $postFields );    
         }
+
         $reponse = curl_exec( $ch );
         curl_close( $ch );
         return $reponse;
