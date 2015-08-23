@@ -27,7 +27,7 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	if(empty(get_sess_userid()))
+	/*if(empty(get_sess_userid()))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
@@ -40,8 +40,21 @@
 		exit;
 	}	
 
-	set_session('user_id', $user_id);
-	
+	set_session('user_id', $user_id);*/
+
+	$user_id = get_session('user_id');
+	$user_name = get_session('user_name');
+	if(null == $user_name)
+	{
+		$user_name = api_proxy('user_get_user_name', $user_id);
+		if(null == $user_name)
+		{
+			header("location:error.php");
+			exit;
+		}
+		set_session("user_name", $user_name);
+	}
+
 	if($main_key == "show_user_send_papers")
 	{
 		//用户发出的纸条
@@ -189,7 +202,7 @@
 			<div class="user-text-info">
 				<div class="user-name-area">
 					<!--<span> 昵称:&nbsp;&nbsp; </span>-->
-					<span id = "user-name">龚谦</span>
+					<span id = "user-name"><?php echo $user_name;?></span>
 				</div>
 				<!--
 				<div class="user-school-area">

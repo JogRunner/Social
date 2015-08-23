@@ -26,7 +26,7 @@
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
 
-    if(empty(get_sess_userid()))
+    /*if(empty(get_sess_userid()))
     {
         $code = get_argg('code');
         if(!empty($code))
@@ -37,7 +37,7 @@
     {
         header("location:error.php");
         exit;
-    }
+    }*/
 
     //用户id
     $user_id = get_session('user_id');
