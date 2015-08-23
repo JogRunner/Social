@@ -1,5 +1,6 @@
 <?php
-
+	header("content-type:text/html;charset=utf-8");
+	
 	$cur_menu = '3';
 	$main_key = get_argg('main_key');
 	if(!$main_key) $main_key = "show_user_send_papers";
@@ -15,11 +16,16 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	/*if(empty(get_sess_userid()))
+	if(empty(get_sess_userid()))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
 			save_weixin_session($code);
+	}
+	f($local_debug)
+	{
+		set_sess_username("FanJian");
+		set_sess_userid("1");
 	}
 
 	if(empty(get_sess_userid()))
@@ -28,20 +34,23 @@
 		exit;
 	}	
 
-	set_session('user_id', $user_id);*/
+	$user_id = get_sess_userid();
+	$user_name = get_sess_username();
 
-	$user_id = get_session('user_id');
-	$user_name = get_session('user_name');
-	if(null == $user_name)
-	{
-		$user_name = api_proxy('user_get_user_name', $user_id);
-		if(null == $user_name)
-		{
-			header("location:error.php");
-			exit;
-		}
-		set_session("user_name", $user_name);
-	}
+	// set_session('user_id', $user_id);
+
+	// $user_id = get_session('user_id');
+	// $user_name = get_session('user_name');
+	// if(null == $user_name)
+	// {
+	// 	$user_name = api_proxy('user_get_user_name', $user_id);
+	// 	if(null == $user_name)
+	// 	{
+	// 		header("location:error.php");
+	// 		exit;
+	// 	}
+	// 	set_session("user_name", $user_name);
+	// }
 
 	if($main_key == "show_user_send_papers")
 	{
