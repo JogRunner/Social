@@ -1,5 +1,4 @@
- 
- <!--
+<!--
 	使用规则：
 	$data //数据
 
@@ -16,9 +15,6 @@
 	$data['comments'][key]['commenter']
  -->
  <style>
-
-		.info-page{background-color: #ccc;padding:0.5em 2em;}
-		.info-item{border-radius: 0.4em;margin: 1em 0;}
 
 		/*信息状态样式*/
 		.info-status{padding: 0.5em;font-weight: 800;border-bottom: 0.1em solid gray;background-color: green;}
@@ -42,9 +38,10 @@
 		/*纸条交互样式*/
 		.info-interchange{padding:0.5em 1em;background-color: #cdf;line-height: 1.5em;height: 1.5em;border-bottom: 0.1em dotted #fa3;}
 		.info-interchange img{width:1.2em;height: 1.2em; position: relative; top:0.15em;}
-		.left-interchange-record{float:left;}
-		.right-interchange-record{float: right;}
-		.left-interchange-record span{margin-left: 0.2em;}
+		.left-interchange-record{float:left;padding: 0 0.5em;}
+		.right-interchange-record{float:right;padding: 0 0.5em;}
+
+		.right-pick-paper-record{float:right;padding: 0 0.5em;}
 
 		/*我参与的纸条评论样式*/
 		.current-user-comment{background-color: #cdf; padding: 0.5em 1em;}
@@ -71,54 +68,54 @@
 	<!--信息显示页面 -->
 	<div class="info-page">
 
-		{sta:foreach($data as $key => $value)[loop]}
+		<?php foreach($data as $key => $value){?>
 		<div class="info-item">
 			
-			{sta:if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item")))[exc]}
+			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item"))){?>
 			<div class="info-status">
 				<div class="info-status-wrap">
 					<div class="status-detail">
-						<span> {echo: get_status($value['paper_status']);/}</span>
+						<span> <?php echo  get_status($value['paper_status']);?></span>
 					</div>
 					<div class="status-time">
-						<span> {echo: $value['create_time'];/} </span>
+						<span> <?php echo  $value['create_time'];?> </span>
 					</div>
 					<div class="clearboth"></div>
 				</div>
 			</div>
 
 			<div class="clearboth"></div>
-			{end:if/}
+			<?php }?>
 
-			{sta:if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item")))[exc]}
+			<?php if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item"))){?>
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="skin/social/imgs/all/{echo:(array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';/}"/>
+						<img src="pictures/<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';?>"/>
 					</div>
 					<div class="author-detail">
 						<div class="author-detail-name">
-							<span>{echo:empty($value['user_nickname'])?'匿名':$value['user_nickname'];/}</span>
+							<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> {echo: array_key_exists('distance_to_me',$value)?$value['distance_to_me']:0;/}km</span>
+							<span> <?php echo  array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;?>km</span>
 						</div>
 					</div>
 					<div class="clearboth"></div>
 				</div>
 			</div>
 			<div class="clearboth"></div>
-			{sta:if/}
+			<?php }?>
 
-			<a href="{echo:in_array($main_key,array('show_all_comments','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_item&paper_id='.$value['paper_id'];/}">
+			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">
-							<img src="{echo:$value['picture'];/}"/>
+							<img src="<?php echo $value['picture'];?>"/>
 						</div>
 						<div class="info-text">
-							<p>{echo:$value['content'];/}</p>
+							<p><?php echo $value['content'];?></p>
 						</div>
 					</div>
 				</div>
@@ -128,85 +125,74 @@
 					<div class="info-interchange-wrap">
 						<div class="left-interchange-record">
 							<img src="skin/social/imgs/all/note_pt_feiji.png">
-							<span> {echo:$value['view_count']?$value['view_count']:0;/}</span>
+							<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
 						</div>
+
+						<div class="right-pick-paper-record">
+							<img src="skin/social/imgs/all/pick_paper_button.png"/>
+							<span> <?php echo $value['pick_count']?$value['pick_count']:0;?> </span>
+						</div>
+
 						<div class="right-interchange-record">
 							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-							<span> {echo:$value['comment_count']?$value['comment_count']:0;/} </span>
+							<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
 						</div>
+						
 						<div class="clearboth"></div>
 					</div>
 				</div>
 			</a>
 			<div class="clearboth"></div>
 
-			{sta:if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user))[exc]}
-			{sta:foreach($value['comments'] as $comment_key => $comment_val)[loop]}
-			{sta:if($comment_val['commenter'] == $cur_user)[exc]}
+			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user) && array_key_exists($cur_user,$data)){?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
 						<span class="author-me-label"> 我的回复：</span>
 						<span class="author-me-status">
-							{echo:get_reply_str($comment_val['comment_status']);/}
+							<?php echo get_reply_str($data[$cur_user]['comment_status']);?>
 						</span>
 						<div class="clearboth"></div>
 					</div>
 					<div class="my-comment-content">
-						<p>{echo:$comment_val['comment_content'];/}</p>
+						<p><?php echo $data[$cur_user]['comment_content'];?></p>
 					</div>
 
 				</div>
 			</div>
 			<div class="clearboth"></div>
-			{end:if/}
-			{end:foreach/}
-			{end:if/}
+			<?php }?>
 
-			{sta:if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item, "show_user_send_paper_item")))[exc]}
+			<?php if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item"))){?>
 			<div class="info-comment">
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
-					{sta:foreach($value['comments'] as $comment_key => $comment_val)[loop]}
+					<?php foreach($data['comments'] as $comment_key => $comment_val){?>
 					<div class="comment-item">
-<!-- 评论处理 -->
-						{sta:if( ($main_key == "show_user_send_paper_item") && 
-						 ($comment_val['commenter'] != $cur_user) && 
-						 ($comment_val['comment_type'] == 1) &&
-						 ($value['paper_status']) != 0)[exc]}
-						<div class="comment-handle">
-							<div class="comment-handle-btns">
-								<a href="#"><span id="accept">接受</span></a>
-								<a href="#"><span id="add-friend">加为好友</span></a>
-								<a href="#"><span id="thankds">谢谢</span></a>
-							</div>
-						</div>
-					    {end:if/}
-
 						<div class="comment-content">
-							<p> {echo:$comment_val['comment_content'];/}</p>
+							<p> <?php echo $comment_val['comment_content'];?></p>
 						</div>
 						<div class="comment-user-info">
 							<div class="left-user">
 								<img src="">
-								<span> {echo:$comment_val['commenter']?$comment_val['commenter']:'Name';/} </span>
+								<span> <?php echo $comment_val['commenter']?$comment_val['commenter']:'Name';?> </span>
 							</div>
 							<div class="right-user">
 								<!-- <span> SYSU</span> -->
 								<!-- <span> Distance</span> -->
-								<span> {echo:$comment_val['comment_time'];/}</span>
+								<span> <?php echo $comment_val['comment_time'];?></span>
 							</div>
 						</div>
 						<div class="clearboth"></div>
 						<div class="comment-item-span"></div>
 					</div>
-					{end:foreach/}
+					<?php }?>
 
 				</div>
 			</div>
-			{end:if/}
+			<?php }?>
 
 		</div>
-		{end:foreach/}
+		<?php }?>
 	</div>

@@ -104,11 +104,11 @@
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="skin/social/imgs/all/<?php echo (array_key_exists('user_ico',$data) && !empty($data['user_ico']))?$data['user_ico']:'signup_avatar.png';?>"/>
+						<img src="pictures/<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';?>"/>
 					</div>
 					<div class="author-detail">
 						<div class="author-detail-name">
-							<span><?php echo empty($data['user_nickname'])?'匿名':$data['user_nickname'];?></span>
+							<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
@@ -121,7 +121,7 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<a href="<?php echo in_array($main_key,array('show_all_comment','show_user_comments','show_user_comment_item'))?'#':'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
+			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
 						<div class="info-img">

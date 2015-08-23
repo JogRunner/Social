@@ -144,7 +144,7 @@ var autoTextarea = function (elem, extra, maxHeight) {
             <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
             <input type="submit" value="发表" id="comment_submit" class="comment_submit" />
 
-            <?php if(0 == $is_user_paper){?>
+            <?php if(0 == $is_user_paper && 0 == $is_user_picked){?>
             <a href="modules.php?app=paper_pick&paper_id=<?php echo $paper_id;?>&title_type=1" id="a_div" class="a_div">我抢</a>
             <?php }?>
             <input name="commenter_id" value="<?php echo $is_user_logon; ?>" id="commenter_id_input"  type="hidden"/>
@@ -180,8 +180,10 @@ var autoTextarea = function (elem, extra, maxHeight) {
             return true;
         }
 
-        var is_user_paper = <?php echo $is_user_paper;?>;
-        if(true == is_user_paper)
+
+        var is_user_paper = <?php echo (1 == $is_user_paper || 1 == $is_user_picked) ? 1 : 0;?>;
+
+        if(1 == is_user_paper)
         {
             var comment_submit = document.getElementById("comment_submit");
             comment_submit.style.width = "28%";

@@ -127,8 +127,51 @@ where $t_users.user_id in (select $t_papers.user_id from $t_papers where $t_pape
 		return $paper_comments_rs;
 	}
 
+	//返回用户是否抢过指定纸条
+	function paper_get_is_user_picked( $paper_id, $user_id )
+	{
+		global $tablePreStr;
+		$t_comments = $tablePreStr."comments";
+
+		//评论类型
+		$comment_type = 1;
+
+		$result_rs = array();
+		$dbo=new dbex;
+	  	dbplugin('r');
+
+	  	$sql = "select * from $t_comments where paper_id=$paper_id and commenter_id=$user_id and comment_type=$comment_type";
+
+	  	$result_rs = $dbo->getRow($sql);
+
+	  	return (empty($result_rs)) ? 0 : 1;
+
+	}
+
+	//判断纸条是否为指定用户的
+	function paper_get_is_owned_user( $user_id, $paper_id )
+	{
+		global $tablePreStr;
+		$t_papers = $tablePreStr."papers";
+
+		//评论类型
+		$comment_type = 1;
+
+		$result_rs = array();
+		$dbo=new dbex;
+	  	dbplugin('r');
+
+	  	$sql = "select * from $t_papers where paper_id=$paper_id and user_id=$user_id";
+
+	  	$result_rs = $dbo->getRow($sql);
+
+	  	return (empty($result_rs)) ? 0 : 1;
+	}
+
 	//获得纸条的所有我抢私信信息
-	function paper_get_pick_reason( $paper_id ){
+	function paper_get_pick_reasons( $paper_id, $user_id ){
+
+		$paper_is_owned_user  = paper_get_is_owned_user($user_id, $paper_id);
 
 		global $tablePreStr;
 		$t_users	= $tablePreStr."users";
@@ -141,10 +184,28 @@ where $t_users.user_id in (select $t_papers.user_id from $t_papers where $t_pape
 		$dbo=new dbex;
 	  	dbplugin('r');
 
-		$paper_comments_sql = "select $t_users.*, $t_comments.* 
-			from $t_comments, $t_users where $t_users.user_id = $t_comments.commenter_id 
-				and $t_comments.paper_id = $paper_id and ($t_comments.comment_type=1 or $t_comments.comment_type=2) order by $t_comments.comment_time";
-
+	  	$paper_comments_sql = "";
+	  	if(1 == $paper_is_owned_user)
+	  	{
+	  		$paper_comments_sql = "select $t_users.*, $t_comments.* 
+	from $t_comments, $t_users where $t_users.user_id = $t_comments.commenter_id 
+	and $t_comments.paper_id = $paper_id and ($t_comments.comment_type=1 or $t_comments.comment_type=2) order by $t_comments.comment_time";
+	  	}else{
+	  		$paper_is_user_picked = paper_get_is_user_picked($paper_id, $user_id);
+	  		if(1 == $paper_is_user_picked)
+	  		{
+	  			/*select isns_users.*, isns_comments.* 
+from isns_comments, isns_users where isns_users.user_id = isns_comments.commenter_id and isns_comments.commenter_id = 2
+and isns_comments.paper_id = 111113 and (isns_comments.comment_type=1 or isns_comments.comment_type=2) 
+order by isns_comments.comment_time*/
+	  			$paper_comments_sql = "select $t_users.*, $t_comments.* 
+	from $t_comments, $t_users where $t_users.user_id = $t_comments.commenter_id and $t_comments.commenter_id = $user_id
+	and $t_comments.paper_id = $paper_id and ($t_comments.comment_type=1 or $t_comments.comment_type=2) order by $t_comments.comment_time";
+	  		}else{
+	  			return null;
+	  		}
+	  	}
+		
 		$paper_pick_reason_rs 	= $dbo->getALL($paper_comments_sql);
 
 		$re_pick_reasons = array();
@@ -163,4 +224,6 @@ where $t_users.user_id in (select $t_papers.user_id from $t_papers where $t_pape
 
 		return $re_pick_reasons;
 	}
+
+	
 ?>

@@ -14,7 +14,6 @@
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
 
-
     /*if(empty(get_sess_userid()))
     {
         $code = get_argg('code');
@@ -43,11 +42,20 @@
 
     //是否为本人发的帖子
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+
+
+    $is_user_picked = 0;
+    //如果该纸条不是用户所有，然后再判断用户是否抢过该纸条
+    if(0 == $is_user_paper)
+    {
+        $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+    }
     
     //标签
     $title_label = '我的纸条';
 
     //评论类型
     $comment_type = 0;
+
 
 ?>
