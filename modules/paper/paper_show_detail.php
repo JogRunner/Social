@@ -60,6 +60,7 @@
     {
         $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
     }
+
     
     //标签
     $title_label = '我的纸条';
@@ -195,13 +196,14 @@ a{
                     <img src="skin/social/imgs/all/note_pt_feiji.png">
                     <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
                 </div>
-
+                
                 <?php if(1 == $is_user_paper || 1 == $is_user_picked){?>
+
                 <div class="right-pick-paper-record">
-                    <a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>">
+                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
-                    </a>
+                    <?php if(1 == $is_user_paper){?></a><?php } ?>
                 </div>
                 <?php } ?>
 
