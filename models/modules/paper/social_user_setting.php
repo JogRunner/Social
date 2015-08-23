@@ -22,6 +22,11 @@
 		if(!empty($code))
 			save_weixin_session($code);
 	}
+	f($local_debug)
+	{
+		set_sess_username("FanJian");
+		set_sess_userid("1");
+	}
 
 	if(empty(get_sess_userid()))
 	{
