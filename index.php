@@ -23,21 +23,34 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
+	$user_id = get_sess_userid();
+
+	if(empty($user_id))
+	{
+		$code = get_argg('code');
+		if(!empty($code))
+			save_weixin_session($code);
+	}
+	if($local_debug)
+	{
+		set_sess_username("FanJian");
+		set_sess_userid("1");
+	}
+	
+	$user_id = get_sess_userid();
+	$user_name = get_sess_username();
+	
+	if(empty($user_id))
+	{
+		header("location:error.php");
+		exit;
+	}
+	
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
 	$all_papers=api_proxy('paper_get_all_papers');
 	//标签
 	$title_label = '广场';
-
-	//用户id
-    $user_id = get_session('user_id');
-
-    //用户未登录，暂时设定为固定id
-    if(null == $user_id)
-    {
-        $user_id = 2;
-        set_session('user_id', $user_id);
-    }
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

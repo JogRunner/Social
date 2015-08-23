@@ -16,26 +16,28 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	if(empty(get_sess_userid()))
+	$user_id = get_sess_userid();
+
+	if(empty($user_id))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
 			save_weixin_session($code);
 	}
-	f($local_debug)
+	if($local_debug)
 	{
 		set_sess_username("FanJian");
 		set_sess_userid("1");
 	}
-
-	if(empty(get_sess_userid()))
+	
+	$user_id = get_sess_userid();
+	$user_name = get_sess_username();
+	
+	if(empty($user_id))
 	{
 		header("location:error.php");
 		exit;
-	}	
-
-	$user_id = get_sess_userid();
-	$user_name = get_sess_username();
+	}
 
 	// set_session('user_id', $user_id);
 

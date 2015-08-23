@@ -9,7 +9,9 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 
-	if(empty(get_sess_userid()))
+	$user_id = get_sess_userid();
+
+	if(empty($user_id))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
@@ -20,8 +22,11 @@
 		set_sess_username("FanJian");
 		set_sess_userid("1");
 	}
-
-	if(empty(get_sess_userid()))
+	
+	$user_id = get_sess_userid();
+	$user_name = get_sess_username();
+	
+	if(empty($user_id))
 	{
 		header("location:error.php");
 		exit;
