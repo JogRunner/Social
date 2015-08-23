@@ -105,28 +105,36 @@ class wechat
         $user_openid = $postObj->FromUserName;
         if(!empty($user_openid))
         {
-            api_proxy('paper_related_save_user_session', $user_openid);
+            //api_proxy('paper_related_save_user_session', $user_openid);
         }
     }
 
     public function createMenu()
     {
+        $menu1 = urlencode('http://52.74.218.115/Social/index.php');
+        $menu2 = urlencode('http://52.74.218.115/Social/modules.php?app=send_help_paper');
+        $menu3 = urlencode('http://52.74.218.115/Social/modules.php?app=user_settings');
+
+        $prefix_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+        .$this->appid."&redirect_uri=";
+        $post_url = "&response_type=code&scope=snsapi_base&state=paperfromWeixin#wechat_redirect";
+
         $data = '{
                      "button":[
                      {  
                           "type":"view",
                           "name":"纸条库",
-                          "url":"http://52.74.218.115/Social/index.php"
+                          "url":"'.$prefix_url.$menu1.$post_url.'"
                       },
                      {  
                           "type":"view",
                           "name":"我帖",
-                          "url":"http://52.74.218.115/Social/modules.php?app=send_help_paper"
+                          "url":"'.$prefix_url.$menu2.$post_url'"
                       },
                      {  
                           "type":"view",
                           "name":"设置",
-                          "url":"http://52.74.218.115/Social/modules.php?app=user_settings"
+                          "url":"'.$prefix_url.$menu3.$post_url'"
                       }
                     ]
                 }';
