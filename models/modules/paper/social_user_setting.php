@@ -28,7 +28,7 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	$user_id = 1;
+	$user_id = get_session('user_id');
 	//set_session('user_id', $user_id);
 	
 	if($main_key == "show_user_send_papers")

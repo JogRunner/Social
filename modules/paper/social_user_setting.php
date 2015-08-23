@@ -27,7 +27,19 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
-	$user_id = 1;
+	if(empty(get_sess_userid()))
+	{
+		$code = get_argg('code');
+		if(!empty($code))
+			save_weixin_session($code);
+	}
+
+	if(empty(get_sess_userid()))
+	{
+		header("location:error.php");
+		exit;
+	}	
+
 	set_session('user_id', $user_id);
 	
 	if($main_key == "show_user_send_papers")
