@@ -2,8 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <script src="srcfiles/jquery-2.1.1.min.js"></script>
+
 <script type="text/javascript">
 	function limitImg(){    
         var img=document.getElementById(arguments[0]);//显示图片的对象    
@@ -110,7 +111,7 @@
 	.yellow.button, .yellow.button:visited	{ background-color: #ffb515; }
 	.yellow.button:hover				{ background-color: #fc9200; }
 	textarea {
-		width:100%;
+		width:96%;
 		height:100%;
 		color: #555;
 		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -177,11 +178,12 @@
 </head>
 
 <body>
+	<!--
 	<span class="title">
 		<a href="javascript:history.go(-1);" class="title_back">返回</a>
 		<div class="title_pick"><?php echo $title_label; ?></div>
 	</span>
-	<div class="gap"></div>
+	<div class="gap"></div>-->
 	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data" onsubmit="return validate_form(this);">
 		<div class="write-item">
 			<div class="left-nav">

@@ -54,14 +54,6 @@
 
     //是否为本人发的帖子
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
-
-
-    $is_user_picked = 0;
-    //如果该纸条不是用户所有，然后再判断用户是否抢过该纸条
-    if(0 == $is_user_paper)
-    {
-        $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
-    }
     
     //标签
     $title_label = '我的纸条';
@@ -238,14 +230,13 @@ a{
                     <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
                 </div>
 
-                <?php if(1 == $is_user_paper or 1 == $is_user_picked){?>
                 <div class="right-pick-paper-record">
-                    <a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>">
+                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
-                    </a>
+                    <?php if(1 == $is_user_paper){?></a><?php } ?>
                 </div>
-                <?php } ?>
+
                 <div class="right-interchange-record">
                     <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
                     <span> <?php echo $paper_detail_rs['public_count']?$paper_detail_rs['public_count']:0;?> </span>
