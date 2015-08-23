@@ -16,7 +16,7 @@
 
 	$user_id = get_session("user_id");
 	//如果user_id为null判断为用户未登录，这时候需要跳转到登录界面
-	
+	$title_label = '写纸条';
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -114,7 +114,6 @@
 		-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.6);
 		text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
 		border-bottom: 1px solid rgba(0,0,0,0.25);
-		position: relative;
 		cursor: pointer;
 	}
 	.pink.button, .magenta.button:visited	{ background-color: #e22092; }

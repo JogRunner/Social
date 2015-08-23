@@ -45,6 +45,10 @@
     //标签
     $title_label = '我的纸条';
 
+    //评论类型
+    $comment_type = 0;
+
+
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -214,7 +218,7 @@ a{
                 </div>
 
                 <div class="right-pick-paper-record">
-                    <?php if(1 == $is_user_paper){?><a href="#"><?php } ?>
+                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
                     <?php if(1 == $is_user_paper){?></a><?php } ?>

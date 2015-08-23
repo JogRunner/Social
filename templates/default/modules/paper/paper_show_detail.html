@@ -167,7 +167,7 @@ a{
                 </div>
 
                 <div class="right-pick-paper-record">
-                    <?php if(1 == $is_user_paper){?><a href="#"><?php } ?>
+                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
                     <?php if(1 == $is_user_paper){?></a><?php } ?>

@@ -111,9 +111,9 @@ class wechat
 
     public function createMenu()
     {
-        $menu1 = urlencode('http://52.74.218.115/Social/index.php');
-        $menu2 = urlencode('http://52.74.218.115/Social/modules.php?app=send_help_paper');
-        $menu3 = urlencode('http://52.74.218.115/Social/modules.php?app=user_settings');
+        $menu1 = urlencode('http://ec2-52-74-218-115.ap-southeast-1.compute.amazonaws.com/Social/index.php');
+        $menu2 = urlencode('http://ec2-52-74-218-115.ap-southeast-1.compute.amazonaws.com/Social/modules.php?app=send_help_paper');
+        $menu3 = urlencode('http://ec2-52-74-218-115.ap-southeast-1.compute.amazonaws.com/Social/modules.php?app=user_settings');
 
         $prefix_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
         .$this->appid."&redirect_uri=";
@@ -129,12 +129,12 @@ class wechat
                      {  
                           "type":"view",
                           "name":"我帖",
-                          "url":"'.$prefix_url.$menu2.$post_url'"
+                          "url":"'.$prefix_url.$menu2.$post_url.'"
                       },
                      {  
                           "type":"view",
                           "name":"设置",
-                          "url":"'.$prefix_url.$menu3.$post_url'"
+                          "url":"'.$prefix_url.$menu3.$post_url.'"
                       }
                     ]
                 }';
@@ -196,11 +196,11 @@ class wechat
         $tokenData = json_decode($tokenData);
 
         //print_r( $tokenData );
-    //echo $this->tokenFile();
+        //echo $this->tokenFile();
 
-        $token = $tokenData->access_token;
-        $token_array = array("access_token" => $token);
-    echo $token;
+            $token = $tokenData->access_token;
+            $token_array = array("access_token" => $token);
+        //echo $token;
 
         if(empty($token))
         {
@@ -210,6 +210,16 @@ class wechat
             file_put_contents($this->tokenFile(), json_encode($token_array));
         }
         return $token_array;
+    }
+
+    public function getWebAccessToken($code)
+    {
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid="
+                .$this->appid."&secret=".$this->appSecret."&code="
+                .$code."&grant_type=authorization_code";
+
+        $res = $this->curl_request($url);
+        return json_decode($res);
     }
 
     //获取Token

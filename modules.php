@@ -92,6 +92,7 @@ $appArray=array(
 		   "user_settings" => 'modules/paper/social_user_setting.php',
 		   "paper_item" => 'modules/paper/show_paper_item.php',
 		   "paper_pick" => 'modules/paper/pick_paper_reason.php',
+		   "pick_paper_detail" => 'modules/paper/pick_paper_detail.php',
        );
 
 $appId=getAppId();

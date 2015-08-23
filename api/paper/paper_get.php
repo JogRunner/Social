@@ -126,4 +126,41 @@ where $t_users.user_id in (select $t_papers.user_id from $t_papers where $t_pape
 
 		return $paper_comments_rs;
 	}
+
+	//获得纸条的所有我抢私信信息
+	function paper_get_pick_reason( $paper_id ){
+
+		global $tablePreStr;
+		$t_users	= $tablePreStr."users";
+		$t_comments = $tablePreStr."comments";
+
+		//评论类型
+		$comment_type = 0;
+
+		$paper_pick_reason_rs = array();
+		$dbo=new dbex;
+	  	dbplugin('r');
+
+		$paper_comments_sql = "select $t_users.*, $t_comments.* 
+			from $t_comments, $t_users where $t_users.user_id = $t_comments.commenter_id 
+				and $t_comments.paper_id = $paper_id and ($t_comments.comment_type=1 or $t_comments.comment_type=2) order by $t_comments.comment_time";
+
+		$paper_pick_reason_rs 	= $dbo->getALL($paper_comments_sql);
+
+		$re_pick_reasons = array();
+
+		foreach($paper_pick_reason_rs as $_ => $paper_reason)
+		{
+			$commenter_id = $paper_reason['commenter_id'];
+			if(null == $re_pick_reasons[$commenter_id])
+			{
+				$re_pick_reasons[$commenter_id] = array();
+			}
+
+			$re_pick_reasons[$commenter_id][] = $paper_reason;
+		}
+
+
+		return $re_pick_reasons;
+	}
 ?>

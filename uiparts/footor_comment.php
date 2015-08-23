@@ -147,9 +147,10 @@ var autoTextarea = function (elem, extra, maxHeight) {
             <?php if(0 == $is_user_paper){?>
             <a href="modules.php?app=paper_pick&paper_id=<?php echo $paper_id;?>&title_type=1" id="a_div" class="a_div">我抢</a>
             <?php }?>
+            <input name="commenter_id" value="<?php echo $is_user_logon; ?>" id="commenter_id_input"  type="hidden"/>
             <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>
             <!-- 普通评论类型，与我抢私信类型向对应 -->
-            <input name="comment_type" value="0" type="hidden"/>
+            <input name="comment_type" value="<?php echo $comment_type; ?>" type="hidden"/>
         </form>
     </div> 
     </div>

@@ -57,4 +57,23 @@ if(!isset($api_includes['api_proxy']))
 	}
 	$api_includes['api_proxy']=true;
 }
+
+if(!isset($api_includes['weixin_oauth']))
+{
+	function save_weixin_session($code)
+	{
+		global $log;
+
+		$wechatObj = new wechat();
+		$data = $wechatObj->getWebAccessToken($code);
+		if(!empty($data['openid']))
+		{
+			file_put_contents($log, '\nSuccess Get: '.json_encode($data), FILE_APPEND);
+			api_proxy('paper_related_save_user_session', $data['openid']);
+		}
+	}
+
+	$api_includes['weixin_oauth'] = true;
+}
+
 ?>

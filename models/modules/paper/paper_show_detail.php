@@ -33,4 +33,7 @@
     //标签
     $title_label = '我的纸条';
 
+    //评论类型
+    $comment_type = 0;
+
 ?>
