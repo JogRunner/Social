@@ -10,9 +10,6 @@
     
     //变量取得
     $paper_id= intval(get_argg('paper_id'));
-    //从数据库中取出纸条信息
-    $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
-    $paper_reasons_rs   = api_proxy("paper_get_pick_reason", $paper_id);
 
     /*if(empty(get_sess_userid()))
     {
@@ -43,6 +40,13 @@
     $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
     //标签
     $title_label = '我抢私信列表';
+
+    //从数据库中取出纸条信息
+    $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
+    $paper_reasons_rs   = api_proxy("paper_get_pick_reasons", $paper_id, $user_id);
+
+    $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+
     //私信回复类型
     if(0 == $is_user_paper)
     {
@@ -98,7 +102,6 @@
     }
     .head_info{
         float:left;
-        height:100%;
     }
     .paper_head{
         float:left;
@@ -198,7 +201,7 @@
     /*私信回复区头部信息css*/
     .picker_head{width:2.8em;height:2.8em;float:left;padding:0.3em 0.3em;}
     .picker_name, .picker_distance{margin:0.5em auto;color: #666;}
-    .picker_info{float:left;height:100%;}
+    .picker_info{float:left;}
     .picker_head_div{font-size: 0.6em;float:left;background: #F5E8CF;width: 100%;
         border-top: 1px dashed black;border-bottom: 1px dashed black;}
 
@@ -255,7 +258,12 @@
                 <div class="pick_reply_div">
                     <?php if($pick_reason['comment_type'] == 1) {?>
                     <div class="pick_reply_reason_div">
-                        <span><?php echo $pick_reason['user_name']; ?>:</span><?php echo $pick_reason['comment_content'];?>
+                        <?php if(1 == $is_user_paper){?>
+                        <span><?php echo $pick_reason['user_name']; ?>:</span>
+                        <?php }else{ ?>
+                        <span>我:</span>
+                        <?php } ?>
+                        <?php echo $pick_reason['comment_content'];?>
                     </div>
                     <div class="replytime"><?php echo $pick_reason['comment_time'];?>
                             <a onclick="show_comment(<?php echo $commenter_info['user_id'];?>, '<?php echo $commenter_info['user_name'];?>');" class="reply_a">
@@ -263,7 +271,13 @@
                             </a>
                     </div>
                     <?php }else{ ?>
-                    <div class="pick_reply_reason_div"><span>我:</span><?php echo $pick_reason['comment_content'];?></div>
+                    <div class="pick_reply_reason_div">
+                        <?php if(1 == $is_user_paper){?>
+                        <span>我:</span>
+                        <?php }else{ ?>
+                        <span><?php echo $paper_detail_rs['user_name']; ?>:</span>
+                        <?php } ?>
+                        <?php echo $pick_reason['comment_content'];?></div>
                     <?php } ?>
                 </div>
             <?php } ?>
