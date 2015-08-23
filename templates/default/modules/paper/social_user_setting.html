@@ -81,7 +81,7 @@
 			<div class="user-text-info">
 				<div class="user-name-area">
 					<!--<span> 昵称:&nbsp;&nbsp; </span>-->
-					<span id = "user-name"><?php echo get_sess_username(); ?></span>
+					<span id = "user-name"><?php echo $user_name;?></span>
 				</div>
 				<!--
 				<div class="user-school-area">
@@ -101,31 +101,31 @@
 			<a href="modules.php?app=user_settings&main_key=show_user_send_papers">
 				<span> 我写的 </span>
 			</a>
-			<div class="{echo:($main_key == 'show_user_send_papers')?'':'un';/}selected">
+			<div class="<?php echo ($main_key == 'show_user_send_papers')?'':'un';?>selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user_settings&main_key=show_user_comments">
 				<span> 我参与的 </span>
 			</a>
-			<div class="{echo:($main_key == 'show_user_comments')?'':'un';/}selected">
+			<div class="<?php echo ($main_key == 'show_user_comments')?'':'un';?>selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user_settings&main_key=user_money">
 				<span> 我的红包 </span>
 			</a>
-			<div class="{echo:($main_key == 'user_money' || $main_key == 'exchange_money')?'':'un';/}selected">
+			<div class="<?php echo ($main_key == 'user_money' || $main_key == 'exchange_money')?'':'un';?>selected">
 			</div>
 		</div>
 	</div>
 	<div class="clearboth"></div>
 	<?php if(in_array($main_key, array('show_user_send_papers', 'show_user_comments'))){ ?>
-		{inc:require('modules/paper/common_paper_show.php');/}
+		<?php require('modules/paper/common_paper_show.php');?>
 	<?php } elseif($main_key == 'user_money'){ ?>
-		{inc:require('modules/money/user_money.php');/}
+		<?php require('modules/money/user_money.php');?>
 	<?php } elseif($main_key == 'exchange_money'){ ?>
-		{inc:require('modules/money/exchange_money.php');/}
+		<?php require('modules/money/exchange_money.php');?>
 	<?php } ?>
 
 	<!--消息面板-->

@@ -26,15 +26,28 @@
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
 
+    /*if(empty(get_sess_userid()))
+    {
+        $code = get_argg('code');
+        if(!empty($code))
+            save_weixin_session($code);
+    }
+
+    if(empty(get_sess_userid()))
+    {
+        header("location:error.php");
+        exit;
+    }*/
+
     //用户id
     $user_id = get_session('user_id');
 
-    //用户未登录，暂时设定为固定id
+    /*//用户未登录，暂时设定为固定id
     if(null == $user_id)
     {
         $user_id = 1;
         set_session('user_id', $user_id);
-    }
+    }*/
 
     //判断用户是否已经登录
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
@@ -44,6 +57,10 @@
     
     //标签
     $title_label = '我的纸条';
+
+    //评论类型
+    $comment_type = 0;
+
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -214,7 +231,7 @@ a{
                 </div>
 
                 <div class="right-pick-paper-record">
-                    <?php if(1 == $is_user_paper){?><a href="#"><?php } ?>
+                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
                     <?php if(1 == $is_user_paper){?></a><?php } ?>

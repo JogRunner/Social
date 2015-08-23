@@ -24,22 +24,21 @@
 	    	if(!empty($_FILES['attach']['name'][$i]))
 	    		$is_true++;
 	    }
-		if($is_true==0){
-			action_return(0,$a_langpackage->a_no_pht,"-2");
-		}
+		if($is_true != 0)
+		{
+			//开始上传图片
+			$base_root="uploadfiles/paper_pictures/";//图片存放目录
+		    $up = new upload();
+		    $up->set_dir($base_root, ''.$user_id);//目录设置
+		    //$up->set_thumb(180,180); //缩略图设置
+		    $fs = $up->execute();
 
-		//开始上传图片
-		$base_root="uploadfiles/paper_pictures/";//图片存放目录
-	    $up = new upload();
-	    $up->set_dir($base_root, ''.$user_id);//目录设置
-	    //$up->set_thumb(180,180); //缩略图设置
-	    $fs = $up->execute();
-
-	    foreach($fs as $index=>$realtxt){
-			if($realtxt['flag']==1){
-			    $fileSrcStr=str_replace(dirname(__FILE__),"",$realtxt['dir']).$realtxt['name'];
-			    //$thumb_src=str_replace(dirname(__FILE__),"",$realtxt['dir']).$realtxt['thumb'];
-	    	}
+		    foreach($fs as $index=>$realtxt){
+				if($realtxt['flag']==1){
+				    $fileSrcStr=str_replace(dirname(__FILE__),"",$realtxt['dir']).$realtxt['name'];
+				    //$thumb_src=str_replace(dirname(__FILE__),"",$realtxt['dir']).$realtxt['thumb'];
+		    	}
+			}
 		}
 	}
 
