@@ -98,7 +98,6 @@ $appArray=array(
 $appId=getAppId();
 if(array_key_exists($appId,$appArray)){
 	$apptarget=$appArray[$appId];
-	echo $apptarget;
 	require($apptarget);
 }else{
 	echo '<script>top.location.href="'.$siteDomain.$indexFile.'";</script>';
