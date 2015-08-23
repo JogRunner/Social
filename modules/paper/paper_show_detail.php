@@ -238,13 +238,14 @@ a{
                     <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
                 </div>
 
+                <?php if(1 == $is_user_paper or 1 == $is_user_picked){?>
                 <div class="right-pick-paper-record">
-                    <?php if(1 == $is_user_paper or 1 == $is_user_picked){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
+                    <a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>">
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
-                    <?php if(1 == $is_user_paper or 1 == $is_user_picked){?></a><?php } ?>
+                    </a>
                 </div>
-
+                <?php } ?>
                 <div class="right-interchange-record">
                     <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
                     <span> <?php echo $paper_detail_rs['public_count']?$paper_detail_rs['public_count']:0;?> </span>

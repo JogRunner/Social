@@ -17,14 +17,17 @@
 		if(!empty($code))
 			save_weixin_session($code);
 	}
-
+	if($local_debug)
+	{
+		set_sess_username("FanJian");
+		set_sess_userid("1");
+	}
+	
 	if(empty(get_sess_userid()))
 	{
 		header("location:error.php");
 		exit;
 	}
-	echo get_sess_username();
-	die;
 	
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息

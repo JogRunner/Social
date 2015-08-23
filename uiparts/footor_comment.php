@@ -180,8 +180,10 @@ var autoTextarea = function (elem, extra, maxHeight) {
             return true;
         }
 
-        var is_user_paper = <?php echo !($is_user_paper && $is_user_picked);?>;
-        if(true == is_user_paper)
+
+        var is_user_paper = <?php echo (1 == $is_user_paper || 1 == $is_user_picked) ? 1 : 0;?>;
+
+        if(1 == is_user_paper)
         {
             var comment_submit = document.getElementById("comment_submit");
             comment_submit.style.width = "28%";

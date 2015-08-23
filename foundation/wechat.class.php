@@ -219,7 +219,7 @@ class wechat
                 .$code."&grant_type=authorization_code";
 
         $res = $this->curl_request($url);
-        return json_decode($res);
+        return json_decode($res,true);
     }
 
     //获取Token

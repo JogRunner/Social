@@ -37,20 +37,22 @@
     //判断用户是否已经登录
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
     //是否为本人发的帖子
-    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+    $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 0 : 1;
+    //标签
+    $title_label = '我抢私信列表';
 
+    //从数据库中取出纸条信息
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
+    $paper_reasons_rs   = api_proxy("paper_get_pick_reasons", $paper_id, $user_id);
+
+    $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+
     //私信回复类型
     if(0 == $is_user_paper)
     {
         $comment_type = 1;
     }else{
         $comment_type = 2;
-
-        //从数据库中取出纸条信息
-        $paper_reasons_rs   = api_proxy("paper_get_pick_reasons", $paper_id);
     }
 
-    //标签
-    $title_label = '我抢私信列表';
 ?>

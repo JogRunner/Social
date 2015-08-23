@@ -37,7 +37,7 @@
     //判断用户是否已经登录
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
     //是否为本人发的帖子
-    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+    $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 0 : 1;
     //标签
     $title_label = '我抢私信列表';
 
@@ -258,24 +258,31 @@
                 <div class="pick_reply_div">
                     <?php if($pick_reason['comment_type'] == 1) {?>
                     <div class="pick_reply_reason_div">
-                        <?php if(1 == $is_user_paper){?>
-                        <span><?php echo $pick_reason['user_name']; ?>:</span>
+                        <?php if($pick_reason['user_id'] != $commenter_info['user_id']){?>
+                        <span>我:</span><?php echo $pick_reason['comment_content'];?>
                         <?php }else{ ?>
-                        <span>我:</span>
-                        <?php } ?>
-                        <?php echo $pick_reason['comment_content'];?>
-                    </div>
-                    <div class="replytime"><?php echo $pick_reason['comment_time'];?>
+                        <span><?php echo $pick_reason['user_name']; ?>:</span><?php echo $pick_reason['comment_content'];?>
+                        <div class="replytime"><?php echo $pick_reason['comment_time'];?>
                             <a onclick="show_comment(<?php echo $commenter_info['user_id'];?>, '<?php echo $commenter_info['user_name'];?>');" class="reply_a">
                             <img src="pictures/reply.png" class="reply_img"/>
                             </a>
+                        </div>
+                        <?php } ?>
+                        
                     </div>
+
+                    
                     <?php }else{ ?>
                     <div class="pick_reply_reason_div">
                         <?php if(1 == $is_user_paper){?>
                         <span>我:</span>
                         <?php }else{ ?>
                         <span><?php echo $paper_detail_rs['user_name']; ?>:</span>
+                        <div class="replytime"><?php echo $pick_reason['comment_time'];?>
+                            <a onclick="show_comment(<?php echo $commenter_info['user_id'];?>, '<?php echo $commenter_info['user_name'];?>');" class="reply_a">
+                            <img src="pictures/reply.png" class="reply_img"/>
+                            </a>
+                        </div>
                         <?php } ?>
                         <?php echo $pick_reason['comment_content'];?></div>
                     <?php } ?>
