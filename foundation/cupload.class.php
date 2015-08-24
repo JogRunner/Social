@@ -250,6 +250,7 @@ class upload {
             $t_width = ($t_height / $src_info[1]) * $src_info[0];
         }
 
+        //echo "height=" . $t_height . " + width=" . $t_width . ", src_info0=" . $src_info[0] . ", src_info1=" . $src_info[1];
        //取得文件扩展名
         $fileext = $this->fileext($src_file);
         switch ($fileext) {
