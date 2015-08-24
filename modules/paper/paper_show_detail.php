@@ -53,7 +53,14 @@
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
 
     //是否为本人发的帖子
-    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
+    $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 1 : 0;
+    //判断纸条是否被当前用户抢到
+    $is_user_picked = 0;
+    if(0 == $is_user_paper)
+    {
+        $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+    }
+
     
     //标签
     $title_label = '我的纸条';
@@ -155,41 +162,6 @@ a{
     margin-bottom:8em;
 }
 
-.title{
-    width: 100%;
-    display: block;
-    padding:1.3em 0em;
-    text-align: center;
-    background: #FC9;
-    position: fixed;
-    top: 0;
-    left: 0;
-}
-
-.title_back{
-    background: #FF6600;
-    position: fixed;
-    top:0.9em;
-    left: 1em;
-    padding: 0.3em 0.3em;
-
-    /*padding:10px; width:300px; height:50px;*/
-    border: 0.2em solid #dedede;
-    -moz-border-radius: 1em;      /* Gecko browsers */
-    -webkit-border-radius: 1em;   /* Webkit browsers */
-    border-radius:1em;            /* W3C syntax */
-}
-
-.title_pick{
-    margin: 0 auto;
-    display: inline-block;
-}
-
-.gap{
-    height: 4em;
-}
-
-
 .info-comment{}
 .comment-item{border-bottom: 0.1em solid gray;background-color: #F5E8CF; margin-bottom: 0.5em;}
 .comment-item .comment-content{padding: 0.5em 1em;  }
@@ -202,11 +174,6 @@ a{
 
 </head>
 <body>
-    <span class="title">
-        <a href="javascript:history.go(-1);" class="title_back">返回</a>
-        <div class="title_pick"><?php echo $title_label; ?></div>
-    </span>
-    <div class="gap"></div>
 
     <div class="paper">
     <div class="paper_head">
@@ -229,6 +196,8 @@ a{
                     <img src="skin/social/imgs/all/note_pt_feiji.png">
                     <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
                 </div>
+                
+                <?php if(1 == $is_user_paper || 1 == $is_user_picked){?>
 
                 <div class="right-pick-paper-record">
                     <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
@@ -236,6 +205,7 @@ a{
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
                     <?php if(1 == $is_user_paper){?></a><?php } ?>
                 </div>
+                <?php } ?>
 
                 <div class="right-interchange-record">
                     <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>

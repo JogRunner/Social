@@ -33,7 +33,10 @@
 	}
 	if($local_debug)
 	{
+<<<<<<< HEAD
+=======
 		set_sess_username("FanJian");
+>>>>>>> 21cc909e06dc82a189071e7814cce84022619d31
 		set_sess_userid("1");
 	}
 	

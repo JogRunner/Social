@@ -21,14 +21,13 @@ require("foundation/module_lang.php");
 .comment_form_div .comment_submit:hover {color: #333;background-color: #efefef;}
 
 .comment_form_div .a_div{
-    display: inline-block;
+    font-size: 0.8em;
     float: right;
     width: 14%;
     color: #808080;
     background: #ccc;
-    border: 0;
     text-align: center;
-
+    background: red;
 }
 
 .comment_form_div .pick_div:hover {color: #333;background-color: #efefef;}
@@ -82,7 +81,6 @@ var autoTextarea = function (elem, extra, maxHeight) {
  
         elem.style.resize = 'none';
         var elem_submit = document.getElementById("comment_submit");
-        var elem_pick = document.getElementById("pick_div");
         var elem_a = document.getElementById("a_div");
 
         var change = function () {
@@ -125,6 +123,8 @@ var autoTextarea = function (elem, extra, maxHeight) {
                             elem_a.style.height     = elem.offsetHeight + 'px';
                             elem_a.style.lineHeight = elem.offsetHeight + 'px';
                         }
+
+
                 };
         };
  
@@ -182,7 +182,6 @@ var autoTextarea = function (elem, extra, maxHeight) {
 
 
         var is_user_paper = <?php echo (1 == $is_user_paper || 1 == $is_user_picked) ? 1 : 0;?>;
-
         if(1 == is_user_paper)
         {
             var comment_submit = document.getElementById("comment_submit");

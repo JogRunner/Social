@@ -26,4 +26,18 @@
 		$result_rs = $dbo->getRow($sql);
 		return $result_rs;
 	}
+
+	//获取用户的积分数
+	function user_get_user_point($user_id)
+	{
+		global $tablePreStr;
+		$t_users = $tablePreStr."users";
+		$result_rs=array();
+		$dbo=new dbex;
+		dbplugin('r');
+		
+		$sql = "select user_point from $t_users where user_id=$user_id";
+		$result_rs = $dbo->getRow($sql);
+		return $result_rs['user_point'];
+	}
 ?>
