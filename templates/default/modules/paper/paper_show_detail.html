@@ -43,6 +43,9 @@ body{
     border-top: 1px dashed black;
     border-bottom: 1px dashed black;
 }
+
+.paper_status{float: right;height: 5.7em;line-height: 5.7em;margin-right:1em;}
+
 .paper_content{
     width: 100%;
 }
@@ -110,6 +113,11 @@ a{
         <div class="head_info">
             <h4 class="user_name"><?php echo $paper_detail_rs['user_name']; ?></h4>
             <h5 class="paper_distance">距离:5000m</h5>
+        </div>
+
+        <div class="paper_status"><span>
+            <b><?php if(0 == $paper_status){echo '未解决';}else if(1 == $paper_status){echo '已解决';}else{echo '已过期';}?>
+            </b>&nbsp;</span>
         </div>
     </div>
     <div class="clear"></div>

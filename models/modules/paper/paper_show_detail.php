@@ -41,16 +41,17 @@
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
 
     //是否为本人发的帖子
-    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
-
-
+    $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 1 : 0;
+    //判断纸条是否被当前用户抢到
     $is_user_picked = 0;
-    //如果该纸条不是用户所有，然后再判断用户是否抢过该纸条
     if(0 == $is_user_paper)
     {
         $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
     }
 
+    //纸条状态
+    $paper_status = $paper_detail_rs['paper_status'];
+    
     //评论类型
     $comment_type = 0;
 

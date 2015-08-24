@@ -81,6 +81,20 @@
         margin-bottom:8em;
     }
 
+    .title_back{
+        background: #FF6600;
+        position: fixed;
+        top:0.9em;
+        left: 1em;
+        padding: 0.3em 0.3em;
+
+        /*padding:10px; width:300px; height:50px;*/
+        border: 0.2em solid #dedede;
+        -moz-border-radius: 1em;      /* Gecko browsers */
+        -webkit-border-radius: 1em;   /* Webkit browsers */
+        border-radius:1em;            /* W3C syntax */
+    }
+
     .info-comment{}
     .comment-item{border-bottom: 0.1em solid gray;background-color: #F5E8CF; margin-bottom: 0.5em;}
     .comment-item .comment-content{padding: 0.5em 1em;  }
@@ -180,14 +194,18 @@
                                 || ($pick_reason['user_id'] != $user_id && $pick_reason['comment_type'] == 2)){?>
                         <div class="pick_reply_reason_div">
                             <span>我:</span><?php echo $pick_reason['comment_content'];?>
-                            <div class="replytime"><?php echo $pick_reason['comment_time'];?></div>
+                            <div class="replytime"><?php echo $pick_reason['comment_time'];?>
+                                <a onclick="show_comment(<?php echo $pick_reason['user_id'];?>, '<?php echo $paper_detail_rs['user_name'];?>');" class="reply_a">
+                                <img src="pictures/reply.png" class="reply_img"/>
+                                </a>
+                            </div>
                         </div>
                     <?php }else{?>
                         <?php if($pick_reason['user_id'] == $user_id && $pick_reason["comment_type"] == 2){ ?>
                         <span><?php echo $paper_detail_rs['user_name']; ?>:</span>
                         <?php echo $pick_reason['comment_content'];?>
                         <div class="replytime"><?php echo $pick_reason['comment_time'];?>
-                            <a onclick="show_comment(<?php echo $paper_detail_rs['user_id'];?>, '<?php echo $paper_detail_rs['user_name'];?>');" class="reply_a">
+                            <a onclick="show_comment(<?php echo $pick_reason['user_id'];?>, '<?php echo $paper_detail_rs['user_name'];?>');" class="reply_a">
                             <img src="pictures/reply.png" class="reply_img"/>
                             </a>
                         </div>

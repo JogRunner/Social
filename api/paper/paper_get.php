@@ -10,13 +10,13 @@
 	  	/*select isns_papers.*, isns_users.*, count(isns_comments.paper_id) as count 
 from isns_papers 
 left join isns_comments on isns_comments.paper_id = isns_papers.paper_id and isns_comments.comment_type=0
-left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_papers.paper_id;*/
+left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_papers.paper_id order by isns_papers.create_time desc;*/
 		$sql = "select 
 	 	$t_papers.*, 
 	 	$t_users.*, 
 	 	count($t_comments.paper_id) as count 
 		from $t_papers left join $t_comments on $t_comments.paper_id = $t_papers.paper_id and $t_comments.comment_type=0
-		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id;";
+		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id order by $t_papers.create_time desc";
 		$result_rs=$dbo->getALL($sql);
 
 		$result_rs = calc_all_distance($result_rs);
