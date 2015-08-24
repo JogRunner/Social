@@ -4,17 +4,19 @@
 	//变量取得
 	$user_id = get_session('user_id');
 
-	//判断用户是否登录
-	if(null == $user_id)
-	{
-		echo "<script>alert('null == \$user_id');</script>";
-	}
-
 	/*表单提交的数据*/
 	//纸条文字内容
 	$paper_content = get_argp('comment_text');
 	//纸条图片内容
 	$up_load_num=count($_FILES['attach']['name']);
+	$help_location = get_argp('help-location');
+	$help_last_time= get_argp('help-last-time');
+	
+	//本来应该中文提取的
+	if(strlen($help_location) >= 40)
+	{
+		$help_location = substr($help_location, 0,40);
+	}
 
 	//判断上传图片数量
 	if($up_load_num > 0){
@@ -50,8 +52,8 @@
     $t_papers = $tablePreStr."papers";
 
     //insert into isns_papers (user_id, content, picture, create_time) value (1, '纸条内容', '纸条路径', '2015-08-12 15:57:12');
-    $sql = "insert into $t_papers (user_id, content, picture, create_time) 
-    	value ($user_id, '$paper_content', '$fileSrcStr', now())";
+    $sql = "insert into $t_papers (user_id, content, picture, create_time, help_location, help_last_time) 
+    	value ($user_id, '$paper_content', '$fileSrcStr', now(), '$help_location', '$help_last_time')";
     if($dbo->exeUpdate($sql)){
 		$t_users = $tablePreStr."users";
 		$sql = "select user_papercount from $t_users where user_id=$user_id";

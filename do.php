@@ -139,6 +139,12 @@ function action_return($state=1,$retrun_mess="",$activeUrl=""){
 
 if(array_key_exists($actId,$actArray)){
 	$acttarget=$actArray[$actId];
+    $user_id = get_sess_userid();
+    if(empty($user_id))
+    {
+        header("location:error.php");
+        exit;
+    }
 	require($acttarget[0]);
 }else{
 	  echo 'error';
