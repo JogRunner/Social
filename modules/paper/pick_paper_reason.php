@@ -182,7 +182,7 @@
 	.yellow.button:hover				{ background-color: #fc9200; }
 	textarea {
 		width:100%;
-		height:100%;
+		height:200px;
 		color: #555;
 		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 		padding:0.8em 1em;

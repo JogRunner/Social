@@ -163,6 +163,135 @@ class upload {
         }
         return $files;
     }
+
+    //只创建缩略图
+    function execute_only_thumb() {
+
+        $files = array(); //成功上传的文件信息
+        $field = $this->field;
+        $keys = array_keys($_FILES[$field]['name']);
+        foreach ($keys as $key){
+            if (!$_FILES[$field]['name'][$key]) continue;
+            $fileext = $this->fileext($_FILES[$field]['name'][$key]); //获取文件扩展名
+            $filename = date('Ymdhis',$this->time).mt_rand(10,99).'.'.$fileext; //生成文件名
+            $filedir = $this->dir;  //附件实际存放目录
+            $filesize = $_FILES[$field]['size'][$key]; //文件大小
+            //文件类型不允许
+            if (!in_array($fileext,$this->allow_types)) {
+                $files[$key]['name'] = $_FILES[$field]['name'][$key];
+                $files[$key]['flag'] = -1;
+                $files[$key]['initname'] = "";
+                continue;
+            }
+            
+            //文件大小超出
+            if ($filesize > $this->maxsize) {
+                $files[$key]['name'] = $_FILES[$field]['name'][$key];
+                $files[$key]['flag'] = -2;
+                $files[$key]['initname'] = "";
+                continue;
+            }
+
+            $image_info=getImageSize($_FILES[$field]['tmp_name'][$key]);
+
+            //move_uploaded_file($_FILES[$field]['name'][$key], $image_info);
+            //print_r(getimagesize($image_info));
+            //echo '+,' . $image_info . ',' . $_FILES[$field]['name'][$key];
+
+            //文件大小不匹配
+            if($image_info[1] > $image_info[0]*3){
+                $files[$key]['name'] = $_FILES[$field]['name'][$key];
+                $files[$key]['flag'] = -3;
+                $files[$key]['initname'] = "";
+                continue;
+            }
+            $files[$key]['name'] = $filename;
+            $files[$key]['dir'] = $filedir;
+            $files[$key]['size'] = $filesize;
+            $files[$key]['initname'] = $_FILES[$field]['name'][$key];
+    
+            //保存上传文件并删除临时文件
+            if (is_uploaded_file($_FILES[$field]['tmp_name'][$key])){
+                move_uploaded_file($_FILES[$field]['tmp_name'][$key],$filedir.'tmp'.$filename);
+                @unlink($_FILES[$field]['tmp_name'][$key]);
+                $files[$key]['flag'] = 1;
+    
+                //对图片进行加水印和生成缩略图
+                if (in_array($fileext,array('jpg','png','gif'))) {
+                    if ($this->thumb_width) {
+                        $this->create_simple_pic($filedir.'tmp'.$filename, $filedir.$filename);
+                    }
+                }
+                @unlink($filedir.'tmp'.$filename);
+            }
+        }
+        return $files;
+    }
+
+    //创建缩略图,以相同的扩展名生成缩略图
+    //$src_file : 来源图像路径 , $thumb_file : 缩略图路径
+    function create_simple_pic ($src_file,$thumb_file) {
+        $t_width  = $this->thumb_width;
+        $t_height = $this->thumb_height;
+        if (!file_exists($src_file)) return false;
+        $src_info = getImageSize($src_file);
+
+        //如果来源图像小于或等于缩略图则拷贝源图像作为缩略图
+        if ($src_info[0] <= $t_width && $src_info[1] <= $t_height) {
+            if (!copy($src_file,$thumb_file)) {
+                return false;
+            }
+            return true;
+        }
+        //按比例计算缩略图大小
+        if ($src_info[0] - $t_width > $src_info[1] - $t_height) {
+            $t_height = ($t_width / $src_info[0]) * $src_info[1];
+        } else {
+            $t_width = ($t_height / $src_info[1]) * $src_info[0];
+        }
+
+       //取得文件扩展名
+        $fileext = $this->fileext($src_file);
+        switch ($fileext) {
+            case 'jpg' :
+                $src_img = imagecreatefromjpeg($src_file); break;
+            case 'png' :
+                $src_img = imagecreatefrompng($src_file); break;
+            case 'gif' :
+                $src_img = imagecreatefromgif($src_file); break;
+        }
+        
+        //创建一个真彩色的缩略图像
+        $thumb_img=ImageCreatetruecolor($t_width,$t_height);
+                $clr = imagecolorallocate($thumb_img,255,255,255);
+        imagefilledrectangle($thumb_img,0,0,$this->thumb_width,$this->thumb_height,$clr);
+
+        //ImageCopyResampled函数拷贝的图像平滑度较好，优先考虑
+        if(function_exists('imagecopyresampled')){
+            ImageCopyResampled($thumb_img,$src_img,($this->thumb_width-$t_width)/2,0,0,0,$t_width,$t_height,$src_info[0],$src_info[1]);
+        }else{
+            ImageCopyResized($thumb_img,$src_img,0,0,0,0,$t_width,$t_height,$src_info[0],$src_info[1]);
+        }
+
+        //生成缩略图
+        switch ($fileext) {
+            case 'jpg' :
+                imagejpeg($thumb_img,$thumb_file,100); break;
+            case 'gif' :
+                imagegif($thumb_img,$thumb_file); break;
+            case 'png' :
+                imagepng($thumb_img,$thumb_file); break;
+        }
+
+        //销毁临时图像
+        ImageDestroy($src_img);
+        ImageDestroy($thumb_img);
+
+        return true;
+
+    }
+
+
     //创建缩略图,以相同的扩展名生成缩略图
     //$src_file : 来源图像路径 , $thumb_file : 缩略图路径
     function create_thumb ($src_file,$thumb_file) {

@@ -96,7 +96,11 @@ class wechat
     //收集用户地址
     private function collectUserPosition($postObj)
     {
+        $user_openid = $postObj->FromUserName;
+        $user_lat = $postObj->Latitude;
+        $user_longitude = $postObj->Longitude;
 
+        api_proxy('paper_related_collect_user_position', $user_openid, $user_lat, $user_longitude);
     }
 
     //用户点击菜单

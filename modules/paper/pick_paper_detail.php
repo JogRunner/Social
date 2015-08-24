@@ -1,4 +1,16 @@
 <?php
+/*
+ * 注意：此文件由tpl_engine编译型模板引擎编译生成。
+ * 如果您的模板要进行修改，请修改 templates/default/modules/paper/pick_paper_detail.html
+ * 如果您的模型要进行修改，请修改 models/modules/paper/pick_paper_detail.php
+ *
+ * 修改完成之后需要您进入后台重新编译，才会重新生成。
+ * 如果您开启了debug模式运行，那么您可以省去上面这一步，但是debug模式每次都会判断程序是否更新，debug模式只适合开发调试。
+ * 如果您正式运行此程序时，请切换到service模式运行！
+ *
+ * 如有您有问题请到官方论坛（http://tech.jooyea.com/bbs/）提问，谢谢您的支持。
+ */
+?><?php
     //引入语言包
     $pu_langpackage=new publiclp;
     
@@ -10,9 +22,6 @@
     
     //变量取得
     $paper_id= intval(get_argg('paper_id'));
-    //从数据库中取出纸条信息
-    $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
-    $paper_reasons_rs   = api_proxy("paper_get_pick_reason", $paper_id);
 
     /*if(empty(get_sess_userid()))
     {
@@ -44,8 +53,10 @@
     //判断用户是否已经登录
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
     //是否为本人发的帖子
-
     $is_user_paper = ($user_id!=$paper_detail_rs['user_id']) ? 0 : 1;
+
+    //标签
+    $title_label = '我抢私信列表';
 
     $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
 
@@ -54,7 +65,6 @@
 
     $comment_type = 1;
     $user_point = 0;
-
     //私信回复类型
     if(1 == $is_user_paper){
         $comment_type = 2;
@@ -106,7 +116,6 @@
         margin:1em auto;
         color: #aaa;
     }
-
     .head_info{float:left;}
     .paper_head{float:left;background: #F5E8CF;width: 100%;border-top: 1px dashed black;border-bottom: 1px dashed black;}
     
@@ -114,7 +123,6 @@
     .paper_content{width: 100%;}
     .img_content{background: #F5E8CF;text-align: center;padding: 0.5em;}
     .paper_img{width:100%;}
-
     .text_content{
         text-align: left;
         padding:1em;
@@ -173,7 +181,7 @@
     /*私信回复区头部信息css*/
     .picker_head{width:2.8em;height:2.8em;float:left;padding:0.3em 0.3em;}
     .picker_name, .picker_distance{margin:0.5em auto;color: #666;}
-    .picker_info{float:left;height:100%;}
+    .picker_info{float:left;}
     .picker_head_div{font-size: 0.6em;float:left;background: #F5E8CF;width: 100%;
         border-top: 1px dashed black;border-bottom: 1px dashed black;}
 
@@ -255,18 +263,14 @@
 
             <?php foreach ($paper_pick_reason as $index => $pick_reason) { ?>
                 <div class="pick_reply_div">
-
                     <?php if(($pick_reason['user_id'] == $user_id && $pick_reason['comment_type'] == 1) 
                                 || ($pick_reason['user_id'] != $user_id && $pick_reason['comment_type'] == 2)){?>
                         <div class="pick_reply_reason_div">
                             <span>我:</span><?php echo $pick_reason['comment_content'];?>
                             <div class="replytime"><?php echo $pick_reason['comment_time'];?></div>
-                            <?php echo $pick_reason['user_id']."+".$user_id."+".$pick_reason['comment_type']; ?>
                         </div>
                     <?php }else{?>
-                        <span>
-                            <?php if($pick_reason['comment_type'] == 1){echo $pick_reason['user_name'];}else{echo $paper_detail_rs['user_name'];} ?>:
-                        </span><?php echo $pick_reason['comment_content'];?>
+                        <span><?php echo $pick_reason['user_name']; ?>:</span><?php echo $pick_reason['comment_content'];?>
                         <div class="replytime"><?php echo $pick_reason['comment_time'];?>
                             <a onclick="show_comment(<?php echo $commenter_info['user_id'];?>, '<?php echo $commenter_info['user_name'];?>');" class="reply_a">
                                 <img src="pictures/reply.png" class="reply_img"/>
