@@ -19,6 +19,7 @@ left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_pap
 		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id;";
 		$result_rs=$dbo->getALL($sql);
 
+		$result_rs = calc_all_distance($result_rs);
 		return $result_rs;
 	}
 

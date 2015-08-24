@@ -33,9 +33,7 @@
 	}
 	if($local_debug)
 	{
-
-		set_sess_username("FanJian");
-		set_sess_userid("1");
+		set_sess_userid("2");
 	}
 	
 	$user_id = get_sess_userid();
@@ -213,7 +211,7 @@ body{
 				<img src="pictures/<?php echo $paper['user_ico'] ?>" class="head"/>
 				<div class="head_info">
 					<h4 class="user_name"><?php echo $paper['user_name']?></h4>
-					<h5 class="paper_distance">距离:5000m</h5>
+					<h5 class="paper_distance"><?php echo $paper["distance_to_me"]; ?>m</h5>
 				</div>
 			</div>
 			<div class="clear"></div>

@@ -76,4 +76,88 @@ if(!isset($api_includes['weixin_oauth']))
 	$api_includes['weixin_oauth'] = true;
 }
 
+if(!isset($api_includes['calc_distance']))
+{
+	function calc_distace($lat1, $long1, $lat2, $long2)
+	{
+		$radLat1 = deg2rad($lat1);
+		$radLat2 = deg2rad($lat2);
+		$a = $radLat1 - $radLat2;
+		$b = deg2rad($long1) - deg2rad($long2);
+
+		$s = 2 * asin(sqrt(pow(sin($a / 2.0), 2) + cos($radLat1) * cos($radLat2) * pow(sin($b / 2.0), 2)));
+		$s = $s * 6378.137;
+		$s = round($s * 10000) / 10000;
+
+		return $s;
+	}
+
+	function calc_all_distance($res)
+	{
+		$user_id = get_sess_userid();
+		$user_lat = get_session("position_y");
+		$user_long = get_session("position_x");
+		$deal = false;
+		echo 'user id: ' .$user_id ."<br />";
+
+		$isNull = empty($user_lat) || empty($user_long);
+
+		if(is_array($res))
+		{
+			if(array_key_exists("user_id", $res))
+			{
+				if($res["user_id"] == $user_id){
+					$res["distance_to_me"] = 0;
+					$deal = true;
+				}
+			}
+
+			if(!$deal && array_key_exists("position_x", $res) && array_key_exists("position_y", $res))
+			{
+				$x = $res["position_x"];
+				$y = $res["position_y"];
+
+				if($isNull || empty($x) || empty($y))
+				{
+					$res["distance_to_me"] = rand(1000,100000);
+					$deal = true;
+				}else{
+					$res["distance_to_me"] = calc_distance($y, $x, $user_lat, $user_long);
+					$deal = true;
+				}
+			}
+
+			if(!$deal)
+			{
+				foreach ($res as $key => $value) {
+					$isSameUser = false;
+
+					if(array_key_exists("user_id", $value))
+					{
+						if($value["user_id"] == $user_id)
+						{
+							$res[$key]["distance_to_me"] = 0;
+							$isSameUser = true;
+						}
+					}
+					if(!$isSameUser && array_key_exists("position_x", $value) && array_key_exists("position_y", $value))
+					{
+						$x = $value["position_x"];
+						$y = $value["position_y"];
+
+						if($isNull || empty($x) || empty($y))
+							$res[$key]["distance_to_me"] = rand(1000, 100000);
+						else
+							$res[$key]["distance_to_me"] = calc_distance($y, $x, $user_id, $user_long);
+				
+					}
+				}
+			}
+		}
+		return $res;
+	}
+
+	$api_includes['calc_distance'] = true;
+}
+
 ?>

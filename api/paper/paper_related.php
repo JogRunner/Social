@@ -96,7 +96,7 @@
 		$dbo=new dbex;
 		dbtarget('r', $dbServs);
 
-		$querySql = "select user_id,user_nickname,user_ico from $t_users where weixin_openid = '$user_openid'";
+		$querySql = "select user_id,user_nickname,user_ico,position_x,position_y from $t_users where weixin_openid = '$user_openid'";
 
 		$res = $dbo->getRow($querySql);
 
@@ -107,6 +107,8 @@
 			set_sess_weixin_openid($user_openid);
 			set_sess_username($res['user_nickname']);
 			set_sess_userico($res['user_ico']);
+			set_session('position_x', $res["position_x"]);
+			set_session('position_y',$res["position_y"]);
 			set_sess_online('0');
 
 			file_put_contents($log, "\n Save User Name: ". $res['user_nickname'], FILE_APPEND);
@@ -132,5 +134,20 @@
 		}else{
 			file_put_contents($log, "\nDelete User ".$user_openid." Failed", FILE_APPEND);
 		}
+	}
+
+	function paper_related_collect_user_position($user_openid, $user_lat, $user_long)
+	{
+		global $tablePreStr;
+		global $dbServs;
+		global $log;
+
+		$t_users = $tablePreStr."users";
+		dbtarget('w', $dbServs);
+
+		$updateSql = "update $t_users set position_x = $user_long, position_y = $user_lat where weixin_openid = '$user_openid'";
+		if($dbo->exeUpdate($updateSql))
+			return true;
+		return fasle;
 	}
 ?>
