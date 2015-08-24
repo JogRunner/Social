@@ -32,8 +32,11 @@
 			$base_root="uploadfiles/paper_pictures/";//图片存放目录
 		    $up = new upload();
 		    $up->set_dir($base_root, ''.$user_id);//目录设置
-		    //$up->set_thumb(180,180); //缩略图设置
-		    $fs = $up->execute();
+
+		    $up->set_thumb(800, 800); //缩略图设置
+
+		    //$fs = $up->execute();
+		    $fs = $up->execute_only_thumb();
 
 		    foreach($fs as $index=>$realtxt){
 				if($realtxt['flag']==1){
@@ -54,6 +57,13 @@
     //insert into isns_papers (user_id, content, picture, create_time) value (1, '纸条内容', '纸条路径', '2015-08-12 15:57:12');
     $sql = "insert into $t_papers (user_id, content, picture, create_time, help_location, help_last_time) 
     	value ($user_id, '$paper_content', '$fileSrcStr', now(), '$help_location', '$help_last_time')";
+    
+    if($help_last_time == '')
+    {
+    	$sql = "insert into $t_papers (user_id, content, picture, create_time, help_location) 
+    	value ($user_id, '$paper_content', '$fileSrcStr', now(), '$help_location')";
+    }
+	
     if($dbo->exeUpdate($sql)){
 		$t_users = $tablePreStr."users";
 		$sql = "select user_papercount from $t_users where user_id=$user_id";

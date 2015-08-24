@@ -11,20 +11,59 @@
  * 如有您有问题请到官方论坛（http://tech.jooyea.com/bbs/）提问，谢谢您的支持。
  */
 ?><?php
+	header("content-type:text/html;charset=utf-8");
+
+	require("foundation/asession.php");
+	require("configuration.php");
+	require("includes.php");
+	require("foundation/module_users.php");
+	require("foundation/fcontent_format.php");
+	require("foundation/fplugin.php");
+	require("api/base_support.php");
+
+	$user_id = get_sess_userid();
+
+	if(empty($user_id))
+	{
+		$code = get_argg('code');
+		if(!empty($code))
+			save_weixin_session($code);
+	}
+	if($local_debug)
+	{
+		set_sess_username("FanJian");
+		set_sess_userid("1");
+	}
+	
+	$user_id = get_sess_userid();
+	$user_name = get_sess_username();
+	
+	if(empty($user_id))
+	{
+		header("location:error.php");
+		exit;
+	}
+
 	//引入语言包
     $pu_langpackage=new publiclp;
 
-	$user_id = get_session("user_id");
+	$user_id = get_sess_userid();
 	//如果user_id为null判断为用户未登录，这时候需要跳转到登录界面
 	$title_label = '写纸条';
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="width=device-width" />
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<link href="plugins/calendar/lhgcalendar.css" rel="stylesheet"/>
 <script src="srcfiles/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="plugins/calendar/lhgcore.min.js"></script>
+<script type="text/javascript" src="plugins/calendar/lhgcalendar.min.js"></script>
+
 <script type="text/javascript">
+	
 	function limitImg(){    
+
         var img=document.getElementById(arguments[0]);//显示图片的对象    
         var maxSize=arguments[1];//  最大值  
         var allowGIF=arguments[2]||false;  //是否允许GIF  
@@ -63,23 +102,81 @@
     }
 
     $(document).ready(function(){
-		$('.content-area').css('height',$(window).height() - $('.write-item').outerHeight(true) * 4);
+		$('.content-area').css('height',$(window).height() - $('.write-item').outerHeight(true) * 3 - $('.adjust-height').outerHeight(true));
 		
-		$('.help-location-value').click(function(){
+		$('.position-btn').click(function(){
 			$schoolList = $('.school-list');
 			if($schoolList.hasClass('nondisplay'))
 			{
 				$schoolList.removeClass('nondisplay');
+				$schoolList.width( 2 * $(this).width());
 			}
 			else
 			{
 				$schoolList.addClass('nondisplay');
 			}
+			return false;
+
 		});
 		
-			$('.school-list li').click(function(){
-				$('.help-location-value').text($(this).text());
+			$('.school-list .known-value').click(function(){
+				$('#school-value').text($(this).text());
+				$('#hidden-school-value').text($(this).text());
 				$('.school-list').addClass('nondisplay');
+			});
+			$('#school-input-area').change(function(event){
+				var v = $(this).val().substring(0,15);
+				$('#school-value').text(v);
+				$('#hidden-school-value').val(v);
+				$('.school-list').addClass('nondisplay');
+				 return false;
+			});
+			$('#school-input-area').click(function(){
+				return false;
+			});
+
+			$('.img-path-value').change(function(){
+				var path = $(this).val();
+				$('.left-img-info>img').css('src', path);
+				var index = path.lastIndexOf('/');
+				if(index == -1) index = path.lastIndexOf('\\');
+				if(index != -1)
+					path = path.substring(index+1, path.length);
+					$('#img-path').text(path);
+			});
+			$('.right-button').click(function(){
+				if($('textarea').val() == ""){
+					$('textarea').focus();
+					return false;
+				}
+				$('#paper-form').submit();
+			});
+			$(window).keypress(function(e){
+				if(e.keyCode == 13)
+				{
+					if(!$('.school-list').hasClass('nondisplay'))
+						$('#school-input-area').change();
+					e.preventDefault();
+				}
+			})
+			$(window).click(function(){
+				if(!$('.school-list').hasClass('nondisplay'))
+					$('.school-list').addClass('nondisplay');
+			});
+
+			$(window).resize(function(){
+				$('.content-area').css('height',$(window).height() - $('.write-item').outerHeight(true) * 3 - $('.adjust-height').outerHeight(true));
+			});
+
+			J(function(){
+				J('#datetime-btn').calendar({id:'dg',btnBar:false,minDate:'%y-%M-%d'});
+			});	
+			$('#datetime-btn').click(function(){
+					if(!$('.school-list').hasClass('nondisplay'))
+					$('.school-list').addClass('nondisplay');
+			});
+			$('#dg').focus(function(){
+				$(this).blur();
 			});
 	});
 
@@ -87,7 +184,6 @@
     //验证表单
 	function validate_form(thisform)
 	{
-		
 	}
 
 </script>
@@ -96,7 +192,7 @@
 	.clearboth{clear: both;}
 	.nondisplay{display: none;}
 	*,html,body{margin:0;padding:0;border:0;}
-
+	html,body{width:100%;}
 	.write-item{border-bottom: 1px solid green;padding: 0.5em 1em;}
 	.left-nav{float:left;}
 	.left-nav>img{width:2em; height: 2em; float:left;}
@@ -129,79 +225,72 @@
 	.yellow.button, .yellow.button:visited	{ background-color: #ffb515; }
 	.yellow.button:hover				{ background-color: #fc9200; }
 	textarea {
-		width:100%;
+		width:96%;
 		height:100%;
 		color: #555;
 		font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-		padding:1% 2%;
 		font-size: 1em;
 		line-height: 1.4em;
 		background-color:#fef;
+		padding:0.5em 2%;
 	}
 
-	.img-button{padding:0;position:relative;}
-	.img-button-wrap{padding:0.5em 1em; background-color:#eff;}
-	.left-img-button{float:left;}
- 	.left-img-button>img{height:2em; width:2em;float:left;}
- 	.left-img-button>span{line-height:2em; height:2em; display:inline-block; margin-left:0.5em;}
- 	.img-path-value{float:right; display:inline-block;line-height:2em; height:2em; margin-right:2em;}
-
-
-	.help-location{padding:0.5em 1em; background-color:#ffe; line-height:2em; height:2em; position:relative;}
-	.help-location-value{float:right; position:relative; margin-right:2em;}
-	.school-list{position:absolute; bottom:3em; right:0em;background-color:white; border:0.1em solid green;}
-	.school-list li{list-style:none; padding:0.5em 2em; border-bottom:0.2em solid #aff;text-align:center;}
-
-	.last-datetime{padding:0.5em 1em; line-height:2em; height:2em; background-color:#eef;}
-	.last-datetime>span{float:left;}
-	.last-datetime>.datetime-value{float:right: }
-	.last-datetime>.datetime-value>input{float:right;margin-right:2em;}
-
-	.title{
-		width: 100%;
-		display: block;
-		padding:1.3em 0em;
+		.adjust-height{margin-top: 1em;}
+		.common-select{
+		height:3em;
+		width:100%;
+		line-height: 3em;
+		border-bottom: 0.1em solid #fec;
+		vertical-align: middle;
 		text-align: center;
-		background: #FC9;
-		position: fixed;
-		top: 0;
-		left: 0;
+		position: relative;
+	}
+	.common-select-wrap{
 	}
 
-	.title_back{
-		background: #FF6600;
-		position: fixed;
-		top:0.9em;
-		left: 1em;
-		padding: 0.3em 0.3em;
-
-		/*padding:10px; width:300px; height:50px;*/
-	    border: 0.2em solid #dedede;
-	    -moz-border-radius: 1em;      /* Gecko browsers */
-	    -webkit-border-radius: 1em;   /* Webkit browsers */
-	    border-radius:1em;            /* W3C syntax */
+	.leftwidth{width:30%; float:right; text-align: center; position: relative; display: inline-block; overflow: hidden;text-indent: 0;text-decoration: none;height: 100%;color: #1E88C7;}
+	.file {
+	    background: #D0EEFF;
+	    border-left: 1px solid #99D3F5;
 	}
-
-	.title_pick{
-		margin: 0 auto;
-		display: inline-block;
+	.file input {
+	    position: absolute;
+	    font-size: 2em;
+	    right: 0;
+	    top: 0;
+	    opacity: 0;
 	}
-
-	.gap{
-		height: 4em;
+	.file:hover {
+	    background: #AADFFD;
+	    border-color: #78C3F3;
+	    color: #004974;
+	    text-decoration: none;
 	}
+	.position-btn{background: #9f9; border-left:1px solid #6f6; }
+	.position-btn:hover{background: #6f6; border-color: #78C3F3; text-decoration: none; color:#004974;}
 
+	#school-value{overflow: hidden;}
+	.datetime-btn{background: #afe; border-left:1px solid #7fe;}
+	.datetime-btn:hover{background: #7fe; border-color: #78C3F3; text-decoration: none; color:#004974;}
+	
+	#dg{height: 3em; line-height: 3em; width:50%;text-align: center; font-size: 1em;}
+	.school-list li{list-style: none; border: 0.1em solid #abc;height: 3em;}
+	.school-list {background-color: #eee; position: absolute; right: 0;bottom: 3em; z-index: 100; overflow: hidden;}
+	.school-list li>input{width: 100%; height: 2.9em; font-size: 1em; text-align: center; }
+	a:focus{outline: none;}
+	a{-webkit-tap-highlight-color:rgba(0,0,0,0); }
 </style>
 
 </head>
 
 <body>
+	<!--
 	<span class="title">
 		<a href="javascript:history.go(-1);" class="title_back">返回</a>
 		<div class="title_pick"><?php echo $title_label; ?></div>
 	</span>
-	<div class="gap"></div>
-	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data" onsubmit="return validate_form(this);">
+	<div class="gap"></div>-->
+	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data"  id="paper-form" onsubmit="return validate_form(this);">
 		<div class="write-item">
 			<div class="left-nav">
 				<img src="pictures/ic_launcher.png"/>
@@ -227,41 +316,54 @@
 			</div>
 		</div>
 
-		<div class="img-button">
-			<div class="img-button-wrap">
-				<div class="left-img-button">
-					<img src="pictures/signup_btn_zhaopian_press.png" />
-					<span> 添加图片: </span>
-				</div>
-				<input class="img-path-value" type="file" id="upload_picture" name="attach[]" onchange="limitImg('upload_picture', 20480);" />
+		<div class="common-select adjust-height">
+			<div class="common-select-wrap">
+				<span id="img-path" style="overflow:hidden;"></span>
+				<a href="javascript:;" class="file leftwidth">添加图片
+					<input class="img-path-value" type="file" id="upload_picture" 
+					name="attach[]" onchange="limitImg('upload_picture', 20480);" />
+				</a>
 				<div class="clearboth">
 			</div>
 			</div>
 		</div>
 
-		<div class="help-location">
-			<span> 求助位置: </span>
-			<div class="help-location-value">
-				<span> 中山大学</span>
+		<div class="common-select">
+			<div class="common-select-wrap">
+				<span id="school-value"> 中山大学</span>
+				<input type="hidden" id="hidden-school-value" name="help-location" value="中山大学" length="15" style="overflow:hidden"/>
+				<a href="javascript:;" class="position-btn leftwidth">
+					求助位置
+				</a>
+				<div class="school-list nondisplay">
+						<li class="school-item known-value">
+							中山大学
+						</li>
+						<li class="school-item known-value">
+							华南理工大学
+						</li>
+						<li class="school-item known-value">
+							广州外语外贸大学
+						</li>
+						<li class="school-item">
+							<input type="text" placeholder="您的学校" id="school-input-area">
+					    </li>
+					</div>
+				<div class="clearboth"></div>
 			</div>
-			<div class="school-list nondisplay">
-				<ul>
-					<li> 中山大学 </li>
-					<li> 华南理工大学 </li>
-				</ul>
-			</div>
-			<div class="clearboth"></div>
 		</div>
 
-		<div class="last-datetime">
-			<span> 有效时间 </span>  
-			<div class="datetime-value">
-				<input type="text" name="paper_datetime" value="2015-8-20 12:35:06"/>
+		<div class="common-select">
+			<div class="common-select-wrap">
+				<input type='text' id="dg" name="help-last-time"/>
+				<a class="datetime-btn leftwidth" id ="datetime-btn" href="javascript:;">
+					截止时间
+				</a>
+				<div class="clearboth"></div>
 			</div>
 		</div>
 
 	</form>
-
 </body>
 
 </html>
