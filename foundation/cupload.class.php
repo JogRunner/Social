@@ -268,7 +268,7 @@ class upload {
 
         //ImageCopyResampled函数拷贝的图像平滑度较好，优先考虑
         if(function_exists('imagecopyresampled')){
-            ImageCopyResampled($thumb_img,$src_img,($this->thumb_width-$t_width)/2,0,0,0,$t_width,$t_height,$src_info[0],$src_info[1]);
+            ImageCopyResampled($thumb_img,$src_img,0,0,0,0,$t_width,$t_height,$src_info[0],$src_info[1]);
         }else{
             ImageCopyResized($thumb_img,$src_img,0,0,0,0,$t_width,$t_height,$src_info[0],$src_info[1]);
         }
