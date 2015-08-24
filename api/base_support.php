@@ -58,6 +58,16 @@ if(!isset($api_includes['api_proxy']))
 	$api_includes['api_proxy']=true;
 }
 
+if(!isset($api_includes['log_file']))
+{
+	function LogString($str)
+	{
+		file_put_contents($log, $str.'\n', FILE_APPEND);
+	}
+
+	$api_includes['log_file'] = true;
+}
+
 if(!isset($api_includes['weixin_oauth']))
 {
 	function save_weixin_session($code)
@@ -78,7 +88,7 @@ if(!isset($api_includes['weixin_oauth']))
 
 if(!isset($api_includes['calc_distance']))
 {
-	function calc_distace($lat1, $long1, $lat2, $long2)
+	function calc_distance($lat1, $long1, $lat2, $long2)
 	{
 		$radLat1 = deg2rad($lat1);
 		$radLat2 = deg2rad($lat2);

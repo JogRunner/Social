@@ -13,7 +13,7 @@ require("api/base_support.php");
 define("TOKEN", "whatareyounongshane");
 $wechatObj = new wechat();
 
-$wechatObj->createMenu();
-$wechatObj->valid();
+//$wechatObj->createMenu();
+//$wechatObj->valid();
 $wechatObj->responseMsg();
 ?>

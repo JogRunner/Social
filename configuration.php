@@ -24,7 +24,7 @@ $inviteCodeValue=1;
 $allowReg=1;
 $inviteCodeLife=72;
 $log = $webRoot."log/test.txt";
-$local_debug = true;
+$local_debug = false;
 
 //时区设置
 date_default_timezone_set ("Asia/Shanghai");
