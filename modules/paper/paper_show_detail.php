@@ -53,10 +53,13 @@
     $is_user_logon = (null == $user_id) ? 0 : $user_id;
 
     //是否为本人发的帖子
-    $is_user_paper = ((null==$user_id) || ($user_id!=$paper_detail_rs['user_id'])) ? 0 : 1;
-    
-    //标签
-    $title_label = '我的纸条';
+    $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 1 : 0;
+    //判断纸条是否被当前用户抢到
+    $is_user_picked = 0;
+    if(0 == $is_user_paper)
+    {
+        $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+    }
 
     //评论类型
     $comment_type = 0;
@@ -230,13 +233,14 @@ a{
                     <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
                 </div>
 
+                <?php if(1 == $is_user_paper or 1 == $is_user_picked){?>
                 <div class="right-pick-paper-record">
-                    <?php if(1 == $is_user_paper){?><a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>"><?php } ?>
+                    <a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>">
                     <img src="skin/social/imgs/all/pick_paper_button.png"/>
                     <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
-                    <?php if(1 == $is_user_paper){?></a><?php } ?>
+                    </a>
                 </div>
-
+                <?php } ?>
                 <div class="right-interchange-record">
                     <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
                     <span> <?php echo $paper_detail_rs['public_count']?$paper_detail_rs['public_count']:0;?> </span>

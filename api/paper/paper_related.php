@@ -11,16 +11,16 @@
 
 
 
-		$sql = "select *,
+		$sql = "select distinct $t_users.*, $t_papers.*,
 (select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=0) as public_count,
-(select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count
+(select count(distinct $t_comments.commenter_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count
 		from $t_users,$t_papers,$t_comments where 
 		$t_users.user_id = $t_papers.user_id and $t_papers.paper_id = $t_comments.paper_id 
-		and $t_comments.commenter_id = $user_id and $t_comments.comment_type=1";
+		and $t_comments.commenter_id = 2 and $t_comments.comment_type=1;";
 
-		/*select *,
+		/*select distinct isns_users.*, isns_papers.*,
 (select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=0) as public_count,
-(select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as pick_count
+(select count(distinct isns_comments.commenter_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as pick_count
 		from isns_users,isns_papers,isns_comments where 
 		isns_users.user_id = isns_papers.user_id and isns_papers.paper_id = isns_comments.paper_id 
 		and isns_comments.commenter_id = 2 and isns_comments.comment_type=1;*/

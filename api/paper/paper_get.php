@@ -34,11 +34,14 @@ left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_pap
 
 		/*select isns_papers.*, 
 (select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=0) as public_count,
-(select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as private_count  
+(select count(distinct isns_comments.commenter_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as private_count  
 from isns_papers where isns_papers.user_id = 1;*/
+
+
+
 		$sql = "select $t_papers.*, 
 (select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=0) as public_count,
-(select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count  
+(select count(distinct $t_comments.commenter_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count  
 from $t_papers where $t_papers.user_id = $user_id";
 
 		$result_rs = $dbo->getALL($sql);
@@ -87,12 +90,12 @@ from $t_papers where $t_papers.user_id = $user_id";
 
 	  	/*select isns_users.*, isns_papers.*,
 (select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=0) as public_count,
-(select count(isns_comments.comment_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as pick_count  
+(select count(distinct isns_comments.commenter_id) from isns_comments where isns_comments.paper_id=isns_papers.paper_id and isns_comments.comment_type=1) as pick_count  
 from isns_users, isns_papers 
 where isns_users.user_id in (select isns_papers.user_id from iwebsns.isns_papers where isns_papers.paper_id='111111') and isns_papers.paper_id='111111';*/
 		$paper_detail_sql = "select $t_users.*, $t_papers.*,
 (select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=0) as public_count,
-(select count($t_comments.comment_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count
+(select count(distinct $t_comments.commenter_id) from $t_comments where $t_comments.paper_id=$t_papers.paper_id and $t_comments.comment_type=1) as pick_count
 from $t_users, $t_papers 
 where $t_users.user_id in (select $t_papers.user_id from $t_papers where $t_papers.paper_id=$paper_id) and $t_papers.paper_id=$paper_id";
 
