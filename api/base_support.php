@@ -98,7 +98,6 @@ if(!isset($api_includes['calc_distance']))
 		$user_lat = get_session("position_y");
 		$user_long = get_session("position_x");
 		$deal = false;
-		echo 'user id: ' .$user_id ."<br />";
 
 		$isNull = empty($user_lat) || empty($user_long);
 

@@ -211,7 +211,7 @@ body{
 				<img src="pictures/<?php echo $paper['user_ico'] ?>" class="head"/>
 				<div class="head_info">
 					<h4 class="user_name"><?php echo $paper['user_name']?></h4>
-					<h5 class="paper_distance">距离:<?php echo $paper["distance_to_me"];?>m</h5>
+					<h5 class="paper_distance"><?php echo $paper["distance_to_me"]; ?>m</h5>
 				</div>
 			</div>
 			<div class="clear"></div>

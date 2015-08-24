@@ -91,7 +91,7 @@
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="pictures/<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';?>"/>
+						<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';?>"/>
 					</div>
 					<div class="author-detail">
 						<div class="author-detail-name">
@@ -99,7 +99,7 @@
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> <?php echo  array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;?>km</span>
+							<span> <?php echo  array_key_exists('distance_to_me',$value)?$value['distance_to_me']:0;?>m</span>
 						</div>
 					</div>
 					<div class="clearboth"></div>
