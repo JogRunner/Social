@@ -142,6 +142,7 @@
 		global $dbServs;
 		global $log;
 
+		$dbo = new dbex;
 		$t_users = $tablePreStr."users";
 		dbtarget('w', $dbServs);
 
