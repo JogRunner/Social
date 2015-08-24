@@ -148,6 +148,6 @@
 		$updateSql = "update $t_users set position_x = $user_long, position_y = $user_lat where weixin_openid = '$user_openid'";
 		if($dbo->exeUpdate($updateSql))
 			return true;
-		return fasle;
+		return false;
 	}
 ?>
