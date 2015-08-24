@@ -21,7 +21,8 @@
 	}
 	if($local_debug)
 	{
-		set_sess_userid("2");
+		set_sess_username("FanJian");
+		set_sess_userid("1");
 	}
 	
 	$user_id = get_sess_userid();
