@@ -65,12 +65,7 @@ class wechat
 
         $this->LogString("\nAccess Token: ".$access_token['access_token']);
 
-        $this->addUser($access_token['access_token'], $user_openid);
-    }
-
-    private function addUser($access_token, $user_openid)
-    {
-        $url = sprintf('https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN', $access_token, $user_openid);
+        $url = sprintf('https://api.weixin.qq.com/cgi-bin/user/info?access_token=%s&openid=%s&lang=zh_CN', $access_token['access_token'], $user_openid);
         $user_info = $this->curl_request($url);
 
         $this->LogString("Perpare Insert : ".$user_info);
@@ -82,6 +77,22 @@ class wechat
                 api_proxy('paper_related_add_user', $temp_user_info);
             }
         }
+    }
+
+    public function addUser($access_token, $user_openid)
+    {
+        $url = sprintf('https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN', $access_token, $user_openid);
+        $user_info = $this->curl_request($url);
+
+        $this->LogString("Perpare Insert : ".$user_info);
+        if(!empty($user_info))
+        {
+            $temp_user_info = json_decode($user_info, true);
+            if(!array_key_exists('errcode', $temp_user_info) )
+            {
+                api_proxy('paper_related_add_user', $temp_user_info);
+            }
+        }   
     }
     //取消订阅
     private function unSubscribe($postObj)
