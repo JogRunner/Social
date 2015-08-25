@@ -79,6 +79,7 @@ if(!isset($api_includes['weixin_oauth']))
 		if(!empty($data['openid']))
 		{
 			file_put_contents($log, '\nSuccess Get: '.json_encode($data), FILE_APPEND);
+			$wechatObj->addUser($data["access_token"], $data['openid']);
 			api_proxy('paper_related_save_user_session', $data['openid']);
 		}
 	}
