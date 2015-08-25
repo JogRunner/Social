@@ -130,10 +130,10 @@ class wechat
 
     public function createMenu()
     {
-        global $siteDomain;
-        $menu1 = urlencode($siteDomain.'index.php');
-        $menu2 = urlencode($siteDomain.'modules.php?app=send_help_paper');
-        $menu3 = urlencode($siteDomain.'modules.php?app=user_settings');
+        global $hostName;
+        $menu1 = urlencode($hostName.'index.php');
+        $menu2 = urlencode($hostName.'modules.php?app=send_help_paper');
+        $menu3 = urlencode($hostName.'modules.php?app=user_settings');
 
         $prefix_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
         .$this->appid."&redirect_uri=";
