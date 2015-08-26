@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<script src="srcfiles/jquery-2.1.1.min.js"></script>
+<style>
+		.clearboth{
+			clear: both;
+		}
+		.nondisplay{display: none;}
+</style>
+
+<style>
+    /*全局样式 */
+	body,html,*{margin:0;padding:0; font-family: Arial,Helvetica,Arial,sans-serif;}
+	a{text-decoration: none;color: black;-webkit-tap-highlight-color:rgba(0,0,0,0); }
+	a:focus{outline: none;}
+	
+	.top-title{width:100%; font-size:1.2em; font-weight:600; position: relative; background-color: #0ca6f2; color:#fff;}
+	.return-btn{position:absolute; top:0; left:0; color: #fff; padding: 0.5em 1.5em;  background-color: #ff9500; }
+	.return-btn:hover{cursor: pointer; background-color: #ff6200;}
+	.center-title{width: 100%; text-align: center;  padding: 0.5em 0;}
+
+	.info-body{width:100%; background-color: #eee; padding-top: 2em; }
+	.info-item{height: 3em;}
+	.left-label{width: 30%; display: inline-block; float:left;text-align: right; font-weight: 600;line-height: 3em;}
+	.right-area{width: 70%; display: inline-block; text-align: center;line-height: 3em;}
+	input{width: 70%; height:2.5em; line-height: 3em; font-size: 1em; text-align: center; border: 0.1em solid #0ff; color:#fb6;}
+	.save-area{text-align: center; padding: 1em 0; }
+	.save-btn{padding: 0.5em 0.8em; background-color: #ff9500; width:20%; font-size: 1.2em; font-weight: 600; color:#fff;margin: 0 40%; border-radius: 0.5em;}
+	.save-btn:hover{cursor: pointer;; background-color: #ff6200;}
+</style>
+</head>
+<body>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('.return-btn').click(function(){
+				window.history.go(-1);
+			});
+
+			$('.save-btn').click(function(){
+				var school = $('#user-school').val();
+				var nickName = $('#user-nickname').val();
+
+				if(school != "" && nickName != "")
+				{
+					$.post('do.php?act=save_user_info',
+						{user_school: school, user_nickname: nickName},
+						function(data){ 
+							if(data == 0)
+								alert('成功保存');
+							else alert('保存失败');
+						}
+					);
+				}
+			});
+			$('.info-body').height($(window).height() - $('.top-title').outerHeight(true) - 40);
+		});
+	</script>
+	<div class="top-title">
+		<div class="center-title">
+				基本信息设置
+		</div>
+		<div class="return-btn">
+				 返回 
+		</div>
+	</div>
+
+	<div class="info-body">
+		<div class="info-body-wrap">
+			<div class="info-item">
+				<div class="left-label">
+					微 &nbsp;信 &nbsp;号：
+				</div>
+				<div class="right-area">
+					<?php echo $user_info["user_name"]; ?>
+				</div>
+			</div>
+			<div class="info-item">
+				<div class="left-label">
+					用户昵称：
+				</div>
+				<div class="right-area">
+					<input type="text" name="user-nickname" id="user-nickname" value="<?php echo $user_info['user_nickname']; ?>" maxlength="20">
+				</div>
+			</div>
+
+			<div class="info-item">
+				<div class="left-label">
+					学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;校：
+				</div>
+				<div class="right-area">
+					<input type="text" name="user-school" id="user-school" value="<?php echo $user_info['user-school']; ?>" maxlength="20">
+				</div>
+			</div>
+
+			<div class="save-area">
+				<div class="save-btn">
+					保&nbsp;&nbsp;&nbsp;&nbsp;存
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
