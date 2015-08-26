@@ -153,4 +153,21 @@
 			return true;
 		return false;
 	}
+
+	function paper_related_get_user_info($user_id)
+	{
+		global $tablePreStr;
+		global $dbServs;
+		global $log;
+
+		$dbo = new dbex;
+		$t_users = $tablePreStr."users";
+		dbtarget('r', $dbServs);
+
+		$readSql = "select user_name,user_nickname,user_school from $t_users where user_id = $user_id";
+
+		$res = $dbo->getRow($readSql);
+
+		return $res;
+	}
 ?>

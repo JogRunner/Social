@@ -21,7 +21,7 @@
 	$dbo = new dbex;
 	dbplugin('r');
 
-	$get_more_papers_sql = "select $t_papers.*, $t_users.user_name from $t_papers, $t_users where $t_users.user_id=$t_papers.user_id and $t_papers.paper_id < $least_paper_id limit $return_num";
+	$get_more_papers_sql = "select $t_papers.*, $t_users.* from $t_papers, $t_users where $t_users.user_id=$t_papers.user_id and $t_papers.paper_id < $least_paper_id limit $return_num";
 	//						  select isns_papers.*, isns_users.user_name from isns_papers, isns_users where isns_users.user_id=isns_papers.user_id and isns_papers.paper_id < 222239 limit 2;
 	//$get_more_papers_sql = "select * from $t_papers where $t_papers.paper_id < $least_paper_id limit $return_num";
 	

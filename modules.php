@@ -93,6 +93,7 @@ $appArray=array(
 		   "paper_item" => 'modules/paper/show_paper_item.php',
 		   "paper_pick" => 'modules/paper/pick_paper_reason.php',
 		   "pick_paper_detail" => 'modules/paper/pick_paper_detail.php',
+		   'user_basicinfo_setting' => 'modules/paper/user_basicinfo_setting.php',
        );
 
 $appId=getAppId();
