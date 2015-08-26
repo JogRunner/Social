@@ -12,9 +12,9 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
-	$user_id = get_sess_userid();
+	//$user_id = get_sess_userid();
 
-	if(empty($user_id))
+	//if(empty($user_id))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
