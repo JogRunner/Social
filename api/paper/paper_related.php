@@ -47,7 +47,7 @@
             $user_country = $weixin_userinfo['country'];
             $user_head_imgurl = $weixin_userinfo['headimgurl'];
             $user_openid = $weixin_userinfo['openid'];
-            $user_add_time =  date("Y-m-d H:i:s", $weixin_userinfo['subscribe_time']);
+            $user_add_time = array_key_exists("subscribe_time", $weixin_userinfo) ? date("Y-m-d H:i:s", $weixin_userinfo['subscribe_time']) : 'NULL';
 
             //判断用户是否已经订阅
             $querySql = "select weixin_openid from $t_users where weixin_openid = '$user_openid'";
@@ -60,7 +60,7 @@
 	            	."reside_city, user_ico,user_add_time,user_nickname, weixin_openid, user_papercount,"
 	            	."bless_count, user_point)" 
 	                ." values ('$user_name', $user_sex, '$user_province', '$user_city', '$user_head_imgurl',"
-	            	."'$user_add_time', '$user_name', '$user_openid',0,0,0)";
+	            	."$user_add_time, '$user_name', '$user_openid',0,0,0)";
 
 				dbtarget('w', $dbServs);
 				if($dbo->exeUpdate($sql))
@@ -78,6 +78,10 @@
 				else{
 				     file_put_contents($log, "\nFailed Insert User Info", FILE_APPEND);
 				}
+			}else{
+				$sql = "update $t_users set user_ico='$user_head_imgurl' where user_id='$user_openid'";
+				dbtarget('w',$dbServs);
+				$dbo->exeUpdate($sql);
 			}
 		}
 		return false;

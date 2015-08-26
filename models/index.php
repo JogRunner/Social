@@ -2,6 +2,7 @@
 	header("content-type:text/html;charset=utf-8");
 	if(!file_exists('docs/install.lock')){
 		header("location:install/index.php");
+		exit;
 	}
 	require("foundation/asession.php");
 	require("configuration.php");
@@ -21,8 +22,7 @@
 	}
 	if($local_debug)
 	{
-		set_sess_username("FanJian");
-		set_sess_userid("2");
+		set_sess_userid('1');
 	}
 	
 	$user_id = get_sess_userid();
