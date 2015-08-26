@@ -37,7 +37,7 @@ class wechat
                     if($postObj->Event == "subscribe")
                         $res = $this->subscribe($postObj);
                     else if($postObj->Event == "unsubscribe")
-                        $res = $this->unSubscribe($postObj);
+                        ;//$res = $this->unSubscribe($postObj);
                     else if($postObj->Event == "SCAN")
                         $res = $this->scanIcon($postObj);
                     else if($postObj->Event == "LOCATION")
@@ -79,6 +79,21 @@ class wechat
         }
     }
 
+    public function addUser($access_token, $user_openid)
+    {
+        $url = sprintf('https://api.weixin.qq.com/sns/userinfo?access_token=%s&openid=%s&lang=zh_CN', $access_token, $user_openid);
+        $user_info = $this->curl_request($url);
+
+        $this->LogString("Perpare Insert : ".$user_info);
+        if(!empty($user_info))
+        {
+            $temp_user_info = json_decode($user_info, true);
+            if(!array_key_exists('errcode', $temp_user_info) )
+            {
+                api_proxy('paper_related_add_user', $temp_user_info);
+            }
+        }   
+    }
     //取消订阅
     private function unSubscribe($postObj)
     {
@@ -115,14 +130,15 @@ class wechat
 
     public function createMenu()
     {
-        global $siteDomain;
-        $menu1 = urlencode($siteDomain.'index.php');
-        $menu2 = urlencode($siteDomain.'modules.php?app=send_help_paper');
-        $menu3 = urlencode($siteDomain.'modules.php?app=user_settings');
+        global $hostName;
+        $menu1 = urlencode($hostName.'index.php');
+        $menu2 = urlencode($hostName.'modules.php?app=send_help_paper');
+        $menu3 = urlencode($hostName.'modules.php?app=user_settings');
 
         $prefix_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
         .$this->appid."&redirect_uri=";
-        $post_url = "&response_type=code&scope=snsapi_base&state=paperfromWeixin#wechat_redirect";
+        //$post_url = "&response_type=code&scope=snsapi_base&state=paperfromWeixin#wechat_redirect";
+        $post_url = "&response_type=code&scope=snsapi_userinfo&state=paperfromWeixin#wechat_redirect";
 
         $data = '{
                      "button":[
@@ -226,7 +242,7 @@ class wechat
         $res = $this->curl_request($url);
         return json_decode($res,true);
     }
-
+    
     //获取Token
     private function fileGetWeixinToken()
     {

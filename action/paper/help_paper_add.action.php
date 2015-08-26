@@ -1,10 +1,11 @@
 <?php
+	/*
 	//引入语言包
 	$pu_langpackage=new publiclp;
 	//变量取得
 	$user_id = get_session('user_id');
 
-	/*表单提交的数据*/
+	//表单提交的数据
 	//纸条文字内容
 	$paper_content = get_argp('comment_text');
 	//纸条图片内容
@@ -83,5 +84,128 @@
 		action_return(0, 'error', '-3');
 	}
 	}
+	*/
 
+	//引入语言包
+	$pu_langpackage=new publiclp;
+	//变量取得
+	$user_id = get_session('user_id');
+	//表单提交的数据
+	//纸条文字内容
+	$paper_content = get_argp('comment_text');
+	//纸条图片内容
+	$help_location = get_argp('help-location');
+	$help_last_time= get_argp('help-last-time');
+
+	$mime = array(
+		'image/png' => '.png',
+		'image/jpg' => '.jpg',
+		'image/jpeg' => '.jpg',
+		'image/pjpeg' => '.jpg',
+		'image/gif' => '.gif',
+		'image/bmp' => '.bmp',
+		'image/x-png' => '.png',
+	);
+
+	$base64 = $_POST['base64'];
+	$type = $_POST['type'];
+	$paper_info = $_POST['paper_info'];
+
+	//异步返回结果
+	$res = array();
+
+	//当上传了图片就进行保存
+	if(null != $base64 && null != $type)
+	{
+	    $imgtype = $mime[$type];
+	    if($imgtype){
+	        preg_match('/(.*)base64,(.*)/', $base64, $matches);
+	        $base64 = $matches['2'];
+	        $base64 = base64_decode($base64);
+
+	        date_default_timezone_set('PRC');
+
+	        $user_picture_diratory = $base_root.$user_id;
+	        if (!file_exists($user_picture_diratory))
+	        { 
+	            mkdir ($user_picture_diratory);
+	        }
+
+	        //用户上传图片路径
+			$base_root="uploadfiles/paper_pictures/";//图片存放目录
+	        $imgname = date('Ymdhis',$this->time).mt_rand(10,99);
+	        $imgurl = $base_root.$user_id.'/'.$imgname.$imgtype; //生成文件名
+	        $imgurlname = $imgname.$imgtype;
+
+	        $ress = file_put_contents($imgurl, $base64);
+	        if($ress){
+	            //$st = new SaeStorage();
+	            $res['status'] = '0';
+	            $res['msg'] = "图片上传成功";
+	        }else{
+	            $res['status'] = '1';
+	            $res['msg'] = '上传图片错误，请检查文件夹权限';
+
+	            @unlink($imgurl);
+	            echo json_encode($res);
+	            die;
+	        }
+	    }else{
+	        $res['status'] = '1';
+	        $res['msg'] = '格式错误';
+
+	        @unlink($imgurl);
+	        echo json_encode($res);
+	        die;
+	    }
+	}else{
+	    $res['status'] = '0';
+	    $res['msg'] = "no image";
+	}
+
+	$dbo = new dbex;
+	//读写分离定义函数
+	dbtarget('w',$dbServs);
+
+	global $tablePreStr;
+    $t_papers = $tablePreStr."papers";
+
+    //insert into isns_papers (user_id, content, picture, create_time) value (1, '纸条内容', '纸条路径', '2015-08-12 15:57:12');
+    $sql = "insert into $t_papers (user_id, content, picture, create_time, help_location, help_last_time) 
+    	value ($user_id, '$paper_content', '$fileSrcStr', now(), '$help_location', '$help_last_time')";
+    
+    if($help_last_time == '')
+    {
+    	$sql = "insert into $t_papers (user_id, content, picture, create_time, help_location) 
+    	value ($user_id, '$paper_content', '$fileSrcStr', now(), '$help_location')";
+    }
+	
+    if($dbo->exeUpdate($sql)){
+		$t_users = $tablePreStr."users";
+		$sql = "select user_papercount from $t_users where user_id=$user_id";
+		dbplugin('r');
+		$result_rs=array();
+		$result_rs=$dbo->getRow($sql);
+
+		$user_papercount = $result_rs['user_papercount'];
+		$user_papercount += 1;
+		dbtarget('w',$dbServs);
+		$sql = "update $t_users set user_papercount=$user_papercount where user_id=$user_id";
+		if($dbo->exeUpdate($sql)){
+			//执行成功返回到我发的纸条界面
+			//action_return(1,'','modules.php?app=user_settings');
+			$res['status'] = '0';
+	        $res['msg'] = '用户纸条添加成功';
+
+		}else
+		{
+			$res['status'] = '2';
+	        $res['msg'] = '用户纸条添加失败';
+			//action_return(0, 'error', '-3');
+		}
+	}
+
+	echo json_encode($res);
 ?>
+
+
