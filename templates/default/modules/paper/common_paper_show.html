@@ -9,21 +9,21 @@
 			  = "show_user_send_paper_item" //显示用户所写纸条项
 			  = "show_user_comment_item" //显示用户所评论项
 			  = "send_user_paper" //用户发送纸条界面
-	$cur_user //当前用户
-	$data['comments'],
-	$data[$cur_user],
-	$data['comments'][key]['commenter']
+	$user_id //当前用户
  -->
  <style>
 
+ 		.info-page{background-color: #ccc;padding:0.5em 0.5em;}
+		.info-item{border-radius: 0.4em;margin: 1em 0;}
+
 		/*信息状态样式*/
-		.info-status{padding: 0.5em;font-weight: 800;border-bottom: 0.1em solid gray;background-color: green;}
-		.status-detail{float:left;margin-left: 2em;font-size: 1.2em;}
-		.status-time{float:right;margin-right: 2em;}
+		.info-status{padding: 0.5em;font-weight: 700;border-bottom: 0.1em solid gray;background-color: #0ff;}
+		.status-detail{float:left;margin-left: 1em;font-size: 1em;}
+		.status-time{float:right;margin-right: 1em;}
 		
 		/*纸条作者样式*/
 		.info-author{padding: 1em;border-bottom: 0.1em dotted red;background-color: #f0bbff;}
-		.author-img>img{width: 2em;height: 2.2em;float: left;}
+		.author-img>img{width: 2em;height: 2.2em;float: left;border-radius: 1em;}
 		.author-detail{margin-left: 1em; float:left;}
 		.author-name{font-size: 1em; margin-bottom: 0.1em;}
 		.author-distance>img{width:0.8em; height: 1em;}
@@ -63,10 +63,11 @@
 			float: right;}
 		.comment-item-span{height: 0.5em; width: 100%; background-color: #bfe;}
 
-		.paper_status{float: right;height: 2em;line-height: 2em;margin-right:1em;}
+		.paper_status{float: right;height: 2em;line-height: 2em;margin-right:1em; color:red;}
 
 	</style>
 
+	<?php if(!empty($data) && count($data) != 0){?>
 	<!--信息显示页面 -->
 	<div class="info-page">
 
@@ -80,7 +81,7 @@
 						<span> <?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else{echo '已过期';}?> </span>
 					</div>
 					<div class="status-time">
-						<span> <?php echo  $value['create_time'];?> </span>
+						<span> <?php echo substr($value['create_time'], 0,10);?> </span>
 					</div>
 					<div class="clearboth"></div>
 				</div>
@@ -93,7 +94,7 @@
 			<div class="info-author">
 				<div class="info-author-wrap">
 					<div class="author-img">
-						<img src="pictures/<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'signup_avatar.png';?>"/>
+						<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'pictures/signup_avatar.png';?>"/>
 					</div>
 					<div class="author-detail">
 						<div class="author-detail-name">
@@ -101,7 +102,7 @@
 						</div>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> <?php echo  array_key_exists('distance_to_me',$data)?$data['distance_to_me']:0;?>km</span>
+							<span> <?php echo  array_key_exists('distance_to_me',$value)?$value['distance_to_me']:0;?>m</span>
 						</div>
 					</div>
 
@@ -119,9 +120,13 @@
 			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
+
+						<?php if(!empty($value['picture'])) { ?>
 						<div class="info-img">
 							<img src="<?php echo $value['picture'];?>"/>
 						</div>
+						<?php }?>
+
 						<div class="info-text">
 							<p><?php echo $value['content'];?></p>
 						</div>
@@ -152,31 +157,39 @@
 			</a>
 			<div class="clearboth"></div>
 
-			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments")) && isset($cur_user) && array_key_exists($cur_user,$data)){?>
+			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments"))){
+					foreach($value['comments'] as $comment_key => $comment_values)
+					{
+						if($comment_values['commenter'] == get_sess_userid())
+						{
+				?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
 						<span class="author-me-label"> 我的回复：</span>
 						<span class="author-me-status">
-							<?php echo get_reply_str($data[$cur_user]['comment_status']);?>
+							<?php echo get_reply_str($comment_values['comment_status']);?>
 						</span>
 						<div class="clearboth"></div>
 					</div>
 					<div class="my-comment-content">
-						<p><?php echo $data[$cur_user]['comment_content'];?></p>
+						<p><?php echo $comment_values['comment_content'];?></p>
 					</div>
 
 				</div>
 			</div>
 			<div class="clearboth"></div>
-			<?php }?>
+			<?php }
+				}
+			}
+			?>
 
 			<?php if(in_array($main_key,array("show_all_comments","show_user_comments","show_user_comment_item"))){?>
 			<div class="info-comment">
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
-					<?php foreach($data['comments'] as $comment_key => $comment_val){?>
+					<?php foreach($value['comments'] as $comment_key => $comment_val){?>
 					<div class="comment-item">
 						<div class="comment-content">
 							<p> <?php echo $comment_val['comment_content'];?></p>
@@ -204,3 +217,4 @@
 		</div>
 		<?php }?>
 	</div>
+	<?php }?>

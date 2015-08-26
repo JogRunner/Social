@@ -22,7 +22,7 @@
 	}
 	if($local_debug)
 	{
-		set_sess_userid('1');
+		set_sess_userid('2');
 	}
 	
 	$user_id = get_sess_userid();
@@ -36,9 +36,9 @@
 	
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
-	$all_papers=api_proxy('paper_get_top_ten_papers');
+	$data=api_proxy('paper_get_top_ten_papers');
 	//标签
 	$title_label = '广场';
 
-
+	$main_key = "show_all_papers";
 ?>
