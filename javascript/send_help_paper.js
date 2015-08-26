@@ -24,6 +24,8 @@ $.fn.UploadFormWithImg = function(validate_form, o){
             return false;
         }
 
+        this.disabled = true;
+
         var paper_info = get_paper_info();
 
         console.log(file);
