@@ -8,6 +8,9 @@
 <script type="text/javascript" src="plugins/calendar/lhgcore.min.js"></script>
 <script type="text/javascript" src="plugins/calendar/lhgcalendar.min.js"></script>
 
+<script src="javascript/send_help_paper.js" type="text/javascript"></script>
+<script src="javascript/mobileBUGFix.mini.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 	function limitImg(){    
         var img=document.getElementById(arguments[0]);//显示图片的对象    
@@ -124,14 +127,42 @@
 			$('#dg').focus(function(){
 				$(this).blur();
 			});
+
+			//验证表单
+			function validate_form()
+			{
+				var content = $("#content_text").val();
+				if(content.length <= 0 || content.length > 120)
+				{
+					alert("纸条文字不能为空或者超过120字!");
+					return false;
+				}
+				return true;
+			}
+
+			//表单提交
+			$("#help_paper_submit").UploadFormWithImg(validate_form, {
+                url : 'do.php?act=help_paper_submit',
+                width : '1000',
+                //height : '200',
+                quality : '0.3', //压缩率，默认值为0.8
+                // 如果quality是1 宽和高都未设定 则上传原图
+                mixsize : '10000000',
+                //type : 'image/png,image/jpg,image/jpeg,image/pjpeg,image/gif,image/bmp,image/x-png',
+                error : function(res){
+                	//失败跳转
+                	//alert(res);
+                	//window.location.href=res;
+                },
+                success : function(res){
+                    alert(res);
+                    //$('#imgurl').val(res);
+                    window.location.href=res;
+                }
+            });
+			
+
 	});
-
-
-    //验证表单
-	function validate_form(thisform)
-	{
-	}
-
 </script>
 
 <style>
@@ -236,8 +267,8 @@
 		<div class="title_pick"><?php echo $title_label; ?></div>
 	</span>
 	<div class="gap"></div>-->
-	<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data"  id="paper-form" onsubmit="return validate_form(this);">
-		<div class="write-item">
+	<!--<form method="post" action="do.php?act=help_paper_submit"  enctype="multipart/form-data"  id="paper-form" onsubmit="return validate_form(this);">
+	-->	<div class="write-item">
 			<div class="left-nav">
 				<img src="pictures/ic_launcher.png"/>
 				<div class="info-label">
@@ -245,14 +276,14 @@
 				</div>
 			</div>
 			<div class="right-button">
-				<input type="submit" class="button pink" value="贴出"/>
+				<button class="button pink" id="help_paper_submit">贴出</button>
 			</div>
 			<div class="clearboth">
 			</div>
 		</div>
 
 		<div class="content-area">
-			<textarea placeholder="小纸条文字不能超过120字"  name="comment_text" id="comment_text"></textarea>
+			<textarea placeholder="小纸条文字不能超过120字" id="content_text"></textarea>
 			<div class="img-and-info-area">
 				<div class="left-img-info">
 					<img src=""/>
@@ -309,7 +340,7 @@
 			</div>
 		</div>
 
-	</form>
+	<!--</form>-->
 </body>
 
 </html>

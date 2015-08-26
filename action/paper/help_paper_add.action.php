@@ -86,16 +86,21 @@
 	}
 	*/
 
+	//异步返回结果
+	$res = array();
+
+
+
 	//引入语言包
 	$pu_langpackage=new publiclp;
 	//变量取得
 	$user_id = get_session('user_id');
 	//表单提交的数据
 	//纸条文字内容
-	$paper_content = get_argp('comment_text');
+	//$paper_content = get_argp('comment_text');
 	//纸条图片内容
-	$help_location = get_argp('help-location');
-	$help_last_time= get_argp('help-last-time');
+	//$help_location = get_argp('help-location');
+	//$help_last_time= get_argp('help-last-time');
 
 	$mime = array(
 		'image/png' => '.png',
@@ -109,10 +114,8 @@
 
 	$base64 = $_POST['base64'];
 	$type = $_POST['type'];
-	$paper_info = $_POST['paper_info'];
+	$paper_info = $_POST['paper_info'];	
 
-	//异步返回结果
-	$res = array();
 
 	//当上传了图片就进行保存
 	if(null != $base64 && null != $type)
@@ -133,13 +136,16 @@
 
 	        //用户上传图片路径
 			$base_root="uploadfiles/paper_pictures/";//图片存放目录
-	        $imgname = date('Ymdhis',$this->time).mt_rand(10,99);
+	        $imgname = date('Ymdhis',time()).mt_rand(10,99);
+
 	        $imgurl = $base_root.$user_id.'/'.$imgname.$imgtype; //生成文件名
 	        $imgurlname = $imgname.$imgtype;
 
 	        $ress = file_put_contents($imgurl, $base64);
 	        if($ress){
 	            //$st = new SaeStorage();
+	            $fileSrcStr = $imgurl;
+
 	            $res['status'] = '0';
 	            $res['msg'] = "图片上传成功";
 	        }else{
@@ -162,6 +168,12 @@
 	    $res['status'] = '0';
 	    $res['msg'] = "no image";
 	}
+
+	//纸条文字内容
+	$paper_content = $paper_info['content_text'];
+	//纸条图片内容
+	$help_location = $paper_info['help_location'];
+	$help_last_time= $paper_info['help_last_time'];
 
 	$dbo = new dbex;
 	//读写分离定义函数
@@ -192,10 +204,18 @@
 		dbtarget('w',$dbServs);
 		$sql = "update $t_users set user_papercount=$user_papercount where user_id=$user_id";
 		if($dbo->exeUpdate($sql)){
+
+			//select * from isns_papers where isns_papers.user_id=2 order by isns_papers.paper_id desc limit 1;
+			$sql = "select * from $t_papers where $t_papers.user_id=$user_id order by $t_papers.paper_id desc limit 1";
+			dbplugin('r');
+			$result = array();
+			$result = $dbo->getRow($sql);
+			$paper_id = $result['paper_id'];
+
 			//执行成功返回到我发的纸条界面
 			//action_return(1,'','modules.php?app=user_settings');
 			$res['status'] = '0';
-	        $res['msg'] = '用户纸条添加成功';
+	        $res['msg'] = 'modules.php?app=paper_show_detail&paper_id='.$paper_id;
 
 		}else
 		{
