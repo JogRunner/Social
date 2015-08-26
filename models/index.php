@@ -11,12 +11,14 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
+	$user_id = get_sess_userid();
 
-
-	$code = get_argg('code');
-	if(!empty($code))
-		save_weixin_session($code);
-	
+	if(empty($user_id))
+	{
+		$code = get_argg('code');
+		if(!empty($code))
+			save_weixin_session($code);
+	}
 	if($local_debug)
 	{
 		set_sess_username("FanJian");
@@ -34,8 +36,9 @@
 	
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
-	$all_papers=api_proxy('paper_get_all_papers');
+	$all_papers=api_proxy('paper_get_top_ten_papers');
 	//标签
 	$title_label = '广场';
+
 
 ?>

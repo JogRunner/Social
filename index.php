@@ -48,9 +48,10 @@
 	
 	$pu_langpackage=new publiclp;
 	//获取所有纸条信息
-	$all_papers=api_proxy('paper_get_all_papers');
+	$all_papers=api_proxy('paper_get_top_ten_papers');
 	//标签
 	$title_label = '广场';
+
 
 ?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -63,6 +64,67 @@
 <meta name="author" content="<?php echo $metaAuthor;?>" />
 <meta name="robots" content="all" />
 <meta name="viewport" content="width=device-width" />
+<script type="text/javascript" src="srcfiles/jquery-2.1.1.min.js"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function(){
+		var least_paper_id = <?php echo (empty($all_papers)? 0: $all_papers[count($all_papers) - 1]['paper_id']);?>;
+		$("#load_more").click(function(){
+			$.ajax({
+            type: "get",
+            dataType:"json",
+            url: "do.php?act=load_more_papers&least_paper_id="+least_paper_id,
+            success: function (result) {
+            	if(result.length == 0)
+            	{
+            		$("#load_more").html("已经没有纸条了哦~");
+            	}else{
+            		$.each(result, function(){
+						if(this['paper_id'] < least_paper_id)
+						{
+							least_paper_id = this['paper_id'];
+						}
+
+						var new_html_elem = "" +
+						"<div class='paper'>" +
+						"<div class='paper_head'>"+
+							"<img src="+this['user_ico']+" class='head'/>"+
+							"<div class='head_info'>"+
+								"<h4 class='user_name'>"+this['user_name']+"</h4>"+
+								"<h5 class='paper_distance'>"+this['distance_to_me']+"m</h5>"+
+							"</div>"+
+						"</div>"+
+						"<div class='clear'></div>"+
+						"<div class='paper_content'>"+
+							"<div class='img_content'>"+
+								"<img class='paper_img' src="+this['picture']+" />"+
+							"</div>"+
+							"<div class='text_content'>"+this['content']+"</div>"+
+						"</div>"+
+						"<div class='clear'></div>"+
+						"<div class='paper_buttons'>"+
+							"<div class='buttons_menu'>"+
+								"<div class='div_button1'><a href='#'><img id='button_menu1' src='skin/social/imgs/menu/note_btn_gengduo_unpress.png'/></a><span>"+this['view_count']+" </span></div>"+
+								"<div class='div_button2'><a href='modules.php?app=paper_show_detail&paper_id="+this['paper_id']+"'><img id='button_menu2' src='skin/social/imgs/menu/note_btn_pinglun_unpress.png'/></a><span>"+this['comment_count']+" </span></div>"+
+							"</div>"+
+						"</div>"+
+						"<div class='clear'></div>"+
+					"</div>";
+
+					//alert(new_html_elem);
+					$("#paper_bottom").before(new_html_elem);
+					$("#paper_bottom").css("margin-bottom","8em");
+            	});
+			}
+            }
+
+        });
+		});
+
+	});
+</script>
+
 <style type="text/css">
 body{
 	font-size: 0.8em;
@@ -205,34 +267,34 @@ body{
 		<div class="title_pick"><?php echo $title_label; ?></div>
 	</span>
 	<div class="gap"></div>
-	<?php 
+	<?php
 	foreach ($all_papers as $paper) {?>
-		 <div class="paper">
-			<div class="paper_head">
-				<img src="<?php echo $paper['user_ico']; ?>" class="head"/>
-				<div class="head_info">
-					<h4 class="user_name"><?php echo $paper['user_name']?></h4>
-					<h5 class="paper_distance">距离:<?php echo $paper["distance_to_me"];?>m</h5>
-				</div>
+		<div class="paper">
+		<div class="paper_head">
+			<img src="<?php echo $paper['user_ico']; ?>" class="head"/>
+			<div class="head_info">
+				<h4 class="user_name"><?php echo $paper['user_name']?></h4>
+				<h5 class="paper_distance">距离:<?php echo $paper["distance_to_me"];?>m</h5>
 			</div>
-			<div class="clear"></div>
-			<div class="paper_content">
-				<div class="img_content">
-					<img class="paper_img" src="<?php echo $paper['picture'];?>" />
-				</div>
-				<div class="text_content"><?php echo $paper['content'];?></div>
+		</div>
+		<div class="clear"></div>
+		<div class="paper_content">
+			<div class="img_content">
+				<img class="paper_img" src="<?php echo $paper['picture'];?>" />
 			</div>
-			<div class="clear"></div>
-			<div class="paper_buttons">
-				<div class="buttons_menu">
-					<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo "123	" ?> </span></div>
-					<div class="div_button2"><a href="modules.php?app=paper_show_detail&paper_id=<?php echo $paper['paper_id'];?>"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper['count']?> </span></div>
-				</div>
+			<div class="text_content"><?php echo $paper['content'];?></div>
+		</div>
+		<div class="clear"></div>
+		<div class="paper_buttons">
+			<div class="buttons_menu">
+				<div class="div_button1"><a href="#"><img id="button_menu1" src="skin/social/imgs/menu/note_btn_gengduo_unpress.png"/></a><span><?php echo $paper['view_count']; ?> </span></div>
+				<div class="div_button2"><a href="modules.php?app=paper_show_detail&paper_id=<?php echo $paper['paper_id'];?>"><img id="button_menu2" src="skin/social/imgs/menu/note_btn_pinglun_unpress.png"/></a><span><?php echo $paper['count']?> </span></div>
 			</div>
-			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
 		</div>
 	<?php }?>
-	<div id="paper_bottom"><a href="#">加载更多...</a></div>
+	<div id="paper_bottom"><span id="load_more">加载更多...</span></div>
 	<?php require("uiparts/footor.php");?>
 </body>
 </html>

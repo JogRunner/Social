@@ -106,6 +106,10 @@ $actArray=array(
 
     //送祝福
     "bless_submit" => array("action/paper/paper_bless_add.action.php"),
+
+    //请求加载更多
+    "load_more_papers" => array("action/paper/load_more_papers.action.php"),
+    
 );
 $actId=getActId();
 $free_act_array=array("login","reg","logout","pr_access_login","photo_upl_flash","user_forget","user_pw_change");

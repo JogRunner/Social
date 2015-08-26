@@ -1,5 +1,5 @@
 <?php
-	function paper_get_all_papers(){
+	function paper_get_top_ten_papers(){
 		global $tablePreStr;
 		$t_papers=$tablePreStr."papers";
 		$t_users = $tablePreStr."users";
@@ -16,7 +16,7 @@ left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_pap
 	 	$t_users.*, 
 	 	count($t_comments.paper_id) as count 
 		from $t_papers left join $t_comments on $t_comments.paper_id = $t_papers.paper_id and $t_comments.comment_type=0
-		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id order by $t_papers.create_time desc";
+		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id order by $t_papers.paper_id desc limit 10";
 		$result_rs=$dbo->getALL($sql);
 
 		$result_rs = calc_all_distance($result_rs);
