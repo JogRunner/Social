@@ -75,7 +75,7 @@ $.fn.UploadFormWithImg = function(validate_form, o){
                 if( navigator.userAgent.match(/Android/i) ) {
                     var encoder = new JPEGEncoder();
                     base64 = encoder.encode(ctx.getImageData(0,0,w,h), o.quality * 100 || 80 );
-                    alert(base64);
+                    //alert(base64);
                 }
 
                 _ajax(base64,file.type, paper_info);

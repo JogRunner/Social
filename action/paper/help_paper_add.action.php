@@ -141,14 +141,10 @@
 	        $imgurl = $base_root.$user_id.'/'.$imgname.$imgtype; //生成文件名
 	        $imgurlname = $imgname.$imgtype;
 
-	        $ress = file_put_contents($imgurl, $base64);
-	        if($ress){
-	            //$st = new SaeStorage();
-	            $fileSrcStr = $imgurl;
+	        $fileSrcStr = $imgurl;
 
-	            $res['status'] = '0';
-	            $res['msg'] = "图片上传成功";
-	        }else{
+	        $ress = file_put_contents($imgurl, $base64);
+	        if(!$ress){
 	            $res['status'] = '1';
 	            $res['msg'] = '上传图片错误，请检查文件夹权限';
 
@@ -164,9 +160,6 @@
 	        echo json_encode($res);
 	        die;
 	    }
-	}else{
-	    $res['status'] = '0';
-	    $res['msg'] = "no image";
 	}
 
 	//纸条文字内容
