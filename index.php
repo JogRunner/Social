@@ -14,6 +14,7 @@
 	header("content-type:text/html;charset=utf-8");
 	if(!file_exists('docs/install.lock')){
 		header("location:install/index.php");
+		exit;
 	}
 	require("foundation/asession.php");
 	require("configuration.php");
