@@ -143,11 +143,11 @@
 			//表单提交
 			$("#help_paper_submit").UploadFormWithImg(validate_form, {
                 url : 'do.php?act=help_paper_submit',
-                width : '1000',
+                width : '800',
                 //height : '200',
-                quality : '0.3', //压缩率，默认值为0.8
+                quality : '0.5', //压缩率，默认值为0.8
                 // 如果quality是1 宽和高都未设定 则上传原图
-                mixsize : '10000000',
+                mixsize : '20971520',
                 //type : 'image/png,image/jpg,image/jpeg,image/pjpeg,image/gif,image/bmp,image/x-png',
                 error : function(res){
                 	//失败跳转
