@@ -13,7 +13,7 @@
  -->
  <style>
 
- 		.info-page{background-color: #ccc;padding:0.5em 0.5em;}
+ 		.info-page{background-color: #e0ffff;padding:0.5em 0.5em;}
 		.info-item{border-radius: 0.4em;margin: 1em 0;}
 
 		/*信息状态样式*/
@@ -22,7 +22,7 @@
 		.status-time{float:right;margin-right: 1em;}
 		
 		/*纸条作者样式*/
-		.info-author{padding: 1em;border-bottom: 0.1em dotted red;background-color: #f0bbff;}
+		.info-author{padding: 1em;border-bottom: 0.1em dotted red;background-color: #20b2aa;}
 		.author-img>img{width: 2em;height: 2.2em;float: left;border-radius: 1em;}
 		.author-detail{margin-left: 1em; float:left;}
 		.author-name{font-size: 1em; margin-bottom: 0.1em;}
@@ -143,14 +143,15 @@
 
 						<div class="right-pick-paper-record">
 							<img src="skin/social/imgs/all/pick_paper_button.png"/>
-							<span> <?php echo $value['pick_count']?$value['pick_count']:0;?> </span>
+							<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
 						</div>
 
+						<?php if($main_key != "show_all_papers"){ ?>
 						<div class="right-interchange-record">
 							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
 							<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
 						</div>
-						
+						<?php } ?>
 						<div class="clearboth"></div>
 					</div>
 				</div>

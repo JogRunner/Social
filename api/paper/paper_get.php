@@ -13,8 +13,7 @@ left join isns_comments on isns_comments.paper_id = isns_papers.paper_id and isn
 left join isns_users on isns_users.user_id=isns_papers.user_id group by isns_papers.paper_id order by isns_papers.create_time desc;*/
 		$sql = "select 
 	 	$t_papers.*, 
-	 	$t_users.*, 
-	 	count($t_comments.paper_id) as count 
+	 	$t_users.* 
 		from $t_papers left join $t_comments on $t_comments.paper_id = $t_papers.paper_id and $t_comments.comment_type=0
 		left join $t_users on $t_users.user_id=$t_papers.user_id group by $t_papers.paper_id order by $t_papers.paper_id desc limit 10";
 		$result_rs=$dbo->getALL($sql);
