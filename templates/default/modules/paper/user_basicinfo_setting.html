@@ -30,6 +30,9 @@
 	.save-area{text-align: center; padding: 1em 0; }
 	.save-btn{padding: 0.5em 0.8em; background-color: #ff9500; width:20%; font-size: 1.2em; font-weight: 600; color:#fff;margin: 0 40%; border-radius: 0.5em;}
 	.save-btn:hover{cursor: pointer;; background-color: #ff6200;}
+
+	.info-head-div{text-align: center;height: 3em;}
+	.info-head-img{width: 3em;height: 3em;border-radius: 1.5em;}
 </style>
 </head>
 <body>
@@ -50,7 +53,8 @@
 						function(data){ 
 							if(data == 0)
 								alert('成功保存');
-							else alert('保存失败');
+							else 
+								alert('保存失败');
 						}
 					);
 				}
@@ -60,7 +64,11 @@
 	</script>
 	<div class="top-title">
 		<div class="center-title">
-				基本信息设置
+			<?php if($is_visitor === false){
+				echo "基本信息设置";
+			}else{
+				echo $user_info['user_nickname']."的基本信息";
+			} ?>
 		</div>
 		<div class="return-btn">
 				 返回 
@@ -69,6 +77,7 @@
 
 	<div class="info-body">
 		<div class="info-body-wrap">
+			<div class="info-head-div"><img class="info-head-img" src="pictures/beauty.jpg"></div>
 			<div class="info-item">
 				<div class="left-label">
 					微 &nbsp;信 &nbsp;号：
@@ -82,7 +91,11 @@
 					用户昵称：
 				</div>
 				<div class="right-area">
-					<input type="text" name="user-nickname" id="user-nickname" value="<?php echo $user_info['user_nickname']; ?>" maxlength="20">
+					<?php if($is_visitor === false){ ?>
+					<input type="text" name="user-nickname" id="user-nickname" value="<?php echo $user_info['user_nickname']; ?>" maxlength="5">
+					<?php }else{ ?>
+					<span id="user-nickname"><?php echo $user_info['user_nickname']; ?></span>
+					<?php } ?>
 				</div>
 			</div>
 
@@ -91,15 +104,21 @@
 					学&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;校：
 				</div>
 				<div class="right-area">
-					<input type="text" name="user-school" id="user-school" value="<?php echo $user_info['user-school']; ?>" maxlength="20">
+					<?php if($is_visitor === false){ ?>
+					<input type="text" name="user-school" id="user-school" value="<?php echo $user_info['user_school']; ?>" maxlength="5">
+					<?php }else{ ?>
+					<span id="user-school"><?php echo $user_info['user_school']; ?></span>
+					<?php } ?>
 				</div>
 			</div>
 
+			<?php if($is_visitor === false) {?>
 			<div class="save-area">
 				<div class="save-btn">
 					保&nbsp;&nbsp;&nbsp;&nbsp;存
 				</div>
 			</div>
+			<?php }?>
 		</div>
 	</div>
 </body>

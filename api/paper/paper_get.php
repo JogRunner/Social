@@ -1,5 +1,5 @@
 <?php
-	function paper_get_top_ten_papers(){
+	function paper_get_top_papers(){
 		global $tablePreStr;
 		$t_papers=$tablePreStr."papers";
 		$t_users = $tablePreStr."users";
@@ -228,5 +228,37 @@ order by isns_comments.comment_time*/
 		return $re_pick_reasons;
 	}
 
+	function paper_get_unread_papers($user_id)
+	{
+		global $tablePreStr;
+		global $dbServs;
+
+		$dbo = new dbex;
+		$t_comments = $tablePreStr."comments";
+		$t_papers = $tablePreStr."papers";
+		dbtarget('r', $dbServs);
+
+		$data = array();
+
+		if(null == $user_id)
+		{
+			return $data;	
+		}
+
+		/*select isns_papers.* from isns_papers where isns_papers.paper_id in 
+(select distinct isns_comments.paper_id as unread_count from isns_comments 
+	where ((isns_comments.paper_id in (select isns_papers.paper_id from isns_papers where isns_papers.user_id = 1) and isns_comments.comment_type=1) 
+			 or (isns_comments.commenter_id=1 and isns_comments.comment_type=2)) 
+		and isns_comments.comment_status = 0);*/
+		$datasql = "select $t_papers.* from $t_papers where $t_papers.paper_id in 
+(select distinct $t_comments.paper_id as unread_count from $t_comments 
+	where (($t_comments.paper_id in (select $t_papers.paper_id from $t_papers where $t_papers.user_id = $user_id) and $t_comments.comment_type=1) 
+			 or ($t_comments.commenter_id=1 and $t_comments.comment_type=2)) 
+		and $t_comments.comment_status = 0)";
+
+		$data = $dbo->getAll($datasql);
+
+		return $data;
+	}
 	
 ?>

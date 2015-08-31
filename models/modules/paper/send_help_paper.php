@@ -9,9 +9,9 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 
-	//$user_id = get_sess_userid();
+	$user_id = get_sess_userid();
 
-	//if(empty($user_id))
+	if(empty($user_id))
 	{
 		$code = get_argg('code');
 		if(!empty($code))
@@ -36,6 +36,5 @@
     $pu_langpackage=new publiclp;
 
 	$user_id = get_sess_userid();
-	//如果user_id为null判断为用户未登录，这时候需要跳转到登录界面
-	$title_label = '写纸条';
+
 ?>
