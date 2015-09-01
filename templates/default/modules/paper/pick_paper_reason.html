@@ -5,72 +5,10 @@
 <meta name="viewport" content="width=device-width" />
 <script src="srcfiles/jquery-2.1.1.min.js"></script>
 <script type="text/javascript">
-	function limitImg(){    
-        var img=document.getElementById(arguments[0]);//显示图片的对象    
-        var maxSize=arguments[1];//  最大值  
-        var allowGIF=arguments[2]||false;  //是否允许GIF  
-        var maxWidth=arguments[3]||0;  //  
-        var maxHeight=arguments[4]||0;    
-        var postfix=getPostfix(img.src);    
-        var str=".jpg";    
-        if(allowGIF){str+=".gif"}    
-        if(str.indexOf(postfix.toLowerCase())==-1){    
-            if(allowGIF){return "图片格式不对，只能上传jpg或gif图像";}else{return "图片格式不对，只能上传jpg图像";}    
-        }else if(img.fileSize>maxSize*1024){    
-            return "图片大小超过限制,请限制在"+maxSize+"K以内";    
-        }else{    
-            if(img.fileSize==-1){    
-                return "图片格式错误，可能是已经损坏或者更改扩展名导致，请重新选择一张图片";    
-            }else{    
-                if(maxWidth>0){    
-                    if(img.width>maxWidth){    
-                        return "图片宽度超过限制，请保持在"+maxWidth+"像素内";    
-                    }else{    
-                        if(img.height>maxHeight){    
-                            return "图片高度超过限制，请保持在"+maxHeight+"像素内";    
-                        }else{    
-                            return "";    
-                        }    
-                    }    
-                }else{    
-                    return "";    
-                }    
-            }    
-        }    
-	}    
-    //根据路径获取文件扩展名    
-    function getPostfix(path){    
-        return path.substring(path.lastIndexOf("."), path.length);    
-    }
-
     $(document).ready(function(){
-		$('.content-area').css('height',$(window).height() - $('.write-item').outerHeight(true) * 4);
-		
-		$('.help-location-value').click(function(){
-			$schoolList = $('.school-list');
-			if($schoolList.hasClass('nondisplay'))
-			{
-				$schoolList.removeClass('nondisplay');
-			}
-			else
-			{
-				$schoolList.addClass('nondisplay');
-			}
-		});
-		
-			$('.school-list li').click(function(){
-				$('.help-location-value').text($(this).text());
-				$('.school-list').addClass('nondisplay');
-			});
+        $('.return-btn').click(function(){
+            indow.history.go(-1);
 	});
-
-
-    //验证表单
-	function validate_form(thisform)
-	{
-		
-	}
-
 </script>
 
 <style>
@@ -122,15 +60,6 @@
 		background-color:#fef;
 	}
 
-	.help-location{padding:0.5em 1em; background-color:#ffe; line-height:2em; height:2em; position:relative;}
-	.help-location-value{float:right; position:relative; margin-right:2em;}
-	.school-list{position:absolute; bottom:3em; right:0em;background-color:white; border:0.1em solid green;}
-	.school-list li{list-style:none; padding:0.5em 2em; border-bottom:0.2em solid #aff;text-align:center;}
-
-	.last-datetime{padding:0.5em 1em; line-height:2em; height:2em; background-color:#eef;}
-	.last-datetime>span{float:left;}
-	.last-datetime>.datetime-value{float:right;}
-	.last-datetime>.datetime-value>input{float:right;margin-right:2em;margin: 0.5em}
 
 	.title{
 		width: 100%;
@@ -196,11 +125,16 @@
 </head>
 
 <body>
-	<span class="title">
-		<a href="javascript:history.go(-1);" class="title_back">返回</a>
-		<div class="title_pick"><?php echo $title_label; ?></div>
-	</span>
-	<div class="gap"></div>
+
+	<div class="top-title">
+		<div class="center-title">
+				我抢的理由
+		</div>
+		<div class="return-btn">
+				 返回 
+		</div>
+	</div>
+
 	<form method="post" action="do.php?act=pick_paper_submit" onsubmit="return validate_form(this);">
 		<div class="write-item">
 			<div class="paper_head">
@@ -225,27 +159,6 @@
 				</div>
 				<div class="right-span-label">
 				</div>
-			</div>
-		</div>
-
-		<div class="help-location">
-			<span> 我所在位置: </span>
-			<div class="help-location-value">
-				<span> 中山大学</span>
-			</div>
-			<div class="school-list nondisplay">
-				<ul>
-					<li> 中山大学 </li>
-					<li> 华南理工大学 </li>
-				</ul>
-			</div>
-			<div class="clearboth"></div>
-		</div>
-
-		<div class="last-datetime">
-			<span> 有效时间 </span>  
-			<div class="datetime-value">
-				<input type="text" name="paper_datetime" value="2015-8-20 12:35:06"/>
 			</div>
 		</div>
 		<input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>

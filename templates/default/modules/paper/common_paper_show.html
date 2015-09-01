@@ -47,11 +47,11 @@
 		.right-pick-paper-record{float:right;padding: 0 0.5em;}
 
 		/*我参与的纸条评论样式*/
-		.current-user-comment{background-color: #cdf; padding: 0.5em 1em;}
+		.current-user-comment{background-color: #9eaece; padding: 0.5em 1em;}
 		.my-comment-status .author-me-label{font-size: 1em; font-weight: 800px; color:#b50; float :left;line-height: 2em; line-height: 2em;}
-		.my-comment-status .author-me-status{float:right; line-height: 2em;height: 2em;background-color: #0bf; border-radius: 1em;padding: 0em 1em;}
+		.my-comment-status .author-me-status{float:right; }
 		.my-comment-status{padding-bottom: 0.5em; }
-		.my-comment-content{font-size: 0.8em; line-height: 1.2em;}
+		.my-comment-content{font-size: 1em; line-height: 1.2em;}
 
 		 /*用户评论表样式*/
 		.info-comment{}
@@ -171,15 +171,16 @@
 			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments"))){
 					foreach($value['comments'] as $comment_key => $comment_values)
 					{
-						if($comment_values['commenter'] == get_sess_userid())
+						if($comment_values['commenter_id'] == get_sess_userid() &&
+							$comment_values['comment_type'] == 1)
 						{
 				?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
-						<span class="author-me-label"> 我的回复：</span>
+						<span class="author-me-label"> 我的私信：</span>
 						<span class="author-me-status">
-							<?php echo get_reply_str($comment_values['comment_status']);?>
+							<?php echo $comment_values['comment_status'];?>
 						</span>
 						<div class="clearboth"></div>
 					</div>
@@ -200,7 +201,9 @@
 				<div class="info-comment-wrap">
 
 <!-- 评论的一项 -->
-					<?php foreach($value['comments'] as $comment_key => $comment_val){?>
+					<?php foreach($value['comments'] as $comment_key => $comment_val){
+						if($comment_val['comment_type'] == 0){
+						?>
 					<div class="comment-item">
 						<div class="comment-content">
 							<p> <?php echo $comment_val['comment_content'];?></p>
@@ -219,7 +222,7 @@
 						<div class="clearboth"></div>
 						<div class="comment-item-span"></div>
 					</div>
-					<?php }?>
+					<?php }}?>
 
 				</div>
 			</div>

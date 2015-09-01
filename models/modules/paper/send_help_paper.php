@@ -24,6 +24,7 @@
 	$user_id = get_sess_userid();
 	$user_name = get_sess_username();
 	$user_ico = get_sess_userico();
+	$user_school = get_session('user_school');
 	
 	if(empty($user_id))
 	{

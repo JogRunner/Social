@@ -309,8 +309,8 @@
 
 		<div class="common-select">
 			<div class="common-select-wrap">
-				<span id="school-value"> 中山大学</span>
-				<input type="hidden" id="hidden-school-value" name="help-location" value="中山大学" length="15" style="overflow:hidden"/>
+				<span id="school-value"><?php echo $user_school?$user_school:'中山大学'; ?></span>
+				<input type="hidden" id="hidden-school-value" name="help-location" value="<?php echo $user_school?$user_school:'中山大学'; ?>" length="15" style="overflow:hidden"/>
 				<a href="javascript:;" class="position-btn leftwidth">
 					求助位置
 				</a>

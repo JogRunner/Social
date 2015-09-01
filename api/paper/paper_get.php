@@ -115,7 +115,7 @@ from $t_papers where $t_papers.user_id = $user_id";
 		
 		$paper_comments_sql = "select $t_users.*, $t_comments.* 
 			from $t_comments, $t_users where $t_users.user_id = $t_comments.commenter_id 
-				and $t_comments.paper_id = $paper_id and $t_comments.comment_type=0";
+				and $t_comments.paper_id = $paper_id";
 
 		$paper_comments_rs 	= $dbo->getALL($paper_comments_sql);
 

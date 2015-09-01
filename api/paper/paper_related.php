@@ -98,7 +98,7 @@
 		$dbo=new dbex;
 		dbtarget('r', $dbServs);
 
-		$querySql = "select user_id,user_nickname,user_ico,position_x,position_y from $t_users where weixin_openid = '$user_openid'";
+		$querySql = "select user_id,user_nickname,user_ico,position_x,position_y,user_school from $t_users where weixin_openid = '$user_openid'";
 
 		$res = $dbo->getRow($querySql);
 
@@ -111,6 +111,7 @@
 			set_sess_userico($res['user_ico']);
 			set_session('position_x', $res["position_x"]);
 			set_session('position_y',$res["position_y"]);
+			set_session('user_school', $res['user_school']);
 			set_sess_online('0');
 
 			file_put_contents($log, "\n Save User Name: ". $res['user_nickname'], FILE_APPEND);

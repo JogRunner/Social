@@ -47,12 +47,12 @@
 		$sql = "insert into $t_comments (paper_id, comment_content, commenter_id, comment_time, comment_status, comment_type) 
 		value ($paper_id, '$comment_content', $commenter_id, '$current_time', 0, $comment_type)";
 		if($dbo->exeUpdate($sql)){
-			if(0 == $comment_type)
-			{
+			//if(0 == $comment_type)
+			//{
 				action_return(1,'','modules.php?app=paper_show_detail&paper_id='.$paper_id);
-			}else{
-				action_return(1, '', 'modules.php?app=pick_paper_detail&paper_id='.$paper_id);
-			}
+			//}else{
+				//action_return(1, '', 'modules.php?app=pick_paper_detail&paper_id='.$paper_id);
+			//}
 		}else{
 			action_return(0,'error','-1');
 		}
