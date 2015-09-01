@@ -1,5 +1,4 @@
 <?php
-
 	//引入语言包
 	$pu_langpackage=new publiclp;
 	//变量取得
@@ -7,12 +6,12 @@
 	$comment_type 	= get_argp("comment_type");
 
 	//$user_id 	= get_session('user_id');
-	$commenter_id 	= get_argp("commenter_id");
-	if($commenter_id == 0)
+	$commenter_id 	= get_sess_userid();
+	if(empty($commenter_id))
 	{
-		action_return(0, 'error', '-100');
+		header("location:error.php");
+		exit;
 	}
-
 	$paper_id 	= get_argp("paper_id");
 
 	//数据表定义区
@@ -21,19 +20,25 @@
 
 	$current_time = date('y-m-d H:i:s',time());
 	$dbo = new dbex;
+
 	//增加评论数
     //insert into isns_papers (user_id, content, picture, create_time) value (1, '纸条内容', '纸条路径', '2015-08-12 15:57:12');
     dbplugin('r');
 
-	$get_comment_count_sql = "select $t_papers.comment_count from $t_papers where $t_papers.paper_id=$paper_id";
+	$get_comment_count_sql = "select $t_papers.comment_count,$t_papers.private_count from $t_papers where $t_papers.paper_id=$paper_id";
 	$result_rs = $dbo->getRow($get_comment_count_sql);
 	$comment_count = $result_rs['comment_count'];
-	$comment_count += 1;
+	$private_count = $result_rs['private_count'];
+
+	if($comment_type == 0)
+		$comment_count += 1;
+	else
+		$private_count += 1;
 
 	//读写分离定义函数
 	dbtarget('w', $dbServs);
 	/* update isns_papers set isns_papers.comment_count = 3 where isns_papers.paper_id=111114; */
-	$update_comment_count_sql = "update $t_papers set $t_papers.comment_count=$comment_count where $t_papers.paper_id=$paper_id";
+	$update_comment_count_sql = "update $t_papers set $t_papers.comment_count=$comment_count,$t_papers.private_count=$private_count where $t_papers.paper_id=$paper_id";
 	if($dbo->exeUpdate($update_comment_count_sql))
 	{
 		//插入纸条评论

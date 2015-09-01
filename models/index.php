@@ -39,4 +39,6 @@
 	$data=api_proxy('paper_get_top_papers');
 
 	$main_key = "show_all_papers";
+
+	$cur_menu = "1";
 ?>

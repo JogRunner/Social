@@ -23,79 +23,6 @@
     .return-btn{position:absolute; top:0; left:0; color: #fff; padding: 0.5em 1.5em;  background-color: #ff9500; }
     .return-btn:hover{cursor: pointer; background-color: #ff6200;}
     .center-title{width: 100%; text-align: center;  padding: 0.5em 0;}
-
-.paper{
-    width:100%;
-    margin:0 auto;
-    margin-bottom: 1em;
-}
-
-.paper_content{
-    width: 100%;
-}
-.img_content{
-    background: #F5E8CF;
-    text-align: center;
-    padding: 0.5em;
-    
-}
-.paper_img{
-    width:100%;
-}
-.text_content{
-    text-align: left;
-    padding:1em;
-    background: #F5E8CF;
-    border-top: 1px dashed black;
-    border-bottom: 1px dashed black;
-}
-
-.info-interchange{padding:0.5em 1em;background-color: #cdf;line-height: 1.5em;height: 1.5em;border-bottom: 0.1em dashed black;}
-.info-interchange img{width:1.2em;height: 1.2em; position: relative; top:0.15em;}
-.left-interchange-record{float:left;padding: 0 0.5em;}
-.right-interchange-record{float:right;padding: 0 0.5em;}
-
-.right-pick-paper-record{float:right;padding: 0 0.5em;}
-
-a{
-    text-decoration: none;
-}
-
-.clear{
-    clear:both;
-}
-
-        /*纸条作者样式*/
-        .info-author{padding: 1em;border-bottom: 0.1em dotted red;background-color: #f0bbff;}
-        .author-img>img{width: 2em;height: 2.2em;float: left; border-radius: 1em;}
-        .author-detail{margin-left: 1em; float:left;}
-        .author-name{font-size: 1em; margin-bottom: 0.1em;}
-        .author-distance>img{width:0.8em; height: 1em;}
-        .author-distance{font-size: 0.8em; color: yellow;}
-        .paper_status{float: right;height: 2em;line-height: 2em;margin-right:1em; color:red;}
-
-.paper_comments{
-    padding:1em;
-    border-bottom: 1px dashed black;
-    background: #F5E8CF;
-}
-
-
-#paper_bottom{
-    height:2em;
-    line-height: 2em;
-    text-align:center;
-    margin-bottom:8em;
-}
-
-.info-comment{}
-.comment-item{border-bottom: 0.1em solid gray;background-color: #F5E8CF; margin-bottom: 0.5em;}
-.comment-item .comment-content{padding: 0.5em 1em;  }
-.comment-item .comment-user-info{border-top: 0.1em dotted #ddd; color:gray; }
-.comment-item .comment-user-info .left-user>span{color:gray;}
-.comment-item .comment-user-info .left-user{margin-left: 0.5em; float : left;}
-.comment-item .comment-user-info .right-user{margin-right: 0.5em; float: right;}
-.comment-item-span{height: 0.5em; width: 100%; background-color: #F5E8CF;}
 </style>
 
 </head>
@@ -118,96 +45,15 @@ a{
         </div>
     </div>
 
-    <div class="paper">
-        <div class="info-author">
-            <div class="info-author-wrap">
-                <div class="author-img">
-                    <img src="<?php echo (array_key_exists('user_ico',$paper_detail_rs) && !empty($paper_detail_rs['user_ico']))?$paper_detail_rs['user_ico']:'pictures/signup_avatar.png';?>"/>
-                </div>
-                <div class="author-detail">
-                    <div class="author-detail-name">
-                        <span><?php echo empty($paper_detail_rs['user_name'])?'匿名':$paper_detail_rs['user_name'];?></span>
-                    </div>
-                    <div class="author-distance">
-                        <img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-                        <span> <?php echo  array_key_exists('distance_to_me',$paper_detail_rs)?$paper_detail_rs['distance_to_me']:0;?>m</span>
-                    </div>
-                </div>
+    <?php require("modules/paper/common_paper_show.php"); ?>
 
-                <div class="paper_status"><span>
-                    <b><?php if(0 == $paper_detail_rs['paper_status']){echo '未解决';}else if(1 == $paper_detail_rs['paper_status']){echo '已解决';}else{echo '已过期';}?>
-                    </b>&nbsp;</span>
-                </div>
+    <div class="clearboth"></div>
 
-                <div class="clearboth"></div>
-            </div>
-        </div>
-        <div class="clearboth"></div>
-
-
-    <div class="paper_content">
-        <div class="img_content">
-            <img class="paper_img" src="<?php echo $paper_detail_rs['picture'];?>" />
-        </div>
-        <div class="text_content"><?php echo $paper_detail_rs['content']?></div>
-
-        <div class="info-interchange">
-            <div class="info-interchange-wrap">
-                <div class="left-interchange-record">
-                    <img src="skin/social/imgs/all/note_pt_feiji.png">
-                    <span> <?php echo $paper_detail_rs['view_count']?$paper_detail_rs['view_count']:0;?></span>
-                </div>
-
-                <?php if(1 == $is_user_paper or 1 == $is_user_picked){?>
-                <div class="right-pick-paper-record">
-                    <a href="modules.php?app=pick_paper_detail&paper_id=<?php echo $paper_id; ?>">
-                    <img src="skin/social/imgs/all/pick_paper_button.png"/>
-                    <span><?php echo $paper_detail_rs['pick_count']?$paper_detail_rs['pick_count']:0;?> </span>
-                    </a>
-                </div>
-                <?php } ?>
-                <div class="right-interchange-record">
-                    <img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-                    <span> <?php echo $paper_detail_rs['public_count']?$paper_detail_rs['public_count']:0;?> </span>
-                </div>
-                
-                <div class="clearboth"></div>
-            </div>
-        </div>
-
-    </div>
-    <div class="clear"></div>
-    
-    <div class="info-comment">
-        <div class="info-comment-wrap">
-
-        <?php foreach($paper_comments_rs as $comment) { ?>
-            <div class="comment-item">
-                <div class="comment-content">
-                    <p> <?php echo $comment['comment_content'] ?> </p>
-                </div>
-                <div class="comment-user-info">
-                    <div class="left-user">
-                        <img src="">
-                        <span> <?php echo $comment['user_name'] ?> </span>
-                    </div>
-                    <div class="right-user">
-                        <!-- <span> SYSU</span> -->
-                        <!-- <span> Distance</span> -->
-                        <span><?php echo $comment['comment_time']?></span>
-                    </div>
-                </div>
-                <div class="clear"></div>
-                <div class="comment-item-span"></div>
-            </div>
-        <?php } ?>
-        </div>
-
-    </div>
-
-    <div class="clear"></div>
-    </div>
-    <div id="paper_bottom"></div>
-    <?php require("uiparts/footor_comment.php");?>
+    <?php 
+         if(!$is_user_paper)
+            require("uiparts/footor_comment.php");
+         else
+            require("uiparts/footor.php");
+    ?>
 </body>
 </html>

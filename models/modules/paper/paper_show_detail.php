@@ -35,11 +35,13 @@
     $paper_detail_rs    = api_proxy("paper_get_content", $paper_id);
     $paper_comments_rs  = api_proxy("paper_get_comments", $paper_id);
 
-    //判断用户是否已经登录
-    $is_user_logon = (null == $user_id) ? 0 : $user_id;
+    $paper_detail_rs['comments'] = $paper_comments_rs;
+
+    $data = array($paper_detail_rs);
 
     //是否为本人发的帖子
     $is_user_paper = ($user_id==$paper_detail_rs['user_id']) ? 1 : 0;
+
     //判断纸条是否被当前用户抢到
     $is_user_picked = 0;
     if(0 == $is_user_paper)
@@ -52,4 +54,6 @@
     
     //评论类型
     $comment_type = 0;
+
+    $main_key = "show_all_comments";
 ?>

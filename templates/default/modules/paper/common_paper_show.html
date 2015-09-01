@@ -61,7 +61,7 @@
 		.comment-item .comment-user-info .left-user>span{
 			color:gray;
 		}
-		.comment-item .comment-user-info .left-user{margin-left: 0.5em; float : left;}
+		.comment-item .comment-user-info .left-user{margin-left: 1em; float : left;}
 		.comment-item .comment-user-info .right-user{margin-right: 0.5em;
 			float: right;}
 		.comment-item-span{height: 0.5em; width: 100%; background-color: #bfe;}
@@ -156,14 +156,12 @@
 
 					<div class="right-pick-paper-record">
 						<img src="skin/social/imgs/all/pick_paper_button.png"/>
-						<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
+						<span> <?php echo $value['private_count']?$value['private_count']:0;?> </span>
 					</div>
-					<?php if($main_key != "show_all_papers"){ ?>
 					<div class="right-interchange-record">
 						<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-						<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
+						<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
 					</div>
-					<?php } ?>
 					<div class="clearboth"></div>
 				</div>
 			</div>
@@ -210,7 +208,7 @@
 						<div class="comment-user-info">
 							<div class="left-user">
 								<img src="">
-								<span> <?php echo $comment_val['commenter']?$comment_val['commenter']:'Name';?> </span>
+								<span> <?php echo $comment_val['user_name']?$comment_val['user_name']:'Name';?> </span>
 							</div>
 							<div class="right-user">
 								<!-- <span> SYSU</span> -->

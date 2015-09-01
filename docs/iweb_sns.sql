@@ -845,6 +845,7 @@ CREATE TABLE `isns_papers` (
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `paper_status` tinyint(4) DEFAULT '0' COMMENT '纸条状态',
   `comment_count` int(11) DEFAULT '0' COMMENT '评论次数',
+  `private_count` int(11) DEFAULT '0',
   `view_count` int(11) DEFAULT '0' COMMENT '浏览次数',
   `receiver_id` int(11) DEFAULT NULL COMMENT '接受者ID',
   `help_location` varchar(40) DEFAULT NULL,

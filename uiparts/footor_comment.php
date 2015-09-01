@@ -163,14 +163,6 @@ var autoTextarea = function (elem, extra, maxHeight) {
         //验证表单
         function validate_form()
         {
-            var user_id = <?php echo $is_user_logon; ?>;
-
-            if(false == user_id)
-            {
-                alert("未登录,请先登录才可以参与评论哦!");
-                return false;
-            }
-
             var comment_content = document.getElementById('comment_textarea').value;
             if("" == comment_content.replace(/(^\s*)|(\s*$)/g, ""))
             {
