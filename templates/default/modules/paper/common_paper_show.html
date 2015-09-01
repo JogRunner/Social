@@ -22,12 +22,15 @@
 		.status-time{float:right;margin-right: 1em;}
 		
 		/*纸条作者样式*/
-		.info-author{padding: 1em;border-bottom: 0.1em dotted red;background-color: #20b2aa;}
-		.author-img>img{width: 2em;height: 2.2em;float: left;border-radius: 1em;}
+		.info-author{padding: 1em;background-color: #20b2aa;}
+		.author-img>img{width: 2em;height: 2em;float: left;border-radius: 1em;}
 		.author-detail{margin-left: 1em; float:left;}
-		.author-name{font-size: 1em; margin-bottom: 0.1em;}
-		.author-distance>img{width:0.8em; height: 1em;}
-		.author-distance{font-size: 0.8em; color: yellow;}
+		.author-name{font-size: 1em; margin-bottom: 0.1em; font-weight: 600;}
+		.author-distance>img{width:1em; height: 1em;}
+		.author-distance{font-size: 0.8em; color: #fb0;margin-top: 0.2em;}
+		.paper_status{float: right;  margin-right:1em; text-align: center;}
+		.paper-status-info{font-size: 1em; color: #f51; font-weight: 600;}
+		.paper-send-time{font-size: 0.8em; color:#fb0;margin-top:0.2em;}
 
 		/*纸条内容样式*/
 		.info-content{background-color: #cdf; border-bottom: 0.1em dotted #fa3;}
@@ -62,9 +65,6 @@
 		.comment-item .comment-user-info .right-user{margin-right: 0.5em;
 			float: right;}
 		.comment-item-span{height: 0.5em; width: 100%; background-color: #bfe;}
-
-		.paper_status{float: right;height: 2em;line-height: 2em;margin-right:1em; color:red;}
-
 	</style>
 
 	<?php if(!empty($data) && count($data) != 0){?>
@@ -72,6 +72,7 @@
 	<div class="info-page">
 
 		<?php foreach($data as $key => $value){?>
+		<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 		<div class="info-item">
 			
 			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item"))){?>
@@ -106,9 +107,15 @@
 						</div>
 					</div>
 
-					<div class="paper_status"><span>
-			            <b><?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else{echo '已过期';}?>
-			            </b>&nbsp;</span>
+					<div class="paper_status">
+						<div class="paper-status-info">
+							<span>
+				            	<?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else{echo '已过期';}?>
+				            </span>
+			        	</div>
+			        	<div class="paper-send-time">
+			        		<span> <?php echo substr($value['create_time'], 0,10);?> </span>
+			        	</div>
 			        </div>
 
 					<div class="clearboth"></div>
@@ -117,7 +124,6 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 				<div class="info-content">
 					<div class="info_content-wrap">
 

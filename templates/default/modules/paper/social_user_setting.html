@@ -42,7 +42,7 @@
 		<div class="user-info-wrap">
 			<div class="user-head-img">
 				<a href="modules.php?app=user_basicinfo_setting" >
-					<img src="<?php echo $user_ico; ?>" />
+					<img src="<?php echo empty($user_ico)? 'pictures/signup_avatar.png' : $user_ico; ?>" />
 				</a>
 			</div>
 			<div class="user-text-info">

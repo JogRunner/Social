@@ -3,6 +3,16 @@ class wechat
 {
     var $appid = "wx0791ceb758ff8a6c";
     var $appSecret = "4ecca970852321c2654cca865c87310c";
+    var $acessTokenFile;
+    var $jsapiTicketFile;
+
+    public function __construct()
+    {
+        global $webRoot;
+        $this->acessTokenFile = $webRoot."data/access_token.json";
+        $this->jsapiTicketFile = $webRoot."data/jsapi_ticket.json";
+        $this->LogString("acess token File Path: ".$this->acessTokenFile."   jS API Ticket File Path: ".$this->jsapiTicketFile);
+    }
 
     public function valid()
     {
@@ -56,7 +66,6 @@ class wechat
     private function subscribe($postObj)
     {
         $user_openid = $postObj->FromUserName;
-        //$user_add_time = $postObj->CreateTime;
 
         $this->LogString("\nFrom User: ".$user_openid);
 
@@ -75,6 +84,9 @@ class wechat
             if(!array_key_exists('errcode', $temp_user_info) )
             {
                 api_proxy('paper_related_add_user', $temp_user_info);
+                $last_paper = api_proxy('paper_related_last_paper');
+                if(!empty($last_paper))
+                    $this->replyMsg($postObj, $last_paper);
             }
         }
     }
@@ -216,19 +228,16 @@ class wechat
         $tokenData = $this->curl_request($url);
         $tokenData = json_decode($tokenData);
 
-        //print_r( $tokenData );
-        //echo $this->tokenFile();
 
-            $token = $tokenData->access_token;
-            $token_array = array("access_token" => $token);
-        //echo $token;
+        $token = $tokenData->access_token;
+        $token_array = array("access_token" => $token);
 
         if(empty($token))
         {
             throw new Exception("Error: Token Expired");
         }else{
             $token_array['get_token_time'] = time();
-            file_put_contents($this->tokenFile(), json_encode($token_array));
+            file_put_contents($this->acessTokenFile, json_encode($token_array));
         }
         return $token_array;
     }
@@ -247,7 +256,7 @@ class wechat
     private function fileGetWeixinToken()
     {
         $now_time = time();
-        $local_token = file_get_contents($this->tokenFile());
+        $local_token = file_get_contents($this->acessTokenFile);
         $token_array = json_decode($local_token, true);
         if(!is_array($token_array) || !isset($token_array['get_token_time'])){
             $token_array = $this->initToken();
@@ -259,11 +268,6 @@ class wechat
         return $token_array;
     }
 
-    private function tokenFile()
-    {
-        global $webRoot;
-        return $webRoot.'log/get_token.txt';
-    }
     private function LogString($info)
     {
         global $webRoot;
@@ -297,6 +301,45 @@ class wechat
         }
     }
 
+    private function replyMsg($postObj, $data)
+    {
+        global $webRoot;
+        if(is_array($data) && count($data) > 0)
+        {
+            $toUser = $postObj->FromUserName;
+            $fromUser = $postObj->ToUserName;
+            $time = time();
+
+            $textTplHead = "<xml>
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[news]]></MsgType>
+                        <ArticleCount>%s</ArticleCount>
+                        <Articles>";
+
+            $textTplTail = "</Articles>
+                            </xml>" ;
+
+            $itemTpl = "<item>
+                        <Title><![CDATA[%s]]></Title> 
+                        <Description><![CDATA[%s]]></Description>
+                        <PicUrl><![CDATA[%s]]></PicUrl>
+                        <Url><![CDATA[%s]]></Url>
+                        </item>";
+
+            $a = sprintf($textTplHead, $toUser, $fromUser, $time, count($data));
+            $res = "".$a;
+
+            foreach ($data as $key => $value) {
+                $res .= sprintf($itemTpl, $value['content'], '', $value['picture'], $webRoot.'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']);
+            }
+            $res .= $textTplTail;
+            $this->LogString($res);
+            echo $res;
+        }
+    }
+
     private function checkSignature()
     {
         // you must define TOKEN by yourself
@@ -321,5 +364,102 @@ class wechat
             return false;
         }
     }
+
+      public function getSignPackage() {
+            $jsapiTicket = $this->getJsApiTicket();
+
+            // 注意 URL 一定要动态获取，不能 hardcode.
+            $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+            $url = "$protocol$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+            $timestamp = time();
+            $nonceStr = $this->createNonceStr();
+
+            // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+            $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
+
+            $signature = sha1($string);
+
+            $signPackage = array(
+              "appId"     => $this->appid,
+              "nonceStr"  => $nonceStr,
+              "timestamp" => $timestamp,
+              "url"       => $url,
+              "signature" => $signature,
+              "rawString" => $string
+            );
+            return $signPackage; 
+      }
+
+      private function createNonceStr($length = 16) {
+            $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            $str = "";
+            for ($i = 0; $i < $length; $i++) {
+              $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+            }
+            return $str;
+      }
+
+      private function getJsApiTicket() {
+            // jsapi_ticket 应该全局存储与更新，以下代码以写入到文件中做示例
+            $data = json_decode(file_get_contents($this->jsapiTicketFile));
+            if ($data->expire_time < time()) {
+              $accessArray = $this->fileGetWeixinToken();
+              $accessToken = $accessArray['access_token'];
+
+              // 如果是企业号用以下 URL 获取 ticket
+              // $url = "https://qyapi.weixin.qq.com/cgi-bin/get_jsapi_ticket?access_token=$accessToken";
+              $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
+              $res = json_decode($this->httpGet($url));
+              $ticket = $res->ticket;
+              if ($ticket) {
+                $data->expire_time = time() + 7000;
+                $data->jsapi_ticket = $ticket;
+                $fp = fopen($this->jsapiTicketFile, "w");
+                fwrite($fp, json_encode($data));
+                fclose($fp);
+              }
+            } else {
+              $ticket = $data->jsapi_ticket;
+            }
+
+            return $ticket;
+      }
+
+      // private function getAccessToken() {
+      //   // access_token 应该全局存储与更新，以下代码以写入到文件中做示例
+      //   $data = json_decode(file_get_contents("access_token.json"));
+      //   if ($data->expire_time < time()) {
+      //     // 如果是企业号用以下URL获取access_token
+      //     // $url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid=$this->appId&corpsecret=$this->appSecret";
+      //     $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$this->appId&secret=$this->appSecret";
+      //     $res = json_decode($this->httpGet($url));
+      //     $access_token = $res->access_token;
+      //     if ($access_token) {
+      //       $data->expire_time = time() + 7000;
+      //       $data->access_token = $access_token;
+      //       $fp = fopen("access_token.json", "w");
+      //       fwrite($fp, json_encode($data));
+      //       fclose($fp);
+      //     }
+      //   } else {
+      //     $access_token = $data->access_token;
+      //   }
+      //   return $access_token;
+      // }
+
+      private function httpGet($url) {
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_TIMEOUT, 500);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($curl, CURLOPT_URL, $url);
+
+            $res = curl_exec($curl);
+            curl_close($curl);
+
+            return $res;
+      }
 }
 ?>

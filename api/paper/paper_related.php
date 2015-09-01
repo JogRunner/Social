@@ -170,4 +170,18 @@
 
 		return $res;
 	}
+
+	function paper_related_last_paper()
+	{
+		global $tablePreStr;
+		$t_papers=$tablePreStr."papers";
+		$result_rs=array();
+		$dbo=new dbex;
+	  	dbplugin('r');
+
+	  	$sql = "select * from $t_papers where picture is not null and picture <> '' order by paper_id desc limit 5";
+	  	$result_rs = $dbo->getALL($sql);
+	  	
+		return $result_rs;
+	}
 ?>
