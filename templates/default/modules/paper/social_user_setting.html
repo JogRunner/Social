@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-
+<script src="srcfiles/jquery-2.1.1.min.js"></script>
 <style>
 		.clearboth{
 			clear: both;
@@ -14,69 +14,29 @@
 <style>
     /*全局样式 */
 	body,html,*{margin:0;padding:0;}
-	a{text-decoration: none;color: black;}
-
+	a{text-decoration: none;color: black;-webkit-tap-highlight-color:rgba(0,0,0,0); }
+	a:focus{outline: none;}
 	/*用户显示区域*/
 	.user-info{background: url('skin/social/imgs/all/user_setting_background.png');
 		filter:"progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod='scale')";-moz-background-size:100% 100%;background-size: 100% 100%;padding-top:1em;padding-bottom: 1em;}
 	 .user-info-wrap{}
 	 .user-head-img{text-align: center;width:100%;}
-	 .user-head-img img{width:15%;height: 15%;}
+	 .user-head-img img{width:15%;height: 15%; border-radius: 50%;}
 
 	 .user-text-info{text-align: center; font-size: 1.4em; color:white;font-weight: 900;letter-spacing: 0.2em;margin-top: 0.5em;margin-bottom: 1em;}
 
 	 /*菜单样式区域 */
-	.setting-menu{width:100%;font-size:1.2em;float:left;letter-spacing: 0.1em;font-weight: bold;}
-	.setting-menu-item{width: 25%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
-	.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid yellow;}
+	.setting-menu{width:100%;font-size:1em;float:left;font-weight: 600;}
+	.setting-menu-item{width: 33.3%;float:left;padding: 0.5em 0 0.3em;text-align: center;}
+	.selected{position: relative;bottom: -0.3em;border-bottom: 2px solid blue;}
 	.unselected{position: relative;bottom: -0.3em; border-bottom: 2px solid white;}
-
-	.unreaded_count{display:inline-block;background: red;width: 1em;height: 1em;line-height: 1em;
-		border-radius: 0.5em;font-size:0.6em;color: #fff;position: relative;top:-0.5em;left: -1em;}
-	.msg-panel{text-align: center;margin-top: 2em;}
-
-	.title{
-		width: 100%;
-		display: block;
-		padding:1.3em 0em;
-		text-align: center;
-		background: #FC9;
-		position: fixed;
-		top: 0;
-		left: 0;
-	}
-
-	.title_back{
-		background: #FF6600;
-		position: fixed;
-		top:0.9em;
-		left: 1em;
-		padding: 0.3em 0.3em;
-
-		/*padding:10px; width:300px; height:50px;*/
-	    border: 0.2em solid #dedede;
-	    -moz-border-radius: 1em;      /* Gecko browsers */
-	    -webkit-border-radius: 1em;   /* Webkit browsers */
-	    border-radius:1em;            /* W3C syntax */
-	}
-
-	.title_pick{
-		margin: 0 auto;
-		display: inline-block;
-	}
-
-	.gap{
-		height: 4em;
-	}
+	.selected_color{color:#55f;}
+	.gap{margin-bottom:4em;}
+	.msg-panel{margin:8em 0; text-align: center; font-size: 1.2em; color:gray;}
 </style>
 
 </head>
-<body>
-	<!--
-	<span class="title">
-		<a href="javascript:history.go(-1);" class="title_back">返回</a>
-		<div class="title_pick"><?php echo $title_label; ?></div>
-	</span>-->
+<body
 	<!-- 用户信息显示区域-->
 	<div class="user-info">
 		<div class="user-info-wrap">
@@ -106,40 +66,28 @@
 	<div class="setting-menu">
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user_settings&main_key=show_user_send_papers">
-				<span> 我写的 </span>
+				<span class="<?php echo ($main_key == 'show_user_send_papers')?'selected_color':'';?>"> 我写的 </span>
 			</a>
 			<div class="<?php echo ($main_key == 'show_user_send_papers')?'':'un';?>selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user_settings&main_key=show_user_comments">
-				<span> 我参与的 </span>
+				<span class="<?php echo ($main_key == 'show_user_comments')?'selected_color':'';?>"> 我参与的 </span>
 			</a>
 			<div class="<?php echo ($main_key == 'show_user_comments')?'':'un';?>selected">
 			</div>
 		</div>
 		<div class="setting-menu-item">
 			<a href="modules.php?app=user_settings&main_key=user_money">
-				<span> 我的红包 </span>
+				<span class="<?php echo ($main_key == 'user_money' || $main_key == 'exchange_money')?'selected_color':'';?>"> 我的红包 </span>
 			</a>
 			<div class="<?php echo ($main_key == 'user_money' || $main_key == 'exchange_money')?'':'un';?>selected">
 			</div>
 		</div>
-		<div class="setting-menu-item">
-			<a href="modules.php?app=user_settings&main_key=show_user_unread">
-				<span>私信</span>
-				<?php if(0 < $unread_count and $unread_count <= 9){ ?>
-				<span class="unreaded_count"><?php echo $unread_count; ?></span>
-				<?php }elseif ($unread_count > 9) { ?>
-				<span class="unreaded_count">9+</span>
-				<?php } ?>
-			</a>
-			<div class="<?php echo ($main_key == 'show_user_unread')?'':'un';?>selected">
-			</div>
-		</div>
 	</div>
 	<div class="clearboth"></div>
-	<?php if(in_array($main_key, array('show_user_send_papers', 'show_user_comments', 'show_user_unread'))){ ?>
+	<?php if(in_array($main_key, array('show_user_send_papers', 'show_user_comments'))){ ?>
 		<?php require('modules/paper/common_paper_show.php');?>
 	<?php } elseif($main_key == 'user_money'){ ?>
 		<?php require('modules/money/user_money.php');?>
@@ -148,16 +96,18 @@
 	<?php } ?>
 
 	<!--消息面板-->
-	<div class="msg-panel">
-		<?php if($main_key == 'show_user_send_papers' && count($data) == 0){ 
-				echo "你还没有发出纸条~";
-			}elseif ($main_key == 'show_user_comments' && count($data) == 0) {
-				echo "你还没有参与任何纸条评论哦~";
-			}elseif ($main_key == 'show_user_unread' && count($data) == 0) {
-				echo "还没有任何私信回复信息~";
-			}?>
+	<div class="msg-panel <?php echo (in_array($main_key, array('show_user_send_papers', 'show_user_comments')) && count($data) == 0)?'':'nondisplay'; ?>">
+		<?php if($main_key == 'show_user_send_papers')
+			echo '你还没有发布纸条哟，赶紧去发布吧';
+			else if($main_key == 'show_user_comments')
+			echo '你还没有评论过纸条哟，赶紧去纸条库里找你想要的纸条吧';
+		?>
 
 	</div>
 
+	<div class="gap">
+	</div>
+
+	<?php require("uiparts/footor.php");?>
 </body>
 </html>
