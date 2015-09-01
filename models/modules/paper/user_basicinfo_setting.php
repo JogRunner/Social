@@ -28,7 +28,22 @@
 		exit;
 	}
 
-	$user_info = api_proxy('paper_related_get_user_info', $user_id);
+	$user_id = get_session('user_id');
+	$other_user_id = get_argg('other_user_id');
+
+	$is_visitor = false;
+	if($other_user_id != null && $user_id != $other_user_id)
+	{
+		$is_visitor = true;
+	}
+
+
+	if($is_visitor == true)
+	{
+		$user_info = api_proxy('paper_related_get_user_info', $other_user_id);
+	}else{
+		$user_info = api_proxy('paper_related_get_user_info', $user_id);
+	}
 
 	if(empty($user_info))
 	{

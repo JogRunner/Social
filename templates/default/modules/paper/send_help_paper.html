@@ -251,11 +251,13 @@
 	.datetime-btn:hover{background: #7fe; border-color: #78C3F3; text-decoration: none; color:#004974;}
 	
 	#dg{height: 3em; line-height: 3em; width:50%;text-align: center; font-size: 1em;}
+	.school-list{border-top: 0.1em solid #abc; margin-right: 0.1em;}
 	.school-list li{list-style: none; border: 0.1em solid #abc;height: 3em;}
-	.school-list {background-color: #eee; position: absolute; right: 0;bottom: 3em; z-index: 100; overflow: hidden;}
+	.school-list {background-color: #eee; position: absolute; right: 0;bottom: 3em; z-index: 100; overflow-x:hidden;overflow-y:scroll; height: 15.7em;}
 	.school-list li>input{width: 100%; height: 2.9em; font-size: 1em; text-align: center; }
 	a:focus{outline: none;}
 	a{-webkit-tap-highlight-color:rgba(0,0,0,0); }
+
 </style>
 
 </head>
@@ -313,19 +315,18 @@
 					求助位置
 				</a>
 				<div class="school-list nondisplay">
-						<li class="school-item known-value">
-							中山大学
-						</li>
-						<li class="school-item known-value">
-							华南理工大学
-						</li>
-						<li class="school-item known-value">
-							广州外语外贸大学
-						</li>
-						<li class="school-item">
-							<input type="text" placeholder="您的学校" id="school-input-area">
-					    </li>
-					</div>
+					<li class="school-item known-value">中山大学</li>
+					<li class="school-item known-value">华南理工大学</li>
+					<li class="school-item known-value">华南师范大学</li>
+					<li class="school-item known-value">广东工业大学</li>
+					<li class="school-item known-value">广东外语外贸大学</li>
+					<li class="school-item known-value">广东药学院</li>
+					<li class="school-item known-value">广州中医药大学</li>
+					<li class="school-item known-value">广州大学</li>
+					<li class="school-item known-value">广州美术学院</li>
+					<li class="school-item known-value">星海音乐学院</li>
+					<li class="school-item"><input type="text" placeholder="您的学校" id="school-input-area"></li>
+				</div>
 				<div class="clearboth"></div>
 			</div>
 		</div>

@@ -40,4 +40,5 @@
 		$result_rs = $dbo->getRow($sql);
 		return $result_rs['user_point'];
 	}
+
 ?>

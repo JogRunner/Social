@@ -15,11 +15,14 @@
 	//引入语言包
 	$pu_langpackage=new publiclp;
 
+	$user_id = get_sess_userid();
 
-	$code = get_argg('code');
-	if(!empty($code))
-		save_weixin_session($code);
-	
+	if(empty($user_id))
+	{
+		$code = get_argg('code');
+		if(!empty($code))
+			save_weixin_session($code);
+	}
 	if($local_debug)
 	{
 		set_sess_username("FanJian");
@@ -28,12 +31,24 @@
 	
 	$user_id = get_sess_userid();
 	$user_name = get_sess_username();
-	$user_ico = get_sess_userico();
 	
 	if(empty($user_id))
 	{
 		header("location:error.php");
 		exit;
+	}
+
+	$user_id = get_session('user_id');
+	$user_name = get_session('user_name');
+	if(null == $user_name)
+	{
+		$user_name = api_proxy('user_get_user_name', $user_id);
+		if(null == $user_name)
+		{
+			header("location:error.php");
+			exit;
+		}
+		set_session("user_name", $user_name);
 	}
 
 	if($main_key == "show_user_send_papers")
@@ -58,10 +73,13 @@
 		{
 			$exchange_money = get_argg('exchange_money');	
 		}
+	}elseif($main_key == 'show_user_unread')
+	{
+		$data = api_proxy('paper_get_unread_papers', $user_id);
 	}
 
-	//标题栏文字信息
-	$title_label = '我的纸条库';
+
+	$unread_count = api_proxy('paper_related_get_user_unreaded_count', $user_id);
 
 	function get_status($status_code)
 	{

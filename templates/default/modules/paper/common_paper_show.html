@@ -74,7 +74,6 @@
 		<?php foreach($data as $key => $value){?>
 		<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
 		<div class="info-item">
-			
 			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item"))){?>
 			<div class="info-status">
 				<div class="info-status-wrap">
@@ -90,20 +89,24 @@
 
 			<div class="clearboth"></div>
 			<?php }?>
-
 			<?php if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item"))){?>
+			
 			<div class="info-author">
 				<div class="info-author-wrap">
+					<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
 					<div class="author-img">
 						<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'pictures/signup_avatar.png';?>"/>
 					</div>
+					</a>
 					<div class="author-detail">
+						<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
 						<div class="author-detail-name">
 							<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
 						</div>
+						</a>
 						<div class="author-distance">
 							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> <?php echo  array_key_exists('distance_to_me',$value)?$value['distance_to_me']:0;?>m</span>
+							<span> <?php if(array_key_exists('distance_to_me',$value)){if($value['distance_to_me']<=1000){echo strval($value['distance_to_me'])."米";}else{echo strval(round($value['distance_to_me']/1000, 0))."公里";}}else{echo strval(0)."米";}?></span>
 						</div>
 					</div>
 
@@ -124,43 +127,46 @@
 			<div class="clearboth"></div>
 			<?php }?>
 
-				<div class="info-content">
-					<div class="info_content-wrap">
+			<?php if($main_key == 'show_user_unread'){?>
+			<a href="<?php echo 'modules.php?app=pick_paper_detail&paper_id='.$value['paper_id']?>">
+			<?php }else{ ?>
+			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
+			<?php }?>
+			<div class="info-content">
+				<div class="info_content-wrap">
 
-						<?php if(!empty($value['picture'])) { ?>
-						<div class="info-img">
-							<img src="<?php echo $value['picture'];?>"/>
-						</div>
-						<?php }?>
+					<?php if(!empty($value['picture'])) { ?>
+					<div class="info-img">
+						<img src="<?php echo $value['picture'];?>"/>
+					</div>
+					<?php }?>
 
-						<div class="info-text">
-							<p><?php echo $value['content'];?></p>
-						</div>
+					<div class="info-text">
+						<p><?php echo $value['content'];?></p>
 					</div>
 				</div>
-			
-
-				<div class="info-interchange">
-					<div class="info-interchange-wrap">
-						<div class="left-interchange-record">
-							<img src="skin/social/imgs/all/note_pt_feiji.png">
-							<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
-						</div>
-
-						<div class="right-pick-paper-record">
-							<img src="skin/social/imgs/all/pick_paper_button.png"/>
-							<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
-						</div>
-
-						<?php if($main_key != "show_all_papers"){ ?>
-						<div class="right-interchange-record">
-							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-							<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
-						</div>
-						<?php } ?>
-						<div class="clearboth"></div>
+			</div>
+		
+			<div class="info-interchange">
+				<div class="info-interchange-wrap">
+					<div class="left-interchange-record">
+						<img src="skin/social/imgs/all/note_pt_feiji.png">
+						<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
 					</div>
+
+					<div class="right-pick-paper-record">
+						<img src="skin/social/imgs/all/pick_paper_button.png"/>
+						<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
+					</div>
+					<?php if($main_key != "show_all_papers"){ ?>
+					<div class="right-interchange-record">
+						<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
+						<span> <?php echo $value['public_count']?$value['public_count']:0;?> </span>
+					</div>
+					<?php } ?>
+					<div class="clearboth"></div>
 				</div>
+			</div>
 			</a>
 			<div class="clearboth"></div>
 
@@ -223,5 +229,7 @@
 
 		</div>
 		<?php }?>
+
+
 	</div>
 	<?php }?>

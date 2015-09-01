@@ -164,7 +164,7 @@
 		$t_users = $tablePreStr."users";
 		dbtarget('r', $dbServs);
 
-		$readSql = "select user_name,user_nickname,user_school from $t_users where user_id = $user_id";
+		$readSql = "select user_ico,user_name,user_nickname,user_school from $t_users where user_id = $user_id";
 
 		$res = $dbo->getRow($readSql);
 
@@ -183,5 +183,59 @@
 	  	$result_rs = $dbo->getALL($sql);
 	  	
 		return $result_rs;
+	}
+
+	function paper_related_get_user_unreaded_count($user_id)
+	{
+		global $tablePreStr;
+		global $dbServs;
+
+		$dbo = new dbex;
+		$t_comments = $tablePreStr."comments";
+		$t_papers = $tablePreStr."papers";
+		dbtarget('r', $dbServs);
+
+		$res = array();
+
+		if(null == $user_id)
+		{
+			return $res;	
+		}
+
+		/*select count(isns_comments.comment_id) as unread_count from isns_comments 
+		where ((isns_comments.paper_id in (select isns_papers.paper_id from isns_papers where isns_papers.user_id = 1) 
+			 and isns_comments.comment_type=1) or (isns_comments.commenter_id=1 and isns_comments.comment_type=2)) and isns_comments.comment_status = 0;*/
+		$readSql = "select count($t_comments.comment_id) as unread_count from $t_comments 
+		where (($t_comments.paper_id in (select $t_papers.paper_id from $t_papers where $t_papers.user_id = $user_id) 
+			 and $t_comments.comment_type=1) or ($t_comments.commenter_id=$user_id and $t_comments.comment_type=2)) and $t_comments.comment_status = 0";
+
+		$res = $dbo->getRow($readSql);
+
+		return $res['unread_count'];
+	}
+
+	//用户查看私信回复后，更新私信状态为已读状态
+	function paper_related_update_paper_unread($user_id, $paper_id, $is_user_paper)
+	{
+		global $tablePreStr;
+		global $dbServs;
+
+		$dbo = new dbex;
+		$t_comments = $tablePreStr."comments";
+		dbtarget('w', $dbServs);
+
+		$updateSql = "";
+		if(1 === $is_user_paper)
+		{
+			$updateSql = "update $t_comments set $t_comments.comment_status=1 
+				where $t_comments.paper_id=$paper_id and $t_comments.comment_type=1";
+		}else{
+			$updateSql = "update $t_comments set $t_comments.comment_status=1 
+				where $t_comments.paper_id=$paper_id and $t_comments.commenter_id = $user_id and $t_comments.comment_type=2";
+		}
+		
+		if($dbo->exeUpdate($updateSql))
+			return true;
+		return false;
 	}
 ?>

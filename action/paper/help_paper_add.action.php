@@ -128,14 +128,15 @@
 
 	        date_default_timezone_set('PRC');
 
+	        //用户上传图片路径
+			$base_root="uploadfiles/paper_pictures/";//图片存放目录
+			
 	        $user_picture_diratory = $base_root.$user_id;
 	        if (!file_exists($user_picture_diratory))
 	        { 
 	            mkdir ($user_picture_diratory);
 	        }
 
-	        //用户上传图片路径
-			$base_root="uploadfiles/paper_pictures/";//图片存放目录
 	        $imgname = date('Ymdhis',time()).mt_rand(10,99);
 
 	        $imgurl = $base_root.$user_id.'/'.$imgname.$imgtype; //生成文件名

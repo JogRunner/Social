@@ -43,10 +43,12 @@
     //是否为本人发的帖子
     $is_user_paper = ($user_id!=$paper_detail_rs['user_id']) ? 0 : 1;
 
-    //标签
-    $title_label = '我抢私信列表';
-
     $is_user_picked = api_proxy('paper_get_is_user_picked', $paper_id, $user_id);
+
+    if($is_user_picked === 1 || $is_user_paper === 1)
+    {
+        api_proxy('paper_related_update_paper_unread', $user_id, $paper_id, $is_user_paper);
+    }
 
     //纸条状态
     $paper_status = $paper_detail_rs['paper_status'];
