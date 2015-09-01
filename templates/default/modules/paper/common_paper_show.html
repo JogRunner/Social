@@ -17,7 +17,7 @@
 		.info-item{border-radius: 0.4em;margin: 1em 0;}
 
 		/*信息状态样式*/
-		.info-status{padding: 0.5em;font-weight: 700;border-bottom: 0.1em solid gray;background-color: #0ff;}
+		.info-status{padding: 0.5em;font-weight: 700;background-color: #0ff;}
 		.status-detail{float:left;margin-left: 1em;font-size: 1em;}
 		.status-time{float:right;margin-right: 1em;}
 		
@@ -169,18 +169,19 @@
 			<div class="clearboth"></div>
 
 			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments"))){
+					$me_process = $value['user_id'] == get_sess_userid();
 					foreach($value['comments'] as $comment_key => $comment_values)
 					{
-						if($comment_values['commenter_id'] == get_sess_userid() &&
-							$comment_values['comment_type'] == 1)
-						{
+						$me_reply = $comment_values['commenter_id'] == get_sess_userid();
+						if($comment_values['comment_type'] == 1 && ($me_process || $me_reply))
+						{	
 				?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
-						<span class="author-me-label"> 我的私信：</span>
+						<span class="author-me-label"><?php echo $me_reply? '我的私信：' : '来自'.$comment_values['user_name'].'回复'; ?></span>
 						<span class="author-me-status">
-							<?php echo $comment_values['comment_status'];?>
+							<?php /*echo $comment_values['comment_status'];*/?>
 						</span>
 						<div class="clearboth"></div>
 					</div>

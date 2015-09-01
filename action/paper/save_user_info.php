@@ -19,7 +19,10 @@
 
     	$updateSql = "update $t_users set user_nickname='$user_nickname',user_school='$user_school' where user_id=$user_id";
     	if($dbo->exeUpdate($updateSql))
+    	{
+    		set_session('user_school', $user_school);
     		echo '0';
+    	}
     	else echo '1';
 	}
 ?>
