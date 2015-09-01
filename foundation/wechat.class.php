@@ -304,6 +304,13 @@ class wechat
     private function replyMsg($postObj, $data)
     {
         global $hostName;
+        $site = urlencode($hostName.'modules.php?app=paper_show_detail&paper_id=');
+
+        $prefix_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid="
+        .$this->appid."&redirect_uri=";
+        //$post_url = "&response_type=code&scope=snsapi_base&state=paperfromWeixin#wechat_redirect";
+        $post_url = "&response_type=code&scope=snsapi_userinfo&state=paperfromWeixin#wechat_redirect";
+        
         if(is_array($data) && count($data) > 0)
         {
             $toUser = $postObj->FromUserName;
@@ -332,7 +339,7 @@ class wechat
             $res = "".$a;
 
             foreach ($data as $key => $value) {
-                $res .= sprintf($itemTpl, $value['content'], '', $hostName.$value['picture'], $hostName.'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']);
+                $res .= sprintf($itemTpl, $value['content'], '', $hostName.$value['picture'], $prefix_url.$site.$value['paper_id'].$post_url);
             }
             $res .= $textTplTail;
             $this->LogString($res);
