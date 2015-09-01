@@ -12,22 +12,22 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 	
-	//$user_id = get_sess_userid();
+	$code = get_argg('code');
+	if(!empty($code))
+		save_weixin_session($code);
 
-	//if(empty($user_id))
+	$user_id  = get_sess_userid();
+
+	if(empty($user_id) && $local_debug)
 	{
-		$code = get_argg('code');
-		if(!empty($code))
-			save_weixin_session($code);
-	}
-	if($local_debug)
-	{
-		set_sess_userid('2');
+		set_sess_username("FanJian");
+		set_sess_userid("2");
 	}
 	
 	$user_id = get_sess_userid();
 	$user_name = get_sess_username();
-	
+	$user_ico = get_sess_userico();
+
 	if(empty($user_id))
 	{
 		header("location:error.php");

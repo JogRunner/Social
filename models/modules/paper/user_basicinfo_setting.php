@@ -9,11 +9,9 @@
 	require("foundation/fplugin.php");
 	require("api/base_support.php");
 
-	$code = get_argg('code');
-	if(!empty($code))
-		save_weixin_session($code);
-	
-	if($local_debug)
+	$user_id  = get_sess_userid();
+
+	if(empty($user_id) && $local_debug)
 	{
 		set_sess_username("FanJian");
 		set_sess_userid("2");
@@ -21,6 +19,8 @@
 	
 	$user_id = get_sess_userid();
 	$user_name = get_sess_username();
+	$user_ico = get_sess_userico();
+    $other_user_id = get_argg('other_user_id');
 
 	if(empty($user_id))
 	{
@@ -28,15 +28,11 @@
 		exit;
 	}
 
-	$user_id = get_session('user_id');
-	$other_user_id = get_argg('other_user_id');
-
 	$is_visitor = false;
 	if($other_user_id != null && $user_id != $other_user_id)
 	{
 		$is_visitor = true;
 	}
-
 
 	if($is_visitor == true)
 	{

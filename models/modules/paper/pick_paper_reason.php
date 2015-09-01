@@ -9,11 +9,24 @@
     require("api/base_support.php");
     
     //用户id
-    $user_id = get_session('user_id');
-    if(null == $user_id)
+    $user_id  = get_sess_userid();
+
+    if(empty($user_id) && $local_debug)
     {
-        echo "<script>alert('null == \$user_id');</script>";
+        set_sess_username("FanJian");
+        set_sess_userid("2");
     }
+    
+    $user_id = get_sess_userid();
+    $user_name = get_sess_username();
+    $user_ico = get_sess_userico();
+
+    if(empty($user_id))
+    {
+        header("location:error.php");
+        exit;
+    }
+
     //变量取得
     $paper_id= intval(get_argg('paper_id'));
     //从session中取出用户信息
