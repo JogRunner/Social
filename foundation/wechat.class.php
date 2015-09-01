@@ -303,7 +303,7 @@ class wechat
 
     private function replyMsg($postObj, $data)
     {
-        global $webRoot;
+        global $hostName;
         if(is_array($data) && count($data) > 0)
         {
             $toUser = $postObj->FromUserName;
@@ -332,7 +332,7 @@ class wechat
             $res = "".$a;
 
             foreach ($data as $key => $value) {
-                $res .= sprintf($itemTpl, $value['content'], '', $value['picture'], $webRoot.'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']);
+                $res .= sprintf($itemTpl, $value['content'], '', $hostName.$value['picture'], $hostName.'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']);
             }
             $res .= $textTplTail;
             $this->LogString($res);
