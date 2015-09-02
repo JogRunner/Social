@@ -142,7 +142,7 @@ $(document).ready(function(){
         <form method="post" action="do.php?act=comment_submit" onsubmit="return validate_form();">
             <textarea id="comment_textarea" name="comment_content" placeholder="回复内容"></textarea>
             <div id="comment_submit" class="comment_submit">发表</div>
-            <?php if(0 == $is_user_paper && 0 == $is_user_picked){?>
+            <?php if(0 == $is_user_paper && 0 == $is_user_picked && (!empty($data) && $data['paper_status'] == 0)){?>
             <div id="a_div" class="a_div">我抢</div>
             <?php }?>
             <input name="paper_id" value="<?php echo $paper_id; ?>" type="hidden"/>

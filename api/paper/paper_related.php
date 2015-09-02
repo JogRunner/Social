@@ -27,6 +27,21 @@
 		return $result_rs;
 	}
 
+	function paper_related_get_private_comments($user_id)
+	{
+		global $tablePreStr;
+		$t_papers=$tablePreStr."papers";
+		$t_users = $tablePreStr."users";
+		$t_comments = $tablePreStr."comments";
+		$result_rs=array();
+		$dbo=new dbex;
+		dbplugin('r');
+
+		$sql = "select $t_users.*,$t_papers.* from $t_users,$t_papers where $t_users.user_id = $t_papers.user_id and (paper_id in (select paper_id from $t_comments where $t_comments.commenter_id = $user_id and $t_comments.comment_type = 1))";
+		$res = $dbo->getALL($sql);
+		return $res;
+	}
+
 	//添加用户
 	function paper_related_add_user($weixin_userinfo)
 	{
