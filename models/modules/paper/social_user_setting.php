@@ -66,6 +66,10 @@
 		foreach ($$temp as $key => $value) {
 			$data[] = $value;
 		}
+		$temp = api_proxy('paper_related_get_private_comments', $user_id);
+		foreach ($$temp as $key => $value) {
+			$data[] = $value;
+		}
 		foreach ($data as $key => $value) {
 			$data[$key]['comments'] = api_proxy('paper_get_comments', $value['paper_id']);
 		}
