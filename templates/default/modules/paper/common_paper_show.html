@@ -49,7 +49,9 @@
 		/*我参与的纸条评论样式*/
 		.current-user-comment{background-color: #9eaece; padding: 0.5em 1em; border-bottom: 0.1em dotted blue;}
 		.my-comment-status .author-me-label{font-size: 1em; font-weight: 800px; color:#b50; float :left;line-height: 2em; line-height: 2em;}
-		.my-comment-status .author-me-status{float:right; }
+		.my-comment-status .author-me-status{float:right; color:#f51; }
+		.accept-btn{width:4em; height:2em; text-align: center; line-height: 2em; background-color: red; color:white;display: inline-block;}
+		.accept-btn:visited{color:white;})
 		.my-comment-status{padding-bottom: 0.5em; }
 		.my-comment-content{font-size: 1em; line-height: 1.2em;}
 
@@ -100,19 +102,16 @@
 				
 				<div class="info-author">
 					<div class="info-author-wrap">
-						<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
-						<div class="author-img">
+						<div class="author-img" url="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
 							<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'pictures/signup_avatar.png';?>"/>
 						</div>
-						</a>
+						
 						<div class="author-detail">
-							<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
 							<div class="author-detail-name">
 								<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
 							</div>
-							</a>
 							<div class="author-distance">
-								<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
+								<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png" />
 								<span> <?php if(array_key_exists('distance_to_me',$value)){if($value['distance_to_me']<=1000){echo strval($value['distance_to_me'])."米";}else{echo strval(round($value['distance_to_me']/1000, 0))."公里";}}else{echo strval(0)."米";}?></span>
 							</div>
 						</div>
@@ -184,11 +183,11 @@
 						<span class="author-me-label"><?php echo $me_reply? '我的私信：' : '来自'.$comment_values['user_name'].'的私信回复'; ?></span>
 						<span class="author-me-status">
 							<?php 
-								if($main_key != "show_user_unread") 
-									echo $comment_values['comment_time'];
-								else if($me_reply && $comment_values['comment_status'] != 2) 
+								if($me_reply && $comment_values['comment_status'] == 0)
+									echo '等待接受';
+								else if($me_reply && $value['paper_status'] == 2) 
 									echo get_reply_str($comment_values['comment_status']);
-								else if($me_reply && $comment_values['comment_status'] == 2)
+								else if($me_reply && $value['paper_status'] == 1)
 									echo '纸条主人送来祝福 '.$comment_values['comment_money'];
 								else if($me_process && $value['paper_status'] == 0){
 								?>
@@ -278,3 +277,12 @@
 
 	</div>
 	<?php }?>
+
+	<script>
+		$(document).ready(function(){
+			$('.author-img').click(function(){
+				window.location.href = $(this).attr('url');
+				return false;
+			});
+		});
+	</script>

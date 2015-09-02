@@ -48,6 +48,21 @@ from $t_papers where $t_papers.user_id = $user_id";
 		return $result_rs;
 	}
 
+	function paper_get_user_send_has_private($user_id)
+	{
+		global $tablePreStr;
+		$t_papers	= $tablePreStr."papers";
+		$t_comments = $tablePreStr."comments";
+
+		$result_rs 	= array();
+		$dbo 		= new dbex;
+		dbplugin('r');
+
+		$sql = "select $t_papers.* from $t_papers where $t_papers.user_id = $user_id and $t_papers.paper_status <> 1 and (paper_id in (select distinct $t_comments.paper_id from $t_comments where $t_comments.comment_type = 1))";
+		$result_rs = $dbo->getALL($sql);
+		return $result_rs;
+	}
+
 	//增加阅读次数
 	function paper_add_view_count($paper_id)
 	{

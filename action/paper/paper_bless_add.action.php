@@ -54,7 +54,7 @@
 		$add_user_point_sql = "update $t_users set $t_users.user_point=$receiver_point where $t_users.user_id=$point_receiver_id";
 
 		if($dbo->exeUpdate($add_user_point_sql)){
-			action_return(1,'','modules.php?app=pick_paper_detail&paper_id='.$paper_id);
+			action_return(1,'','modules.php?app=user_settings&main_key=show_user_unread');
 		}else{
 			action_return(0,'error','-3');
 		}
