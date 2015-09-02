@@ -111,6 +111,8 @@ $actArray=array(
 
     //请求加载更多
     "load_more_papers" => array("action/paper/load_more_papers.action.php"),
+
+    "accept_private_help" => array("action/paper/accept_private_help.php"),
     
 );
 $actId=getActId();

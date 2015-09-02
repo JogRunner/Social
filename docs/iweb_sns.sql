@@ -878,6 +878,7 @@ CREATE TABLE `isns_comments` (
   `comment_time` datetime NOT NULL COMMENT '评论时间',
   `comment_status` tinyint(4) NOT NULL COMMENT '回复状态',
   `comment_type` int(11) NOT NULL DEFAULT '0' COMMENT '评论类型，0表示普通评论，1表示我抢',
+  `comment_money` tinyint(4) DEFAULT '0',
   PRIMARY KEY (`comment_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1111120 DEFAULT CHARSET=utf8 COMMENT='用户评论表';
 

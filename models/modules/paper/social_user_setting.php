@@ -61,47 +61,12 @@
 		}
 	}elseif($main_key == 'show_user_unread')
 	{
-		$data = api_proxy('paper_get_unread_papers', $user_id);
+		$data = api_proxy('paper_get_user_send', $user_id);
+		foreach ($data as $key => $value) {
+			$data[$key]['comments'] = api_proxy('paper_get_comments', $value['paper_id']);
+		}
 	}
 
 
 	$unread_count = api_proxy('paper_related_get_user_unreaded_count', $user_id);
-
-	function get_status($status_code)
-	{
-		if($status_code)
-		{
-			switch ($status_code) {
-				case '0': return '已完成';
-					# code...
-					break;
-				case '1': return '等待接受';
-					break;
-				case '2': return '已接受，等待确认';
-					break;
-				case '3': return '已确认帮助者';
-					break; 
-				default:  return '未知状态';
-					# code...
-					break;
-			}
-		}
-		return '未知状态';
-	}
-
-	function get_reply_str($status_code)
-	{
-		if($status_code)
-		{
-			switch ($status_code) {
-				case '0': return '接受';
-					# code...
-					break;
-				
-				default: return '未接受';
-					# code...
-					break;
-			}
-		}
-	}
 ?>

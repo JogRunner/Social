@@ -170,4 +170,44 @@ if(!isset($api_includes['calc_distance']))
 	$api_includes['calc_distance'] = true;
 }
 
+if(!isset($api_includes['status_tools_func']))
+{
+	function get_status($status_code)
+	{
+		if($status_code)
+		{
+			switch ($status_code) {
+				case '0': return '未解决';
+					# code...
+					break;
+				case '1': return '已解决';
+					break;
+				case '2': return '正在解决';
+					break;
+				default:  return '已过期';
+					# code...
+					break;
+			}
+		}
+		return '已过期';
+	}
+
+	function get_reply_str($status_code)
+	{
+		if($status_code)
+		{
+			switch ($status_code) {
+				case '0': return '等待接受';
+					# code...
+					break;
+				
+				default: return '已接受';
+					# code...
+					break;
+			}
+		}
+	}
+	$api_includes['status_tools_func'] = true;
+}
+
 ?>

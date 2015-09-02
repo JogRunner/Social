@@ -47,7 +47,7 @@
 		.right-pick-paper-record{float:right;padding: 0 0.5em;}
 
 		/*我参与的纸条评论样式*/
-		.current-user-comment{background-color: #9eaece; padding: 0.5em 1em;}
+		.current-user-comment{background-color: #9eaece; padding: 0.5em 1em; border-bottom: 0.1em dotted blue;}
 		.my-comment-status .author-me-label{font-size: 1em; font-weight: 800px; color:#b50; float :left;line-height: 2em; line-height: 2em;}
 		.my-comment-status .author-me-status{float:right; }
 		.my-comment-status{padding-bottom: 0.5em; }
@@ -55,7 +55,7 @@
 
 		 /*用户评论表样式*/
 		.info-comment{}
-		.comment-item{border-bottom: 0.1em solid gray;background-color: #bfe; margin-bottom: 0.5em;}
+		.comment-item{border-bottom: 0.1em solid gold;background-color: #bfe; margin-bottom: 0.5em;}
 		.comment-item .comment-content{padding: 0.5em 1em;	}
 		.comment-item .comment-user-info{border-top: 0.1em dotted #ddd; color:gray; }
 		.comment-item .comment-user-info .left-user>span{
@@ -71,14 +71,19 @@
 	<!--信息显示页面 -->
 	<div class="info-page">
 
-		<?php foreach($data as $key => $value){?>
-		<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
+		<?php foreach($data as $key => $value){
+			$from_me = ($value['user_id'] == get_sess_userid());
+		?>
+
 		<div class="info-item">
-			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item"))){?>
+			<?php if(in_array($main_key,array("show_user_send_papers", "show_user_send_paper_item")) ||
+				($main_key=="show_user_unread" && $from_me)){
+				?>
 			<div class="info-status">
 				<div class="info-status-wrap">
 					<div class="status-detail">
-						<span> <?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else{echo '已过期';}?> </span>
+						<span> <?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else if(2 == $value['paper_status']){echo '解决中';}else{echo '已过期';}?> 
+						</span>
 					</div>
 					<div class="status-time">
 						<span> <?php echo substr($value['create_time'], 0,10);?> </span>
@@ -89,99 +94,137 @@
 
 			<div class="clearboth"></div>
 			<?php }?>
-			<?php if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item"))){?>
-			
-			<div class="info-author">
-				<div class="info-author-wrap">
-					<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
-					<div class="author-img">
-						<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'pictures/signup_avatar.png';?>"/>
-					</div>
-					</a>
-					<div class="author-detail">
+
+			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
+				<?php if(in_array($main_key, array("show_all_papers","show_all_comments","show_user_comments","show_user_comment_item")) || ($main_key == "show_user_unread" && !$from_me)){?>
+				
+				<div class="info-author">
+					<div class="info-author-wrap">
 						<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
-						<div class="author-detail-name">
-							<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
+						<div class="author-img">
+							<img src="<?php echo (array_key_exists('user_ico',$value) && !empty($value['user_ico']))?$value['user_ico']:'pictures/signup_avatar.png';?>"/>
 						</div>
 						</a>
-						<div class="author-distance">
-							<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
-							<span> <?php if(array_key_exists('distance_to_me',$value)){if($value['distance_to_me']<=1000){echo strval($value['distance_to_me'])."米";}else{echo strval(round($value['distance_to_me']/1000, 0))."公里";}}else{echo strval(0)."米";}?></span>
+						<div class="author-detail">
+							<a href="modules.php?app=user_basicinfo_setting&other_user_id=<?php echo $value['user_id'];?>">
+							<div class="author-detail-name">
+								<span><?php echo empty($value['user_name'])?'匿名':$value['user_name'];?></span>
+							</div>
+							</a>
+							<div class="author-distance">
+								<img id="map-icon" src="skin/social/imgs/all/note_pt_location.png">
+								<span> <?php if(array_key_exists('distance_to_me',$value)){if($value['distance_to_me']<=1000){echo strval($value['distance_to_me'])."米";}else{echo strval(round($value['distance_to_me']/1000, 0))."公里";}}else{echo strval(0)."米";}?></span>
+							</div>
+						</div>
+
+						<div class="paper_status">
+							<div class="paper-status-info">
+							<span> <?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else if(2 == $value['paper_status']){echo '解决中';}else{echo '已过期';}?> 
+							</span>
+				        	</div>
+				        	<div class="paper-send-time">
+				        		<span> <?php echo substr($value['create_time'], 0,10);?> </span>
+				        	</div>
+				        </div>
+
+						<div class="clearboth"></div>
+					</div>
+				</div>
+				<div class="clearboth"></div>
+				<?php }?>
+
+				<div class="info-content">
+					<div class="info_content-wrap">
+
+						<?php if(!empty($value['picture'])) { ?>
+						<div class="info-img">
+							<img src="<?php echo $value['picture'];?>"/>
+						</div>
+						<?php }?>
+
+						<div class="info-text">
+							<p><?php echo $value['content'];?></p>
 						</div>
 					</div>
-
-					<div class="paper_status">
-						<div class="paper-status-info">
-							<span>
-				            	<?php if(0 == $value['paper_status']){echo '未解决';}else if(1 == $value['paper_status']){echo '已解决';}else{echo '已过期';}?>
-				            </span>
-			        	</div>
-			        	<div class="paper-send-time">
-			        		<span> <?php echo substr($value['create_time'], 0,10);?> </span>
-			        	</div>
-			        </div>
-
-					<div class="clearboth"></div>
 				</div>
-			</div>
-			<div class="clearboth"></div>
-			<?php }?>
+			
+				<div class="info-interchange">
+					<div class="info-interchange-wrap">
+						<div class="left-interchange-record">
+							<img src="skin/social/imgs/all/note_pt_feiji.png">
+							<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
+						</div>
 
-			<?php if($main_key == 'show_user_unread'){?>
-			<a href="<?php echo 'modules.php?app=pick_paper_detail&paper_id='.$value['paper_id']?>">
-			<?php }else{ ?>
-			<a href="<?php echo 'modules.php?app=paper_show_detail&paper_id='.$value['paper_id']?>">
-			<?php }?>
-			<div class="info-content">
-				<div class="info_content-wrap">
-
-					<?php if(!empty($value['picture'])) { ?>
-					<div class="info-img">
-						<img src="<?php echo $value['picture'];?>"/>
-					</div>
-					<?php }?>
-
-					<div class="info-text">
-						<p><?php echo $value['content'];?></p>
+						<div class="right-pick-paper-record">
+							<img src="skin/social/imgs/all/pick_paper_button.png"/>
+							<span> <?php echo $value['private_count']?$value['private_count']:0;?> </span>
+						</div>
+						<div class="right-interchange-record">
+							<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
+							<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
+						</div>
+						<div class="clearboth"></div>
 					</div>
 				</div>
-			</div>
-		
-			<div class="info-interchange">
-				<div class="info-interchange-wrap">
-					<div class="left-interchange-record">
-						<img src="skin/social/imgs/all/note_pt_feiji.png">
-						<span> <?php echo $value['view_count']?$value['view_count']:0;?></span>
-					</div>
-
-					<div class="right-pick-paper-record">
-						<img src="skin/social/imgs/all/pick_paper_button.png"/>
-						<span> <?php echo $value['private_count']?$value['private_count']:0;?> </span>
-					</div>
-					<div class="right-interchange-record">
-						<img src="skin/social/imgs/all/note_btn_pinglun_unpress.png"/>
-						<span> <?php echo $value['comment_count']?$value['comment_count']:0;?> </span>
-					</div>
-					<div class="clearboth"></div>
-				</div>
-			</div>
-			</a>
+		    </a>
 			<div class="clearboth"></div>
 
-			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments"))){
-					$me_process = $value['user_id'] == get_sess_userid();
+			<?php if(in_array($main_key,array("show_user_comments", "show_user_comment_item","show_all_comments","show_user_unread"))){
+					$me_process = ($value['user_id'] == get_sess_userid());
+
 					foreach($value['comments'] as $comment_key => $comment_values)
 					{
-						$me_reply = $comment_values['commenter_id'] == get_sess_userid();
+						$me_reply = ($comment_values['commenter_id'] == get_sess_userid());
 						if($comment_values['comment_type'] == 1 && ($me_process || $me_reply))
 						{	
 				?>
 			<div class="current-user-comment">
 				<div class="current-user-comment-wrap">
 					<div class="my-comment-status">
-						<span class="author-me-label"><?php echo $me_reply? '我的私信：' : '来自'.$comment_values['user_name'].'回复'; ?></span>
+						<span class="author-me-label"><?php echo $me_reply? '我的私信：' : '来自'.$comment_values['user_name'].'的私信回复'; ?></span>
 						<span class="author-me-status">
-							<?php /*echo $comment_values['comment_status'];*/?>
+							<?php 
+								if($main_key != "show_user_unread") 
+									echo $comment_values['comment_time'];
+								else if($me_reply && $comment_values['comment_status'] != 2) 
+									echo get_reply_str($comment_values['comment_status']);
+								else if($me_reply && $comment_values['comment_status'] == 2)
+									echo '纸条主人送来祝福 '.$comment_values['comment_money'];
+								else if($me_process && $value['paper_status'] == 0){
+								?>
+								<a href="do.php?act=accept_private_help&private_id=<?php echo $comment_values['comment_id'];?>" class="accept-btn"> 
+									接受
+								</a>
+								<?php }	
+								else if($me_process && $value['paper_status'] == 1){
+									echo "已完成";}
+								else if($me_process && $value['paper_status'] == 2){
+									if($comment_values['comment_status'] == 1){
+								?>
+									 <form action="do.php?act=bless_submit" method="post">
+							                <div class="bless_div">
+						                        <select name='give_point' style='width:5em'>
+						                            <option value='1'>1</option>
+						                            <option value='2'>2</option>
+						                            <option value='3'>3</option>
+						                            <option value='4'>4</option>
+						                            <option value='5' selected>5</option> 
+						                        </select>
+						                        <input type="submit" value="送祝福" />
+
+							                    <input name="paper_id" value="<?php echo $value['paper_id']; ?>" type="hidden"/>
+							                    <input name="point_receiver_id" value="<?php echo $comment_values['user_id']; ?>" type="hidden"/>
+							                </div>
+						                </form>
+								<?php
+									}else{
+									 echo '已拒绝';
+									}
+							 	}
+								else 
+									echo "过期";
+
+							?>
 						</span>
 						<div class="clearboth"></div>
 					</div>

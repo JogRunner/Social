@@ -5,12 +5,13 @@
 	//数据表定义区
 	$t_users	= $tablePreStr."users";
 	$t_papers 	= $tablePreStr."papers";
+	$t_comments = $tablePreStr."comments";
 
 	//变量取得
 	$paper_id = intval(get_argp("paper_id"));
 	$point_receiver_id 	= intval(get_argp("point_receiver_id"));
-	$user_id = intval(get_argp('user_id'));
 	$give_point = intval(get_argp('give_point'));
+	$user_id = get_sess_userid();
 
 	$dbo = new dbex;
 	//增加评论数
@@ -29,9 +30,12 @@
 	//读写分离定义函数
 	dbtarget('w', $dbServs);
 	/* update isns_papers set isns_papers.paper_status = 1 where isns_papers.paper_id=111114; */
-	$update_paper_status_sql = "update $t_papers set $t_papers.paper_status=1, $t_papers.receiver_id=$point_receiver_id where $t_papers.paper_id=$paper_id";
+	$update_paper_status_sql = "update $t_papers set $t_papers.paper_status=1 where $t_papers.paper_id=$paper_id";
 	$result_rs = $dbo->exeUpdate($update_paper_status_sql);
 
+	$update_comment_money_sql = "update $t_comments set comment_money = $give_point where paper_id = $paper_id and comment_status = 1";
+	$dbo->exeUpdate($update_comment_money_sql);
+	
 	if($result_rs)
 	{
 		dbplugin('r');

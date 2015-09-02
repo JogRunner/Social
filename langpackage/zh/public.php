@@ -43,7 +43,7 @@ class publiclp{
 
 	var $pu_paper_lib="纸条库";
 	var $pu_send_paper="我 贴";
-	var $pu_user_setting="设 置";
+	var $pu_user_setting="我 的";
 
 	var $pu_app_title="校园纸条";
 }

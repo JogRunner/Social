@@ -200,15 +200,15 @@
 
 		if(null == $user_id)
 		{
-			return $res;	
+			return 0;	
 		}
 
 		/*select count(isns_comments.comment_id) as unread_count from isns_comments 
 		where ((isns_comments.paper_id in (select isns_papers.paper_id from isns_papers where isns_papers.user_id = 1) 
 			 and isns_comments.comment_type=1) or (isns_comments.commenter_id=1 and isns_comments.comment_type=2)) and isns_comments.comment_status = 0;*/
 		$readSql = "select count($t_comments.comment_id) as unread_count from $t_comments 
-		where (($t_comments.paper_id in (select $t_papers.paper_id from $t_papers where $t_papers.user_id = $user_id) 
-			 and $t_comments.comment_type=1) or ($t_comments.commenter_id=$user_id and $t_comments.comment_type=2)) and $t_comments.comment_status = 0";
+		where ($t_comments.paper_id in (select $t_papers.paper_id from $t_papers where $t_papers.user_id = $user_id) 
+			 and $t_comments.comment_type=1) and $t_comments.comment_status = 0";
 
 		$res = $dbo->getRow($readSql);
 
