@@ -188,7 +188,12 @@
 								else if($me_reply && $value['paper_status'] == 2) 
 									echo get_reply_str($comment_values['comment_status']);
 								else if($me_reply && $value['paper_status'] == 1)
-									echo '纸条主人送来祝福 '.$comment_values['comment_money'];
+								{
+									if($comment_values['comment_status'] == 1)
+										echo '纸条主人送来祝福 '.$comment_values['comment_money'];
+									else 
+										echo '已拒绝';
+								}
 								else if($me_process && $value['paper_status'] == 0){
 								?>
 								<a href="do.php?act=accept_private_help&private_id=<?php echo $comment_values['comment_id'];?>" class="accept-btn"> 

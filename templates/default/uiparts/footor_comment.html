@@ -124,13 +124,18 @@ var autoTextarea = function (elem, extra, maxHeight) {
 };
 
 $(document).ready(function(){
+    var isAClick = false;
     $('#comment_submit').click(function(){
         $('.comment_type').val(0);
         $('form').submit();
     });
     $('#a_div').click(function(){
-        $('.comment_type').val(1);
-        $('form').submit();
+        if(!isAClick)
+        {
+            $('.comment_type').val(1);
+            $('form').submit();
+            isAClick = true;
+        }
     });
 });
 </script>
