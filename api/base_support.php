@@ -200,8 +200,9 @@ if(!isset($api_includes['status_tools_func']))
 				case '0': return '等待接受';
 					# code...
 					break;
-				
-				default: return '已接受';
+				case '1': return '已接受';
+
+				default: return '已拒绝';
 					# code...
 					break;
 			}
